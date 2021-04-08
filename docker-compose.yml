@@ -4,7 +4,7 @@ services:
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
         ports:
         - 27017:27017
     mongo-express:
@@ -12,9 +12,9 @@ services:
         restart: always
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
-            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
+            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
         ports:
-        - 8082:8082
+        - 8081:8081
     nest:
         container_name: nest
         depends_on:

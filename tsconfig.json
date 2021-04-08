@@ -18,7 +18,9 @@
         "resolveJsonModule": true,
         "paths": {
             "@src/*": ["./src/*"],
-            "@config": ["./src/config/"],
+            "@common/*": ["./src/common/*"],
+            "@config": ["./src/config"],
+            "@shared/*": ["./src/shared/*"]
         }
     }
 }
