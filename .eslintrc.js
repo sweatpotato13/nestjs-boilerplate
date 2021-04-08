@@ -11,7 +11,6 @@ module.exports = {
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier",
-        "prettier/@typescript-eslint"
     ],
     globals: {
         Atomics: "readonly",
@@ -30,17 +29,6 @@ module.exports = {
         "@typescript-eslint/no-empty-function": "off",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
-        "@typescript-eslint/naming-convention": [
-            "error",
-            {
-                "selector": "variableLike",
-                "format": ["strictCamelCase", "UPPER_CASE"]
-            },
-            {
-                "selector": "typeLike",
-                "format": ["PascalCase"]
-            }
-        ]
     },
     settings: {
         "import/resolver": {

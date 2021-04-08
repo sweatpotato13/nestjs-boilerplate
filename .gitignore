@@ -36,5 +36,3 @@ lerna-debug.log*
 postgres
 .key
 .env
-
-client/Status.json
