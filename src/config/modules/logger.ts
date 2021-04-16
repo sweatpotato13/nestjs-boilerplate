@@ -1,7 +1,7 @@
-import { config } from "@config";
 import { registerAs } from "@nestjs/config";
 import { format, LoggerOptions, transports } from "winston";
 import { MongoDB } from "winston-mongodb";
+import { config } from "..";
 
 const { splat, json, timestamp, align, printf } = format;
 
