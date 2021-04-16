@@ -19,7 +19,7 @@
         "paths": {
             "@src/*": ["./src/*"],
             "@common/*": ["./src/common/*"],
-            "@config": ["./src/config"],
+            "@config": ["./src/config/*"],
             "@shared/*": ["./src/shared/*"]
         }
     }
