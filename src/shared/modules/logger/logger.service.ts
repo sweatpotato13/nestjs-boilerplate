@@ -1,8 +1,8 @@
-import { LoggerModuleConfig } from "@config";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
 import { ILoggerService } from "@shared/interfaces/logger.interface";
 import { AsyncLocalStorageService } from "@shared/modules/async-local-storage/async-local-storage.service";
+import { LoggerModuleConfig } from "@src/config";
 import { createLogger, Logger } from "winston";
 
 @Injectable()

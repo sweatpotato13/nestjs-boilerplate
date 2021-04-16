@@ -1,6 +1,6 @@
-import { LoggerModuleConfig } from "@config";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { LoggerModuleConfig } from "@src/config/index";
 
 import { LoggerService } from "./logger.service";
 
