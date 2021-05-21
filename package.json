@@ -37,7 +37,7 @@
     "@nestjs/core": "^7.6.17",
     "@nestjs/platform-express": "^7.6.17",
     "async_hooks": "^1.0.0",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.7",
