@@ -1,61 +1,46 @@
-import { registerAs } from "@nestjs/config";
-import { format, LoggerOptions, transports } from "winston";
+import { transports, LoggerOptions } from "winston";
 import { MongoDB } from "winston-mongodb";
-import { config } from "..";
 
-const { splat, json, timestamp, align, printf } = format;
+const dbURL = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PW}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DB}`;
 
-const dbUrl = `mongodb://${config.mongodbUser}:${config.mongodbPassword}@${config.mongodbHost}:${config.mongodbPort}/admin`;
-
-const consoleFormat = printf(info => {
-    return JSON.stringify({
-        timestamp: info.timestamp,
-        level: info.level,
-        message: info.message ? info.message : undefined,
-        meta: info.meta,
-    });
-});
-
-export default registerAs(
-    "logger",
-    (): LoggerOptions => ({
-        format: format.combine(
-            json(),
-            timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-            align(),
-            splat(),
-            consoleFormat
-        ),
-        transports: [
-            new transports.Console({
-                level: "debug",
-                handleExceptions: true,
-            }),
-            new MongoDB({
-                db: dbUrl,
-                collection:
-                    process.env.MONGODB_LOG_INFO_COLLECTION_NAME ||
-                    "sample-log-info",
-                level: "info",
-                capped: true,
-                options: {
-                    useUnifiedTopology: true,
-                },
-                metaKey: "meta",
-            }),
-            new MongoDB({
-                db: dbUrl,
-                collection:
-                    process.env.MONGODB_LOG_ERROR_COLLECTION_NAME ||
-                    "sample-log-error",
-                level: "error",
-                capped: true,
-                options: {
-                    useUnifiedTopology: true,
-                },
-                metaKey: "meta",
-            }),
-        ],
-        exitOnError: false,
-    })
-);
+export const loggerConfig: LoggerOptions = {
+    transports: [
+        new transports.Console({
+            level: "debug",
+            handleExceptions: true
+        }),
+        ...(process.env.REMOTE_LOGGING_ENABLED === "true"
+            ? [
+                  new MongoDB({
+                      db: dbURL,
+                      collection: process.env.MONGODB_INFO_COLLECTION || "info",
+                      level: "info",
+                      capped: true,
+                      options: {
+                          useUnifiedTopology: true
+                      },
+                      metaKey: "meta",
+                      decolorize: true
+                  }),
+                  new MongoDB({
+                      db: dbURL,
+                      collection:
+                          process.env.MONGODB_ERROR_COLLECTION || "errors",
+                      level: "error",
+                      capped: true,
+                      options: {
+                          useUnifiedTopology: true
+                      },
+                      metaKey: "meta",
+                      decolorize: true
+                  })
+              ]
+            : [])
+    ],
+    exceptionHandlers: [
+        new transports.File({
+            filename: "log/exceptions.log"
+        })
+    ],
+    exitOnError: false
+};

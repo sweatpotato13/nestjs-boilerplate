@@ -3,6 +3,7 @@
 /node_modules
 
 # Logs
+log
 logs
 *.log
 npm-debug.log*
@@ -35,4 +36,5 @@ lerna-debug.log*
 
 postgres
 .key
+postgres-data
 .env

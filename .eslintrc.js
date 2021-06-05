@@ -5,12 +5,11 @@ module.exports = {
         project: "tsconfig.json",
         sourceType: "module"
     },
-    plugins: ["@typescript-eslint/eslint-plugin", "security", "simple-import-sort"],
+    plugins: ["@typescript-eslint/eslint-plugin", "security"],
     extends: [
         "plugin:security/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier",
     ],
     globals: {
         Atomics: "readonly",
@@ -26,9 +25,7 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-empty-function": "off",
-        "simple-import-sort/imports": "error",
-        "simple-import-sort/exports": "error",
+        "@typescript-eslint/no-empty-function": "off"
     },
     settings: {
         "import/resolver": {

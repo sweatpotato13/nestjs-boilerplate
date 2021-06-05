@@ -1,26 +1,56 @@
+version: "3"
 services:
+    postgres:
+        image: postgres:12.4
+        container_name: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_PORT: ${POSTGRES_PORT}
+            POSTGRES_USER: ${POSTGRES_USER}
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+        ports:
+            - ${POSTGRES_PORT}:5432
     mongo:
         image: mongo
-        restart: always
+        container_name: mongo
         environment:
             MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
         ports:
-        - 27017:27017
+            - ${MONGODB_PORT}:27017
     mongo-express:
         image: mongo-express
-        restart: always
+        container_name: mongo-express
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
-            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
+            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
         ports:
-        - 8081:8081
+            - ${MONGOEXPRESS_PORT}:8081
+    graphql-engine:
+        image: hasura/graphql-engine:v1.4.0-alpha.2
+        container_name: hasura
+        restart: always
+        ports:
+            - ${HASURA_PORT}:8080
+        depends_on:
+            - postgres
+        restart: always
+        environment:
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+          HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+          HASURA_GRAPHQL_DEV_MODE: "true"
+          HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
     nest:
         container_name: nest
+        restart: always
         depends_on:
-            - mongo
+            - postgres
         build:
             dockerfile: Dockerfile
             context: ./
         ports:
-            - "3000:3000"
+            - ${PORT}:8000

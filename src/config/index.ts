@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
 (process as any).send = process.send || function () {};
+
+import TypeOrmModuleConfig from "./modules/typeorm";
+import { loggerConfig } from "./modules/logger";
+
+export { TypeOrmModuleConfig, loggerConfig };
 
 export const config = {
     // Base
@@ -11,15 +17,6 @@ export const config = {
     appDescription: process.env.APP_DESCRIPTION || "boilerplate",
     // Server
     host: process.env.HOST || "0.0.0.0",
-    port: parseInt(process.env.PORT) || 3000,
-    rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 10000,
-    // Logger
-    mongodbUser: process.env.MONGODB_USER || "",
-    mongodbPassword: process.env.MONGODB_PASSWORD || "",
-    mongodbHost: process.env.MONGODB_HOST || "",
-    mongodbPort: process.env.MONGODB_PORT || "",
+    port: parseInt(process.env.PORT) || 8000,
+    rateLimitMax: process.env.RATE_LIMIT_MAX || 10000
 };
-
-import LoggerModuleConfig from "./modules/logger";
-
-export { LoggerModuleConfig };
