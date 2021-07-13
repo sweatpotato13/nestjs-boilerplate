@@ -4,11 +4,17 @@
     "description": "",
     "author": "Cute_Wisp",
     "private": true,
-    "license": "UNLICENSED",  
+    "license": "UNLICENSED",
     "husky": {
         "hooks": {
-            "pre-commit": "yarn prettier && yarn lint && git add ."
+            "pre-commit": "yarn prettier && yarn lint && git add .",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
     },
     "scripts": {
         "prebuild": "rimraf dist",
@@ -59,6 +65,8 @@
         "winston-mongodb": "^5.0.7"
     },
     "devDependencies": {
+        "@commitlint/cli": "^12.1.4",
+        "@commitlint/config-conventional": "^12.1.4",
         "@nestjs/cli": "^7.6.0",
         "@nestjs/schematics": "^7.3.1",
         "@nestjs/testing": "^7.6.17",
