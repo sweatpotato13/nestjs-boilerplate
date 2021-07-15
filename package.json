@@ -5,16 +5,20 @@
     "author": "Cute_Wisp",
     "private": true,
     "license": "UNLICENSED",
+    "lint-staged": {
+        "*.{ts,tsx,js,jsx}": [
+            "yarn run eslint --fix"
+        ],
+        "*.{md,json}": [
+            "prettier --write"
+        ]
+    },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn prettier && yarn lint && git add .",
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+            "pre-commit": "lint-staged",
+            "prepare-commit-msg": "devmoji -e",
+            "commit-msg": "if git-branch-is dev; then commitlint -E HUSKY_GIT_PARAMS; fi"
         }
-    },
-    "commitlint": {
-        "extends": [
-            "@commitlint/config-conventional"
-        ]
     },
     "scripts": {
         "prebuild": "rimraf dist",
@@ -36,7 +40,7 @@
         "release:major": "standard-version -- --release-as major",
         "release:minor": "standard-version -- --release-as minor",
         "release:patch": "standard-version -- --release-as patch",
-        "release:version": "standard-version -- --release-as"    
+        "release:version": "standard-version -- --release-as"
     },
     "dependencies": {
         "@babel/core": "^7.14.3",
@@ -81,12 +85,15 @@
         "@types/xml2js": "^0.4.8",
         "@typescript-eslint/eslint-plugin": "4.26.0",
         "@typescript-eslint/parser": "4.26.0",
+        "devmoji": "^2.3.0",
         "eslint": "7.27.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.23.4",
         "eslint-plugin-security": "^1.4.0",
+        "git-branch-is": "^4.0.0",
         "husky": "^4.3.8",
         "jest": "27.0.3",
+        "lint-staged": "^11.0.1",
         "prettier": "^2.3.0",
         "standard-version": "^9.3.1",
         "supertest": "^6.1.3",
