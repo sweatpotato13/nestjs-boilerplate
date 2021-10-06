@@ -1,11 +1,10 @@
 import { Entity, Column, PrimaryColumn, CreateDateColumn } from "typeorm";
 
-import { IHub } from "./interfaces/hub.interface";
 
 @Entity({
     name: "profiles"
 })
-export class Hub implements IHub {
+export class Hub {
     @PrimaryColumn({
         name: "hub"
     })

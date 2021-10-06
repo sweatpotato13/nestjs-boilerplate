@@ -1,7 +1,6 @@
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ValidationPipe } from "@nestjs/common";
-import { logger, errorStream } from "@common/winston";
 import { AppModule } from "./app.module";
 import { json } from "body-parser";
 import helmet from "helmet";
@@ -14,6 +13,7 @@ import {
 } from "typeorm-transactional-cls-hooked";
 import { config } from "@config";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
+import { errorStream, logger } from "./config/modules/winston";
 
 initializeTransactionalContext();
 patchTypeORMRepositoryWithBaseRepository();

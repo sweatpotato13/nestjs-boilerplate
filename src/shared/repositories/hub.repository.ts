@@ -1,10 +1,9 @@
 import { Repository, EntityRepository } from "typeorm";
-import { Hub } from "@common/entities/hub.entity";
-import { IHubRepository } from "../interfaces/repository/hub-repository.interface";
-import { ErrorResponse } from "../models/responses";
+import { Hub } from "../entities";
+import { NotFoundException } from "../models/error/http.error";
 
 @EntityRepository(Hub)
-export class HubRepository extends Repository<Hub> implements IHubRepository {
+export class HubRepository extends Repository<Hub> {
     async registerHub(data: Hub): Promise<Hub> {
         const hub = await this.save(
             super.create({
@@ -36,14 +35,12 @@ export class HubRepository extends Repository<Hub> implements IHubRepository {
             });
 
             if (!profileInstance)
-                throw new ErrorResponse(
-                    `${profile} does not have any registered hub instances`,
-                    404
-                );
+                throw new NotFoundException(`${profile} does not have any registered hub instances`, {
+                    context: `HubRepository`,
+                });
 
             return profileInstance;
         } catch (e) {
-            console.error("Exception at getHubInstance(): ", e);
             throw e;
         }
     }

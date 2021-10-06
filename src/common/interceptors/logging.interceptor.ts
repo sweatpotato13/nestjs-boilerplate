@@ -4,9 +4,9 @@ import {
     ExecutionContext,
     CallHandler
 } from "@nestjs/common";
+import { logger } from "@src/config/modules/winston";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { logger } from "@common/winston";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {

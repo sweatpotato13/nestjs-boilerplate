@@ -1,14 +1,14 @@
 import { ICommandHandler, CommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Hub } from "@src/common/entities";
-import { IHubRepository } from "@src/shared/interfaces/repository/hub-repository.interface";
+import { Hub } from "@src/shared/entities";
+import { Repository } from "typeorm";
 import { DiscardHubCommand } from "../impl/discard-hub.command";
 
 @CommandHandler(DiscardHubCommand)
 export class DiscardHubHandler implements ICommandHandler<DiscardHubCommand> {
     constructor(
         @InjectRepository(Hub)
-        private readonly _hubRepo: IHubRepository
+        private readonly _hubRepo: Repository<Hub>
     ) {}
 
     async execute(command: DiscardHubCommand): Promise<any> {
