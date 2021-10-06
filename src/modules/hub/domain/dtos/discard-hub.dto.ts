@@ -8,4 +8,10 @@ export class DiscardHubDto {
     @IsString()
     @IsNotEmpty()
     iss: string;
+
+    public static of(params: Partial<DiscardHubDto>): DiscardHubDto {
+        const discardHubDto = new DiscardHubDto();
+        Object.assign(discardHubDto, params);
+        return discardHubDto;
+    }
 }

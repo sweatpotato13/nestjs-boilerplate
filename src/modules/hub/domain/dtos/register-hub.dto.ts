@@ -12,4 +12,11 @@ export class RegisterHubDto {
     @IsString()
     @IsNotEmpty()
     keyIndex: string;
+
+    public static of(params: Partial<RegisterHubDto>): RegisterHubDto {
+        const registerHubDto = new RegisterHubDto();
+        Object.assign(registerHubDto, params);
+        return registerHubDto;
+    }
+
 }
