@@ -18,5 +18,4 @@ export class RegisterHubDto {
         Object.assign(registerHubDto, params);
         return registerHubDto;
     }
-
 }

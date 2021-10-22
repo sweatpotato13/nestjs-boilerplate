@@ -14,6 +14,7 @@ import {
 import { config } from "@config";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { errorStream, logger } from "./config/modules/winston";
+import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
 
 initializeTransactionalContext();
 patchTypeORMRepositoryWithBaseRepository();
@@ -22,16 +23,11 @@ async function bootstrap() {
     try {
         const app = await NestFactory.create<NestExpressApplication>(
             AppModule,
-            {
-                // httpsOptions: {
-                //     key: fs.readFileSync(`./ssl/product/server.key`),
-                //     cert: fs.readFileSync(`./ssl/product/server.crt`)
-                // },
-                // logger: WinstonModule.createLogger(loggerOptions)
-            }
+            {}
         );
         app.useGlobalPipes(new ValidationPipe());
         app.useGlobalFilters(new BadRequestExceptionFilter());
+        app.useGlobalInterceptors(new TimeoutInterceptor());
         app.use(helmet());
 
         app.use(rTracer.expressMiddleware());

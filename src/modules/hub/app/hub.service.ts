@@ -1,29 +1,28 @@
 import { Injectable } from "@nestjs/common";
-import { CommandBus } from "@nestjs/cqrs";
+import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import {
     runOnTransactionCommit,
     runOnTransactionRollback,
     runOnTransactionComplete,
     Transactional
 } from "typeorm-transactional-cls-hooked";
+import { RegisterHubCommand, DiscardHubCommand } from "../domain/commands/impl";
+import { RegisterHubDto, DiscardHubDto } from "../domain/dtos";
 import { IHubService } from "../domain/interfaces/hub.interface";
-import { RegisterHubDto } from "../domain/dtos/register-hub.dto";
-import { DiscardHubDto } from "../domain/dtos/discard-hub.dto";
-import { RegisterHubCommand } from "../domain/commands/impl/register-hub.command";
-import { DiscardHubCommand } from "../domain/commands/impl/discard-hub.command";
+import { HealthCheckQuery } from "../domain/queries/impl";
 
 @Injectable()
 export class HubService implements IHubService {
-    constructor(private readonly _commandBus: CommandBus) {}
+    constructor(
+        private readonly _commandBus: CommandBus,
+        private readonly _queryBus: QueryBus
+    ) {}
 
-    @Transactional()
-    public async registerHub(data: RegisterHubDto): Promise<any> {
+    public async healthCheck(): Promise<any> {
         try {
-            const ret = await this._commandBus.execute(
-                new RegisterHubCommand(data)
-            );
+            const result = await this._queryBus.execute(new HealthCheckQuery());
             runOnTransactionCommit(() => {});
-            return ret;
+            return result;
         } catch (error) {
             runOnTransactionRollback(() => {});
             throw error;
@@ -31,14 +30,31 @@ export class HubService implements IHubService {
             runOnTransactionComplete(() => {});
         }
     }
+
+    @Transactional()
+    public async registerHub(data: RegisterHubDto): Promise<any> {
+        try {
+            const result = await this._commandBus.execute(
+                new RegisterHubCommand(data)
+            );
+            runOnTransactionCommit(() => {});
+            return result;
+        } catch (error) {
+            runOnTransactionRollback(() => {});
+            throw error;
+        } finally {
+            runOnTransactionComplete(() => {});
+        }
+    }
+
     @Transactional()
     public async discardHub(data: DiscardHubDto): Promise<any> {
         try {
-            const ret = await this._commandBus.execute(
+            const result = await this._commandBus.execute(
                 new DiscardHubCommand(data)
             );
             runOnTransactionCommit(() => {});
-            return ret;
+            return result;
         } catch (error) {
             runOnTransactionRollback(() => {});
             throw error;

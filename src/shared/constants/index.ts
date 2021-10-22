@@ -1,37 +1,3 @@
-export const OPERATION_CREATE = "create";
-export const OPERATION_UPDATE = "update";
-export const OPERATION_DELETE = "delete";
-
-export enum DeleteOperation {
-    OBJECT = "object",
-    COMMIT = "commit"
-}
-
-export const INTERFACE_COLLECTIONS = "Collections";
-export const INTERFACE_PERMISSIONS = "Permissions";
-
-// @context
-export const CONTEXT = "https://schema.identity.foundation/0.1";
-
-// Response Types
-export enum ResponseTypes {
-    WRITE_RESPONSE = "WriteResponse",
-    OBJECT_QUERY_RESPONSE = "ObjectQueryResponse",
-    GRANTEE_QUERY_RESPONSE = "GranteeQueryResponse",
-    COMMIT_QUERY_RESPONSE = "CommitQueryResponse",
-    ERROR_RESPONSE = "ErrorResponse"
-}
-
-// Request Types
-export enum RequestTypes {
-    WRITE_REQUEST = "WriteRequest",
-    OBJECT_QUERY_REQUEST = "ObjectQueryRequest",
-    GRANTEE_QUERY_REQUEST = "GranteeQueryRequest",
-    COMMIT_QUERY_REQUEST = "CommitQueryRequest"
-}
-// Errors
-export const ERROR_RESPONSE = "ErrorResponse";
-
 // Error Codes
 export enum ErrorCodes {
     /**

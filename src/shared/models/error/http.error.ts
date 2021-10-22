@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { IExceptionProps } from "./property.error";
+import { IExceptionProps } from ".";
 
 export class NotFoundException extends HttpException {
     constructor(message: string, properties?: IExceptionProps) {

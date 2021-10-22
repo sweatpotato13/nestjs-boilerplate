@@ -1,7 +1,7 @@
-import { DiscardHubDto } from "../dtos/discard-hub.dto";
-import { RegisterHubDto } from "../dtos/register-hub.dto";
+import { RegisterHubDto, DiscardHubDto } from "../dtos";
 
 export interface IHubService {
+    healthCheck(): Promise<any>;
     registerHub(data: RegisterHubDto): Promise<any>;
     discardHub(data: DiscardHubDto): Promise<any>;
 }

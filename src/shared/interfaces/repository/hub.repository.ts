@@ -1,6 +1,7 @@
+import { Hub } from "@src/shared/entities";
+import { NotFoundException } from "@src/shared/models/error/http.error";
 import { Repository, EntityRepository } from "typeorm";
-import { Hub } from "../entities";
-import { NotFoundException } from "../models/error/http.error";
+
 
 @EntityRepository(Hub)
 export class HubRepository extends Repository<Hub> {
