@@ -7,6 +7,7 @@
     "license": "UNLICENSED",
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
+            "prettier",
             "yarn run eslint --fix"
         ],
         "*.{md,json}": [
