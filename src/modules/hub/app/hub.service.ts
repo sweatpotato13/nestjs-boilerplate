@@ -16,18 +16,14 @@ export class HubService implements IHubService {
     constructor(
         private readonly _commandBus: CommandBus,
         private readonly _queryBus: QueryBus
-    ) {}
+    ) { }
 
     public async healthCheck(): Promise<any> {
         try {
             const result = await this._queryBus.execute(new HealthCheckQuery());
-            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => {});
             throw error;
-        } finally {
-            runOnTransactionComplete(() => {});
         }
     }
 
@@ -37,13 +33,13 @@ export class HubService implements IHubService {
             const result = await this._commandBus.execute(
                 new RegisterHubCommand(data)
             );
-            runOnTransactionCommit(() => {});
+            runOnTransactionCommit(() => { });
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => {});
+            runOnTransactionRollback(() => { });
             throw error;
         } finally {
-            runOnTransactionComplete(() => {});
+            runOnTransactionComplete(() => { });
         }
     }
 
@@ -53,13 +49,13 @@ export class HubService implements IHubService {
             const result = await this._commandBus.execute(
                 new DiscardHubCommand(data)
             );
-            runOnTransactionCommit(() => {});
+            runOnTransactionCommit(() => { });
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => {});
+            runOnTransactionRollback(() => { });
             throw error;
         } finally {
-            runOnTransactionComplete(() => {});
+            runOnTransactionComplete(() => { });
         }
     }
 }
