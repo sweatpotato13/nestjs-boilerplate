@@ -47,10 +47,10 @@ services:
     nest:
         container_name: nest
         restart: always
-        depends_on:
-            - postgres
         build:
             dockerfile: Dockerfile
             context: ./
+        env_file: 
+            - .env
         ports:
             - ${PORT}:8000
