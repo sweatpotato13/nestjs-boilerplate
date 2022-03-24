@@ -13,7 +13,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/sweatpotato13/nextjs-boilerplate">
+  <a href="https://github.com/sweatpotato13/nestjs-boilerplate">
     <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
   </a>
 
@@ -105,6 +105,6 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/sweatpotato13/nextjs-boilerplate](https://github.com/sweatpotato13/nextjs-boilerplate)
+Project Link: [https://github.com/sweatpotato13/nestjs-boilerplate](https://github.com/sweatpotato13/nestjs-boilerplate)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
