@@ -5,7 +5,7 @@ import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Connection } from "typeorm";
 import { TypeOrmModuleConfig } from "@config";
-import { HubModule } from "./modules/hub/hub.module";
+import { UserModule } from "./modules/user/user.module";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { TypeOrmConfigService } from "./config/modules/typeorm/typeorm.config.service";
 
@@ -16,7 +16,7 @@ import { TypeOrmConfigService } from "./config/modules/typeorm/typeorm.config.se
             useClass: TypeOrmConfigService
         }),
         /** ------------------ */
-        HubModule
+        UserModule
     ],
     controllers: [],
     providers: [

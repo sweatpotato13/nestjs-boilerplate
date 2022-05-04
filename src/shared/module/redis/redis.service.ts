@@ -1,0 +1,33 @@
+import { Inject, Injectable } from "@nestjs/common";
+import { ConfigType } from "@nestjs/config";
+import Redis from "ioredis";
+import { RedisModuleConfig } from "@config";
+
+@Injectable()
+export class RedisService extends Redis {
+    constructor(
+        @Inject(RedisModuleConfig.KEY)
+        _config: ConfigType<typeof RedisModuleConfig>
+    ) {
+        super(_config);
+    }
+
+    public async count(key: string): Promise<number> {
+        const allKeys = await this.keys(key);
+        return allKeys.length;
+    }
+
+    public async existsKey(key: string): Promise<boolean> {
+        return !!(await this.count(key));
+    }
+
+    public async getAllKeyValues(wildcard: string): Promise<any[]> {
+        const keys = await this.keys(wildcard);
+        return await Promise.all(
+            keys.map(async key => {
+                const value = await this.get(key);
+                return { key, value };
+            })
+        );
+    }
+}

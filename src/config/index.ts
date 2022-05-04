@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
-(process as any).send = process.send || function () {};
+(process as any).send = process.send || function () { };
 
-import TypeOrmModuleConfig from "./modules/typeorm";
-import { loggerConfig } from "./modules/logger";
+import TypeOrmModuleConfig from "./modules/typeorm/typeorm";
+import RedisModuleConfig from "./modules/redis";
+import JwtModuleConfig from "./modules/jwt";
+import { loggerConfig } from "./modules/logger/logger";
 
-export { TypeOrmModuleConfig, loggerConfig };
+export { TypeOrmModuleConfig, RedisModuleConfig, JwtModuleConfig, loggerConfig };
 
 export const config = {
     // Base
@@ -18,5 +20,5 @@ export const config = {
     // Server
     host: process.env.HOST || "0.0.0.0",
     port: parseInt(process.env.PORT) || 8000,
-    rateLimitMax: process.env.RATE_LIMIT_MAX || 10000
+    rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 10000
 };

@@ -34,6 +34,25 @@ async function bootstrap() {
 
         app.use(json({ limit: "50mb" }));
 
+        // CORS
+        const corsWhiteList = "*";
+        app.enableCors({
+            origin: (origin, callback) => {
+                if (
+                    corsWhiteList.indexOf("*") !== -1 ||
+                    corsWhiteList.indexOf(origin) !== -1
+                ) {
+                    callback(null, true);
+                } else {
+                    callback(new Error("Not allowed"));
+                }
+            },
+            allowedHeaders:
+                "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, authorization",
+            methods: "GET, PUT, POST, DELETE, UPDATE, OPTIONS",
+            credentials: true,
+        });
+
         // rateLimit
         app.use(
             rateLimit({
@@ -64,13 +83,13 @@ async function bootstrap() {
         await app.listen(config.port, () => {
             !config.isProduction
                 ? logger.info(
-                      `🚀  Server ready at http://${config.host}:${config.port}`,
-                      { context: "BootStrap" }
-                  )
+                    `🚀  Server ready at http://${config.host}:${config.port}`,
+                    { context: "BootStrap" }
+                )
                 : logger.info(
-                      `🚀  Server is listening on port ${config.port}`,
-                      { context: "BootStrap" }
-                  );
+                    `🚀  Server is listening on port ${config.port}`,
+                    { context: "BootStrap" }
+                );
 
             !config.isProduction &&
                 logger.info(
