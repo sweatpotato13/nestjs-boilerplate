@@ -1,16 +1,15 @@
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Role, UserRole } from "@src/shared/entities";
-import { User } from "@src/shared/entities/user.entity";
-import { BadRequestException } from "@src/shared/models/error/http.error";
-import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { Inject } from "typedi";
-import { Repository } from "typeorm";
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Role,User, UserRole } from '@src/shared/entities';
+import { BadRequestException } from '@src/shared/models/error/http.error';
+import { JwtService } from '@src/shared/modules/jwt/jwt.service';
+import { Inject } from 'typedi';
+import { Repository } from 'typeorm';
 
-import { LoginCommand } from "../impl";
+import { RegisterCommand } from '../impl';
 
-@CommandHandler(LoginCommand)
-export class LoginHandler implements ICommandHandler<LoginCommand> {
+@CommandHandler(RegisterCommand)
+export class RegisterHandler implements ICommandHandler<RegisterCommand> {
     constructor(
         @Inject("JwtService")
         private readonly _jwtService: JwtService,
@@ -22,17 +21,22 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
         private readonly _roleRepo: Repository<Role>
     ) { }
 
-    async execute(command: LoginCommand) {
+    async execute(command: RegisterCommand) {
         const { args } = command;
         const { account } = args;
 
-        const user = await this._userRepo.findOne({
+        let user = await this._userRepo.findOne({
             account: account,
         });
 
-        if (!user) {
-            throw new BadRequestException("User not found", { context: "LoginHandler" });
+        if (user) {
+            throw new BadRequestException("User already exist", { context: "RegisterHandler" });
         }
+
+        const newUser = await this._userRepo.create({
+            account: account,
+        });
+        user = await this._userRepo.save(newUser);
 
         let role = await this._roleRepo.findOne({ name: "user" });
         if (!role) {

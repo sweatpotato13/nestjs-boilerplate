@@ -1,6 +1,7 @@
-import { ICommandHandler, CommandHandler } from "@nestjs/cqrs";
+import { CommandHandler,ICommandHandler } from "@nestjs/cqrs";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
+
 import { GetAuthMessageCommand } from "../impl";
 
 @CommandHandler(GetAuthMessageCommand)

@@ -1,10 +1,11 @@
-import { ICommandHandler, CommandHandler } from "@nestjs/cqrs";
+import { CommandHandler,ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "@src/shared/entities/user.entity";
 import { NotFoundException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
 import { Repository } from "typeorm";
+
 import { RefreshCommand } from "../impl";
 
 @CommandHandler(RefreshCommand)

@@ -1,7 +1,8 @@
 import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User, Role, UserRole, App } from "@src/shared/entities";
+import { App,Role, User, UserRole } from "@src/shared/entities";
+
 import { UserController } from "./app/user.controller";
 import { UserService } from "./app/user.service";
 import { CommandHandlers } from "./domain/commands/handlers";

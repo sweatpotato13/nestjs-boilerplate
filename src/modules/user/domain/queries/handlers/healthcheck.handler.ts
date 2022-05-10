@@ -1,4 +1,5 @@
-import { QueryHandler, IQueryHandler } from "@nestjs/cqrs";
+import { IQueryHandler,QueryHandler } from "@nestjs/cqrs";
+
 import { HealthCheckQuery } from "../impl";
 
 @QueryHandler(HealthCheckQuery)

@@ -1,4 +1,5 @@
 import { ICommand } from "@nestjs/cqrs";
+
 import { RefreshTokenBodyDto } from "../../dtos";
 
 export class RefreshCommand implements ICommand {

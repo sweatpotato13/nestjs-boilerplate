@@ -1,13 +1,14 @@
-import { Module } from "@nestjs/common";
-import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { LoggingInterceptor } from "@common/interceptors/logging.interceptor";
+import { TypeOrmModuleConfig } from "@config";
+import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Connection } from "typeorm";
-import { TypeOrmModuleConfig } from "@config";
-import { UserModule } from "./modules/user/user.module";
+
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { TypeOrmConfigService } from "./config/modules/typeorm/typeorm.config.service";
+import { UserModule } from "./modules/user/user.module";
 
 @Module({
     imports: [

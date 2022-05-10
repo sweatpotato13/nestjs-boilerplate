@@ -1,7 +1,7 @@
+import { RedisModuleConfig } from "@config";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
 import Redis from "ioredis";
-import { RedisModuleConfig } from "@config";
 
 @Injectable()
 export class RedisService extends Redis {

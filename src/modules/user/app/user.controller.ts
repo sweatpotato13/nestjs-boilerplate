@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
-import { AccountDto, AuthMessageDto, LoginDto, TokensResponseDto, RefreshTokenBodyDto } from "../domain/dtos";
+
+import { AccountDto, AuthMessageDto, LoginDto, RefreshTokenBodyDto, ResultDto,TokensResponseDto } from "../domain/dtos";
 import { UserService } from "./user.service";
 
 @Controller()
@@ -28,6 +29,16 @@ export class UserController {
         }
     }
 
+    @Post("register")
+    async register(@Body() args: LoginDto): Promise<TokensResponseDto> {
+        try {
+            const result = await this._service.register(args);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     @Post("login")
     async login(@Body() args: LoginDto): Promise<TokensResponseDto> {
         try {
@@ -42,6 +53,16 @@ export class UserController {
     async refresh(@Body() args: RefreshTokenBodyDto): Promise<TokensResponseDto> {
         try {
             const result = await this._service.refresh(args);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @Post("deregister")
+    async deregister(@Body() args: LoginDto): Promise<ResultDto> {
+        try {
+            const result = await this._service.deregister(args);
             return result;
         } catch (error) {
             throw error;

@@ -1,4 +1,5 @@
 import { ICommand } from "@nestjs/cqrs";
+
 import { AccountDto } from "../../dtos";
 
 export class GetAuthMessageCommand implements ICommand {

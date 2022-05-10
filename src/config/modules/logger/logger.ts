@@ -1,4 +1,4 @@
-import { transports, LoggerOptions } from "winston";
+import { LoggerOptions,transports } from "winston";
 import { MongoDB } from "winston-mongodb";
 
 const dbURL = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PW}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DB}`;

@@ -1,12 +1,13 @@
 import { plainToClass } from "class-transformer";
 import {
     Column,
+    CreateDateColumn,
     Entity,
     JoinColumn,
     ManyToOne,
-    CreateDateColumn,
     PrimaryGeneratedColumn,
 } from "typeorm";
+
 import { UserRoleDto } from "../interfaces/entities";
 import { Role } from "./role.entity";
 import { User } from "./user.entity";

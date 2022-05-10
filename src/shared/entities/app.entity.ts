@@ -1,5 +1,6 @@
 import { plainToClass } from "class-transformer";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+
 import { AppDto } from "../interfaces/entities";
 
 @Index(["name", "version"], { unique: true })

@@ -1,20 +1,21 @@
+import { config } from "@config";
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
-import { ValidationPipe } from "@nestjs/common";
-import { AppModule } from "./app.module";
 import { json } from "body-parser";
+import rTracer from "cls-rtracer";
+import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
-import rateLimit from "express-rate-limit";
-import rTracer from "cls-rtracer";
 import {
     initializeTransactionalContext,
     patchTypeORMRepositoryWithBaseRepository
 } from "typeorm-transactional-cls-hooked";
-import { config } from "@config";
+
+import { AppModule } from "./app.module";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
-import { errorStream, logger } from "./config/modules/winston";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
+import { errorStream, logger } from "./config/modules/winston";
 
 initializeTransactionalContext();
 patchTypeORMRepositoryWithBaseRepository();

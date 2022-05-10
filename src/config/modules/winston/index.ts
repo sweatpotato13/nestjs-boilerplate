@@ -1,13 +1,12 @@
-import {
-    addColors,
-    Logger,
-    createLogger,
-    format,
-    transports,
-    LoggerOptions
-} from "winston";
 import rTracer from "cls-rtracer";
 import moment from "moment";
+import {
+    addColors,
+    createLogger,
+    format,
+    Logger,
+    LoggerOptions,
+    transports} from "winston";
 
 const { splat, json, timestamp, align, printf } = format;
 
@@ -123,4 +122,4 @@ const errorStream = {
     }
 };
 
-export { logger, loggerOptions, errorStream };
+export { errorStream,logger, loggerOptions };

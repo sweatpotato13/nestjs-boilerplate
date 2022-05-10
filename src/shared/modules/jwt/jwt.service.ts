@@ -1,13 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
-import jwt, { Algorithm } from "jsonwebtoken";
+import { JwtModuleConfig } from "@src/config";
+import { User } from "@src/shared/entities/user.entity";
+import { UserRole } from "@src/shared/entities/user-role.entity";
+import { NotFoundException } from "@src/shared/models/error/http.error";
 import { encode } from "bs58";
 import { randomBytes } from "crypto";
+import jwt, { Algorithm } from "jsonwebtoken";
 import { getManager } from "typeorm";
-import { JwtModuleConfig } from "@src/config";
-import { UserRole } from "@src/shared/entities/user-role.entity";
-import { User } from "@src/shared/entities/user.entity";
-import { NotFoundException } from "@src/shared/models/error/http.error";
+
 import { RedisService } from "../redis/redis.service";
 
 @Injectable()

@@ -1,5 +1,6 @@
 import { plainToClass } from "class-transformer";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+
 import { RoleDto } from "../interfaces/entities";
 import { UserRole } from "./user-role.entity";
 
