@@ -1,4 +1,6 @@
 import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
+import { Roles } from "@src/common/decorator/roles.decorator";
+import { Role } from "@src/shared/models/enum";
 
 import { AccountDto, AuthMessageDto, LoginDto, RefreshTokenBodyDto, ResultDto,TokensResponseDto } from "../domain/dtos";
 import { UserService } from "./user.service";
@@ -50,6 +52,7 @@ export class UserController {
     }
 
     @Post("refresh")
+    @Roles(Role.User)
     async refresh(@Body() args: RefreshTokenBodyDto): Promise<TokensResponseDto> {
         try {
             const result = await this._service.refresh(args);
@@ -60,6 +63,7 @@ export class UserController {
     }
 
     @Post("deregister")
+    @Roles(Role.User)
     async deregister(@Body() args: LoginDto): Promise<ResultDto> {
         try {
             const result = await this._service.deregister(args);
