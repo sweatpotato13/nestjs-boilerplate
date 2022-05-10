@@ -2,6 +2,8 @@ import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { App,Role, User, UserRole } from "@src/shared/entities";
+import { JwtModule } from "@src/shared/modules/jwt/jwt.module";
+import { RedisModule } from "@src/shared/modules/redis/redis.module";
 
 import { UserController } from "./app/user.controller";
 import { UserService } from "./app/user.service";
@@ -12,6 +14,8 @@ import { QueryHandlers } from "./domain/queries/handlers";
     imports: [
         CqrsModule,
         TypeOrmModule.forFeature([User, Role, UserRole, App]),
+        JwtModule,
+        RedisModule
     ],
     providers: [
         { provide: "UserService", useClass: UserService },

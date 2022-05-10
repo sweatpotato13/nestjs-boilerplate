@@ -52,7 +52,6 @@ export class UserController {
     }
 
     @Post("refresh")
-    @Roles(Role.User)
     async refresh(@Body() args: RefreshTokenBodyDto): Promise<TokensResponseDto> {
         try {
             const result = await this._service.refresh(args);
