@@ -20,7 +20,7 @@ export class DeregisterHandler implements ICommandHandler<DeregisterCommand> {
 
     async execute(command: DeregisterCommand) {
         const { args } = command;
-        const { account } = args;
+        const { account, passwordHash } = args;
 
 
         const user = await this._userRepo.findOne({
@@ -29,6 +29,9 @@ export class DeregisterHandler implements ICommandHandler<DeregisterCommand> {
 
         if (!user) {
             throw new BadRequestException("User not found", { context: "DeregisterHandler" });
+        }
+        if (passwordHash !== user.passwordHash) {
+            throw new BadRequestException("Wrong password", { context: "DeregisterHandler" });
         }
 
         await this._userRepo.remove(user);

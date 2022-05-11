@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Role, UserRole } from "@src/shared/entities";
 import { User } from "@src/shared/entities/user.entity";
-import { BadRequestException } from "@src/shared/models/error/http.error";
+import { BadRequestException, NotFoundException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
 import { Repository } from "typeorm";
@@ -24,14 +24,17 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
 
     async execute(command: LoginCommand) {
         const { args } = command;
-        const { account } = args;
+        const { account, passwordHash } = args;
 
         const user = await this._userRepo.findOne({
             account: account,
         });
 
         if (!user) {
-            throw new BadRequestException("User not found", { context: "LoginHandler" });
+            throw new NotFoundException("User not found", { context: "LoginHandler" });
+        }
+        if(passwordHash !== user.passwordHash){
+            throw new BadRequestException("Wrong password", { context: "LoginHandler" });
         }
 
         let role = await this._roleRepo.findOne({ name: "user" });

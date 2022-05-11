@@ -23,6 +23,11 @@ export class User {
     })
     account: string;
 
+    @Column("text", {
+        name: "password_hash",
+    })
+    passwordHash: string;
+
     @CreateDateColumn({
         name: "created_at",
         type: "timestamp",

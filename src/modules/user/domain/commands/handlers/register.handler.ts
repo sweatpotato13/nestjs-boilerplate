@@ -23,7 +23,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
 
     async execute(command: RegisterCommand) {
         const { args } = command;
-        const { account } = args;
+        const { account, passwordHash } = args;
 
         let user = await this._userRepo.findOne({
             account: account,
@@ -35,6 +35,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
 
         const newUser = await this._userRepo.create({
             account: account,
+            passwordHash: passwordHash
         });
         user = await this._userRepo.save(newUser);
 
