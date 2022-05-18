@@ -1,6 +1,11 @@
 <div id="top"></div>
-
-
+<p align="center">
+<img src=https://img.shields.io/github/stars/sweatpotato13/nestjs-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/forks/sweatpotato13/nestjs-boilerplate?style=for-the-badge&logo=appveyor&color=blue />
+<img src=https://img.shields.io/github/issues/sweatpotato13/nestjs-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
+<img src=https://img.shields.io/github/issues-pr/sweatpotato13/nestjs-boilerplate?style=for-the-badge&logo=appveyor&color=informational />
+</p>
+<br />
 <!-- PROJECT LOGO -->
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
