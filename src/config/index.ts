@@ -3,12 +3,13 @@ import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
 (process as any).send = process.send || function () { };
 
+import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch"
 import JwtModuleConfig from "./modules/jwt";
 import { loggerConfig } from "./modules/logger/logger";
 import RedisModuleConfig from "./modules/redis";
 import TypeOrmModuleConfig from "./modules/typeorm/typeorm";
 
-export { JwtModuleConfig, loggerConfig,RedisModuleConfig, TypeOrmModuleConfig };
+export { ElasticsearchConfig, JwtModuleConfig, loggerConfig, RedisModuleConfig, TypeOrmModuleConfig };
 
 export const config = {
     // Base

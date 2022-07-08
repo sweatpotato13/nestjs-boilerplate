@@ -4,7 +4,7 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 import { AppDto } from "../interfaces/entities";
 
 @Index(["name", "version"], { unique: true })
-@Entity("app", { schema: "boilerplate" })
+@Entity("app", { schema: "public" })
 export class App {
     @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
     id: string;

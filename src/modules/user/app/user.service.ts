@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 import {
     runOnTransactionCommit,
     runOnTransactionComplete,
@@ -15,7 +16,8 @@ import { HealthCheckQuery } from "../domain/queries/impl";
 export class UserService {
     constructor(
         private readonly _commandBus: CommandBus,
-        private readonly _queryBus: QueryBus
+        private readonly _queryBus: QueryBus,
+        private readonly _client: ElasticsearchService,
     ) { }
 
     public async healthCheck(): Promise<any> {

@@ -12,7 +12,7 @@ import { UserRoleDto } from "../interfaces/entities";
 import { Role } from "./role.entity";
 import { User } from "./user.entity";
 
-@Entity("user_role", { schema: "boilerplate" })
+@Entity("user_role", { schema: "public" })
 export class UserRole {
     @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
     id: number;

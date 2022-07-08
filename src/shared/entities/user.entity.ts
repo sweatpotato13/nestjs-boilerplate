@@ -11,7 +11,7 @@ import {
 import { UserDto } from "../interfaces/entities";
 import { UserRole } from "./user-role.entity";
 
-@Entity("user", { schema: "boilerplate" })
+@Entity("user", { schema: "public" })
 export class User {
     @PrimaryGeneratedColumn("uuid", {
         name: "id",

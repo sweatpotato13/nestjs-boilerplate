@@ -1,8 +1,8 @@
 import { config } from "@config";
 import {
-    Injectable,
     CanActivate,
     ExecutionContext,
+    Injectable,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { UnauthorizedException } from "@src/shared/models/error/http.error";

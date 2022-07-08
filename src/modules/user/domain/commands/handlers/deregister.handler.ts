@@ -17,7 +17,6 @@ export class DeregisterHandler implements ICommandHandler<DeregisterCommand> {
         private readonly _userRepo: Repository<User>,
     ) { }
 
-
     async execute(command: DeregisterCommand) {
         const { args } = command;
         const { account, passwordHash } = args;

@@ -32,5 +32,5 @@ import { UserModule } from "./modules/user/user.module";
     ]
 })
 export class AppModule {
-    constructor(private connection: Connection) {}
+    constructor(private connection: Connection) { }
 }

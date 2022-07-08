@@ -4,7 +4,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { RoleDto } from "../interfaces/entities";
 import { UserRole } from "./user-role.entity";
 
-@Entity("role", { schema: "boilerplate" })
+@Entity("role", { schema: "public" })
 export class Role {
     @PrimaryGeneratedColumn({ type: "integer", name: "id" })
     id: number;
