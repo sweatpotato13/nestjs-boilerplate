@@ -65,12 +65,13 @@ services:
         - HTTP_USER=${REDIS_COMMANDER_USER}
         - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
     es01:
-      image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.3.2
       container_name: es01
       environment:
         - discovery.type=single-node
         - bootstrap.memory_lock=true
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - xpack.security.enabled=false # Set true when you using https
       ulimits:
         memlock:
           soft: -1

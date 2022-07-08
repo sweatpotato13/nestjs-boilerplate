@@ -38,6 +38,7 @@ postgres
 .key
 postgres-data
 .env
+es-data
 
 .yarn/*
 !.yarn/cache
