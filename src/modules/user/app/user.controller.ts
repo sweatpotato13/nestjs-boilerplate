@@ -5,7 +5,7 @@ import { Role } from "@src/shared/models/enum";
 import { AccountDto, AuthMessageDto, LoginDto, RefreshTokenBodyDto, ResultDto,TokensResponseDto } from "../domain/dtos";
 import { UserService } from "./user.service";
 
-@Controller()
+@Controller("user")
 export class UserController {
     constructor(@Inject("UserService") private readonly _service: UserService) { }
 

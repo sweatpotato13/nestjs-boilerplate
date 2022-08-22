@@ -6,10 +6,11 @@ _config({ path: __dirname + "/../../.env" });
 import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch"
 import JwtModuleConfig from "./modules/jwt";
 import { loggerConfig } from "./modules/logger/logger";
+import GoogleOauthConfig from "./modules/passport/google"
 import RedisModuleConfig from "./modules/redis";
 import TypeOrmModuleConfig from "./modules/typeorm/typeorm";
 
-export { ElasticsearchConfig, JwtModuleConfig, loggerConfig, RedisModuleConfig, TypeOrmModuleConfig };
+export { ElasticsearchConfig, GoogleOauthConfig, JwtModuleConfig, loggerConfig, RedisModuleConfig, TypeOrmModuleConfig };
 
 export const config = {
     // Base

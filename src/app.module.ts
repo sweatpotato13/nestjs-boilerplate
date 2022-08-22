@@ -8,6 +8,7 @@ import { Connection } from "typeorm";
 
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { TypeOrmConfigService } from "./config/modules/typeorm/typeorm.config.service";
+import { AuthModule } from "./modules/auth/auth.module";
 import { UserModule } from "./modules/user/user.module";
 
 @Module({
@@ -17,7 +18,8 @@ import { UserModule } from "./modules/user/user.module";
             useClass: TypeOrmConfigService
         }),
         /** ------------------ */
-        UserModule
+        UserModule,
+        AuthModule
     ],
     controllers: [],
     providers: [
