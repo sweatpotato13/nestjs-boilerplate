@@ -14,11 +14,6 @@
             "prettier --write"
         ]
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
     "scripts": {
         "prebuild": "rimraf dist",
         "build": "nest build",
@@ -39,7 +34,9 @@
         "release:major": "standard-version -- --release-as major",
         "release:minor": "standard-version -- --release-as minor",
         "release:patch": "standard-version -- --release-as patch",
-        "release:version": "standard-version -- --release-as"
+        "release:version": "standard-version -- --release-as",
+        "prepare": "husky install",
+        "pre-commit": "lint-staged"
     },
     "dependencies": {
         "@babel/core": "^7.18.6",
