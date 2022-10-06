@@ -1,31 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 
+import { GoogleLoginQuery } from "../domain/queries/impl";
+
 
 @Injectable()
 export class AuthService {
     constructor(
-        // private readonly _commandBus: CommandBus,
-        // private readonly _queryBus: QueryBus,
+        private readonly _commandBus: CommandBus,
+        private readonly _queryBus: QueryBus,
     ) { }
 
-    public async healthCheck(): Promise<any> {
+    public async googleLogin(req: any): Promise<any> {
         try {
-            const result = "";
+            const result = await this._queryBus.execute(new GoogleLoginQuery(req));
             return result;
         } catch (error) {
             throw error;
-        }
-    }
-
-    public async googleLogin(req: any) {
-        if (!req.user) {
-            return 'No user from google'
-        }
-
-        return {
-            message: 'User information from google',
-            user: req.user
         }
     }
 }
