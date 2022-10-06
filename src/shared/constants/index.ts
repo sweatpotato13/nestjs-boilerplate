@@ -52,25 +52,5 @@ export enum ErrorCodes {
     /**
      * This error happens on delete commits/objects
      */
-    DELETE_ERROR = "delete_error",
-    /**
-     * This error happens during hub registration
-     */
-    HUB_REG_ERR = "hub_registration_error",
-    /**
-     *This error happens during hub deletion
-     */
-    HUB_DEL_ERR = "hub_deletion_error",
-    /**
-     *This error happens during permission creation
-     */
-    PERMISSION_CREATE_ERR = "permission_creation_error",
-    /**
-     *This error happens during permission deletion
-     */
-    PERMISSION_DELETE_ERR = "permission_deletion_error",
-    /**
-     *This error happens during permission request deny
-     */
-    PERMISSION_REQUEST_DENY_ERR = "permission_deletion_error"
+    DELETE_ERROR = "delete_error"
 }

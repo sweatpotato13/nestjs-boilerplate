@@ -8,7 +8,7 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { UserRoleDto } from "../interfaces/entities";
+import { UserRoleDto } from "../dtos";
 import { Role } from "./role.entity";
 import { User } from "./user.entity";
 

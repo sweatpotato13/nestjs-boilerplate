@@ -1,7 +1,7 @@
 import { plainToClass } from "class-transformer";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-import { AppDto } from "../interfaces/entities";
+import { AppDto } from "../dtos";
 
 @Index(["name", "version"], { unique: true })
 @Entity("app", { schema: "public" })

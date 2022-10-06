@@ -1,7 +1,7 @@
 import { plainToClass } from "class-transformer";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { RoleDto } from "../interfaces/entities";
+import { RoleDto } from "../dtos";
 import { UserRole } from "./user-role.entity";
 
 @Entity("role", { schema: "public" })

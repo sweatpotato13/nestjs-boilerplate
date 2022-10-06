@@ -1,3 +1,3 @@
-import { HealthCheckHandler } from "./google-login.handler";
+import { GoogleLoginHandler } from "./google-login.handler";
 
-export const QueryHandlers = [HealthCheckHandler];
+export const QueryHandlers = [GoogleLoginHandler];

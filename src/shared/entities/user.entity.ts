@@ -8,7 +8,7 @@ import {
     UpdateDateColumn,
 } from "typeorm";
 
-import { UserDto } from "../interfaces/entities";
+import { UserDto } from "../dtos";
 import { UserRole } from "./user-role.entity";
 
 @Entity("user", { schema: "public" })
