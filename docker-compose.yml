@@ -1,7 +1,7 @@
 version: "3"
 services:
     postgres:
-        image: postgres:13
+        image: postgres:14
         container_name: postgres
         restart: always
         environment:
@@ -22,9 +22,14 @@ services:
         ports:
             - ${MONGODB_PORT}:27017
     mongo-express:
-        image: mongo-express
+        image: mongo-express:latest
         container_name: mongo-express
+        depends_on:
+            - mongo
         environment:
+            ME_CONFIG_MONGODB_SERVER: mongo
+            ME_CONFIG_MONGODB_PORT: 27017
+            ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
             ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
         ports:
@@ -49,15 +54,18 @@ services:
         image: redis
         restart: always
         ports:
-        - "${REDIS_PORT}:6379"
+            - "${REDIS_PORT}:6379"
         environment:
-        - REDIS_PASSWORD=${REDIS_PASSWORD}
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
         command: redis-server --requirepass $REDIS_PASSWORD
     redis-commander:
+        container_name: redis-commander
         image: rediscommander/redis-commander
         restart: always
         ports:
-        - "${REDIS_COMMANDER_PORT}:8081"
+            - "${REDIS_COMMANDER_PORT}:8081"
+        depends_on:
+            - redis
         environment:
         - REDIS_HOST=${REDIS_HOST}
         - REDIS_PASSWORD=${REDIS_PASSWORD}
@@ -65,7 +73,7 @@ services:
         - HTTP_USER=${REDIS_COMMANDER_USER}
         - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
     es01:
-      image: docker.elastic.co/elasticsearch/elasticsearch:8.3.2
+      image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
       container_name: es01
       environment:
         - discovery.type=single-node
@@ -81,7 +89,7 @@ services:
       ports:
         - 9200:9200
     kibana:
-      image: docker.elastic.co/kibana/kibana:7.15.2
+      image: docker.elastic.co/kibana/kibana:7.17.6
       container_name: kibana
       ports:
         - 5601:5601
