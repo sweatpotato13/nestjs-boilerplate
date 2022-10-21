@@ -1,0 +1,304 @@
+{
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": ""
+    }
+  ],
+  "info": {
+    "version": "0.1.0",
+    "title": "Swagger"
+  },
+  "paths": {
+    "/auth/google": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "description": ""
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "description": ""
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "description": ""
+      }
+    },
+    "/user/get-auth": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthMessageDto"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/user/refresh": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenBodyDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    },
+    "/user/deregister": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultDto"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "account"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "AuthMessageDto": {
+        "type": "object",
+        "properties": {
+          "authMsg": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "authMsg"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "nullable": false
+          },
+          "passwordHash": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "account",
+          "passwordHash"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "TokensResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "nullable": false
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "accessToken",
+          "refreshToken"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "RefreshTokenBodyDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "nullable": false
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "account",
+          "refreshToken"
+        ],
+        "x-tson_jsDocTags": []
+      },
+      "ResultDto": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "result"
+        ],
+        "x-tson_jsDocTags": []
+      }
+    }
+  }
+}

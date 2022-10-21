@@ -2,9 +2,11 @@ import { config } from "@config";
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
+import { OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { json } from "body-parser";
 import rTracer from "cls-rtracer";
 import rateLimit from "express-rate-limit";
+import fs from "fs";
 import helmet from "helmet";
 import morgan from "morgan";
 import {
@@ -34,6 +36,10 @@ async function bootstrap() {
         app.use(rTracer.expressMiddleware());
 
         app.use(json({ limit: "50mb" }));
+
+        // Swagger
+        const swagger = JSON.parse(fs.readFileSync(__dirname + "/../public/swagger.json", "utf8"));
+        SwaggerModule.setup('api-doc', app, swagger as OpenAPIObject);
 
         // CORS
         const corsWhiteList = "*";
