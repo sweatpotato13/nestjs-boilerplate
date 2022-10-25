@@ -17,7 +17,7 @@ COPY package.json yarn.lock tsconfig.json /tmp/
 FROM base AS development
 # Copy app sources
 COPY --from=builder /app/dist/ ./dist
-COPY ./public .
+COPY ./public ./public
 COPY ./tsconfig.json .
 COPY ./package.json .
 COPY ./tsconfig-paths-bootstrap.js .
