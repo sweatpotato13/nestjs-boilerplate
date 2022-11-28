@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
-(process as any).send = process.send || function () { };
+(process as any).send = process.send || function () {};
 
-import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch"
+import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch";
 import JwtModuleConfig from "./modules/jwt";
 import { loggerConfig } from "./modules/logger/logger";
-import GoogleOauthConfig from "./modules/passport/google"
+import GoogleOauthConfig from "./modules/passport/google";
 import RedisModuleConfig from "./modules/redis";
 import TypeOrmModuleConfig from "./modules/typeorm/typeorm";
 
-export { ElasticsearchConfig, GoogleOauthConfig, JwtModuleConfig, loggerConfig, RedisModuleConfig, TypeOrmModuleConfig };
+export {
+    ElasticsearchConfig,
+    GoogleOauthConfig,
+    JwtModuleConfig,
+    loggerConfig,
+    RedisModuleConfig,
+    TypeOrmModuleConfig
+};
 
 export const config = {
     // Base

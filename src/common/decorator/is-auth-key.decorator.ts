@@ -11,8 +11,8 @@ export function IsAuthKey(validationOptions?: ValidationOptions) {
                 validate(value: string): boolean {
                     if (value && value.split("_")[0] === "imp") return true;
                     return false;
-                },
-            },
+                }
+            }
         });
     };
 }

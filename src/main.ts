@@ -2,7 +2,7 @@ import { config } from "@config";
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
-import { OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
 import { json } from "body-parser";
 import rTracer from "cls-rtracer";
 import rateLimit from "express-rate-limit";
@@ -38,8 +38,10 @@ async function bootstrap() {
         app.use(json({ limit: "50mb" }));
 
         // Swagger
-        const swagger = JSON.parse(fs.readFileSync(__dirname + "/../public/swagger.json", "utf8"));
-        SwaggerModule.setup('api-doc', app, swagger as OpenAPIObject);
+        const swagger = JSON.parse(
+            fs.readFileSync(__dirname + "/../public/swagger.json", "utf8")
+        );
+        SwaggerModule.setup("api-doc", app, swagger as OpenAPIObject);
 
         // CORS
         const corsWhiteList = "*";
@@ -57,7 +59,7 @@ async function bootstrap() {
             allowedHeaders:
                 "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, authorization",
             methods: "GET, PUT, POST, DELETE, UPDATE, OPTIONS",
-            credentials: true,
+            credentials: true
         });
 
         // rateLimit
@@ -90,13 +92,13 @@ async function bootstrap() {
         await app.listen(config.port, () => {
             !config.isProduction
                 ? logger.info(
-                    `🚀  Server ready at http://${config.host}:${config.port}`,
-                    { context: "BootStrap" }
-                )
+                      `🚀  Server ready at http://${config.host}:${config.port}`,
+                      { context: "BootStrap" }
+                  )
                 : logger.info(
-                    `🚀  Server is listening on port ${config.port}`,
-                    { context: "BootStrap" }
-                );
+                      `🚀  Server is listening on port ${config.port}`,
+                      { context: "BootStrap" }
+                  );
 
             !config.isProduction &&
                 logger.info(

@@ -5,11 +5,11 @@ import { IsString } from "class-validator";
 export class AppDto {
     @Expose()
     @IsString({ message: "Invalid name" })
-    readonly name: string
+    readonly name: string;
 
     @Expose()
     @IsString({ message: "Invalid version" })
-    readonly version: string
+    readonly version: string;
 
     public static of(params: Partial<AppDto>): AppDto {
         const appDto = new AppDto();

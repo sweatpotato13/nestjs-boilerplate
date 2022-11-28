@@ -1,4 +1,4 @@
-import { CommandHandler,ICommandHandler } from "@nestjs/cqrs";
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "@src/shared/entities/user.entity";
 import { NotFoundException } from "@src/shared/models/error/http.error";
@@ -15,7 +15,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
         private readonly _jwtService: JwtService,
         @InjectRepository(User)
         private readonly _userRepo: Repository<User>
-    ) { }
+    ) {}
 
     async execute(command: RefreshCommand) {
         const { args } = command;
@@ -26,18 +26,20 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
         ).split(":")[0];
 
         const user = await this._userRepo.findOne({
-            account: account,
-            id: userId,
+            where: {
+                account: account,
+                id: userId
+            }
         });
 
         if (!user) {
             throw new NotFoundException(`User doesn't exist`, {
-                context: `RefreshHandler`,
+                context: `RefreshHandler`
             });
         }
         if (!(await this._jwtService.refreshTokenExists(refreshToken))) {
             throw new NotFoundException(`Refresh token doesn't exist`, {
-                context: `RefreshHandler`,
+                context: `RefreshHandler`
             });
         }
 
@@ -52,7 +54,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
 
         return {
             accessToken: accessToken,
-            refreshToken: newRefreshToken,
+            refreshToken: newRefreshToken
         };
     }
 }

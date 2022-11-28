@@ -17,13 +17,13 @@ export class App {
 
     @Column("timestamp with time zone", {
         name: "created_at",
-        default: () => "now()",
+        default: () => "now()"
     })
     createdAt: Date;
 
     @Column("timestamp with time zone", {
         name: "updated_at",
-        default: () => "now()",
+        default: () => "now()"
     })
     updatedAt: Date;
 

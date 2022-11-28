@@ -9,9 +9,9 @@ import { RedisService } from "./redis.service";
     providers: [
         {
             provide: "RedisService",
-            useClass: RedisService,
-        },
+            useClass: RedisService
+        }
     ],
-    exports: ["RedisService"],
+    exports: ["RedisService"]
 })
-export class RedisModule { }
+export class RedisModule {}

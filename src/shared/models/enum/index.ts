@@ -1,5 +1,3 @@
 import { Role } from "./role.enum";
 
-export {
-    Role
-}
+export { Role };

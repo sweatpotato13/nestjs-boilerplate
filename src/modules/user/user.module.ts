@@ -33,5 +33,5 @@ import { QueryHandlers } from "./domain/queries/handlers";
     controllers: [UserController]
 })
 export class UserModule {
-    configure(consumer: MiddlewareConsumer) { }
+    configure(consumer: MiddlewareConsumer) {}
 }

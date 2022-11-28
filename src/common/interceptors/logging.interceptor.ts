@@ -2,7 +2,8 @@ import {
     CallHandler,
     ExecutionContext,
     Injectable,
-    NestInterceptor} from "@nestjs/common";
+    NestInterceptor
+} from "@nestjs/common";
 import { logger } from "@src/config/modules/winston";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";

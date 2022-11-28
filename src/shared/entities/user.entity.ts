@@ -5,7 +5,7 @@ import {
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn,
+    UpdateDateColumn
 } from "typeorm";
 
 import { UserDto } from "../dtos";
@@ -14,34 +14,34 @@ import { UserRole } from "./user-role.entity";
 @Entity("user", { schema: "public" })
 export class User {
     @PrimaryGeneratedColumn("uuid", {
-        name: "id",
+        name: "id"
     })
     id: string;
 
     @Column("text", {
-        name: "account",
+        name: "account"
     })
     account: string;
 
     @Column("text", {
-        name: "password_hash",
+        name: "password_hash"
     })
     passwordHash: string;
 
     @CreateDateColumn({
         name: "created_at",
-        type: "timestamp",
+        type: "timestamp"
     })
     createdAt: Date;
 
     @UpdateDateColumn({
         name: "updated_at",
-        type: "timestamp",
+        type: "timestamp"
     })
     updatedAt: Date;
 
     @OneToMany(() => UserRole, userRole => userRole.user, {
-        eager: true,
+        eager: true
     })
     userRoles: UserRole[];
 
