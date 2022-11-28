@@ -7,16 +7,29 @@ import {
     Transactional
 } from "typeorm-transactional-cls-hooked";
 
-import { DeregisterCommand, GetAuthMessageCommand, LoginCommand, RefreshCommand, RegisterCommand } from "../domain/commands/impl";
-import { AccountDto, AuthMessageDto, LoginDto, RefreshTokenBodyDto, ResultDto, TokensResponseDto } from "../domain/dtos";
+import {
+    DeregisterCommand,
+    GetAuthMessageCommand,
+    LoginCommand,
+    RefreshCommand,
+    RegisterCommand
+} from "../domain/commands/impl";
+import {
+    AccountDto,
+    AuthMessageDto,
+    LoginDto,
+    RefreshTokenBodyDto,
+    ResultDto,
+    TokensResponseDto
+} from "../domain/dtos";
 import { HealthCheckQuery } from "../domain/queries/impl";
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly _commandBus: CommandBus,
-        private readonly _queryBus: QueryBus,
-    ) { }
+        private readonly _queryBus: QueryBus
+    ) {}
 
     public async healthCheck(): Promise<any> {
         try {
@@ -44,16 +57,15 @@ export class UserService {
             const result = await this._commandBus.execute(
                 new RegisterCommand(args)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
-
 
     @Transactional()
     public async login(args: LoginDto): Promise<TokensResponseDto> {
@@ -61,17 +73,19 @@ export class UserService {
             const result = await this._commandBus.execute(
                 new LoginCommand(args)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
 
-    public async refresh(args: RefreshTokenBodyDto): Promise<TokensResponseDto> {
+    public async refresh(
+        args: RefreshTokenBodyDto
+    ): Promise<TokensResponseDto> {
         try {
             const result = await this._commandBus.execute(
                 new RefreshCommand(args)
@@ -88,14 +102,13 @@ export class UserService {
             const result = await this._commandBus.execute(
                 new DeregisterCommand(args)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
-
 }

@@ -1,6 +1,6 @@
 import { loggerConfig } from "@config";
 import { Service } from "typedi";
-import { createLogger,Logger } from "winston";
+import { createLogger, Logger } from "winston";
 
 @Service()
 export class LoggerService {

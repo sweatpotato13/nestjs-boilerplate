@@ -1,9 +1,5 @@
 import { config } from "@config";
-import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-} from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { UnauthorizedException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
@@ -13,7 +9,7 @@ export class AuthGuard implements CanActivate {
     constructor(
         private _reflector: Reflector,
         private _jwtService: JwtService
-    ) { }
+    ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
@@ -24,7 +20,7 @@ export class AuthGuard implements CanActivate {
 
         const roles = this._reflector.getAllAndMerge<string[]>("roles", [
             context.getHandler(),
-            context.getClass(),
+            context.getClass()
         ]);
 
         if (!roles.length || roles.includes("Any")) return true;

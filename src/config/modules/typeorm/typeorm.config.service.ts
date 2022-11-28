@@ -1,5 +1,5 @@
 import { TypeOrmModuleConfig } from "@config";
-import { Inject,Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 

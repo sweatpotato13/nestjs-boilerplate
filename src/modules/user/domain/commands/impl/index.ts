@@ -9,4 +9,5 @@ export {
     GetAuthMessageCommand,
     LoginCommand,
     RefreshCommand,
-    RegisterCommand}
+    RegisterCommand
+};

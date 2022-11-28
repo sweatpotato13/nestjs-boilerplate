@@ -7,19 +7,17 @@ import { AuthService } from "./auth.service";
 export class AuthController {
     constructor(
         @Inject("AuthService") private readonly _service: AuthService
-    ) { }
+    ) {}
 
-    @Get('google')
-    @UseGuards(AuthGuard('google'))
+    @Get("google")
+    @UseGuards(AuthGuard("google"))
     async googleAuth(): Promise<void> {
         // redirect google login page
     }
 
-    @Get('google/callback')
-    @UseGuards(AuthGuard('google'))
-    async googleAuthCallback(
-        @Req() req: any,
-    ): Promise<void> {
+    @Get("google/callback")
+    @UseGuards(AuthGuard("google"))
+    async googleAuthCallback(@Req() req: any): Promise<void> {
         const user = this._service.googleLogin(req);
         console.log(user);
     }

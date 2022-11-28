@@ -1,4 +1,4 @@
-import { JwtModule } from './jwt/jwt.module'
-import { RedisModule } from './redis/redis.module'
+import { JwtModule } from "./jwt/jwt.module";
+import { RedisModule } from "./redis/redis.module";
 
-export { JwtModule, RedisModule }
+export { JwtModule, RedisModule };

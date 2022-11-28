@@ -9,12 +9,8 @@ import { CommandHandlers } from "./domain/commands/handlers";
 import { GoogleStrategy } from "./domain/infrastructures/google.strategy";
 import { QueryHandlers } from "./domain/queries/handlers";
 
-
 @Module({
-    imports: [
-        ConfigModule.forFeature(GoogleOauthConfig),
-        CqrsModule,
-    ],
+    imports: [ConfigModule.forFeature(GoogleOauthConfig), CqrsModule],
     providers: [
         { provide: "AuthService", useClass: AuthService },
         GoogleStrategy,
@@ -24,5 +20,5 @@ import { QueryHandlers } from "./domain/queries/handlers";
     controllers: [AuthController]
 })
 export class AuthModule {
-    configure() { }
+    configure() {}
 }

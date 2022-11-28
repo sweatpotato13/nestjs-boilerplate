@@ -6,7 +6,8 @@ import {
     format,
     Logger,
     LoggerOptions,
-    transports} from "winston";
+    transports
+} from "winston";
 
 const { splat, json, timestamp, align, printf } = format;
 
@@ -122,4 +123,4 @@ const errorStream = {
     }
 };
 
-export { errorStream,logger, loggerOptions };
+export { errorStream, logger, loggerOptions };

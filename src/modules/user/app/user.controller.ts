@@ -2,12 +2,21 @@ import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
 import { Roles } from "@src/common/decorator/roles.decorator";
 import { Role } from "@src/shared/models/enum";
 
-import { AccountDto, AuthMessageDto, LoginDto, RefreshTokenBodyDto, ResultDto,TokensResponseDto } from "../domain/dtos";
+import {
+    AccountDto,
+    AuthMessageDto,
+    LoginDto,
+    RefreshTokenBodyDto,
+    ResultDto,
+    TokensResponseDto
+} from "../domain/dtos";
 import { UserService } from "./user.service";
 
 @Controller("user")
 export class UserController {
-    constructor(@Inject("UserService") private readonly _service: UserService) { }
+    constructor(
+        @Inject("UserService") private readonly _service: UserService
+    ) {}
 
     @Get()
     async healthCheck(): Promise<any> {
@@ -20,9 +29,7 @@ export class UserController {
     }
 
     @Post("get-auth")
-    async getAuthMsg(
-        @Body() args: AccountDto
-    ): Promise<AuthMessageDto> {
+    async getAuthMsg(@Body() args: AccountDto): Promise<AuthMessageDto> {
         try {
             const result = await this._service.getAuthMsg(args);
             return result;
@@ -52,7 +59,9 @@ export class UserController {
     }
 
     @Post("refresh")
-    async refresh(@Body() args: RefreshTokenBodyDto): Promise<TokensResponseDto> {
+    async refresh(
+        @Body() args: RefreshTokenBodyDto
+    ): Promise<TokensResponseDto> {
         try {
             const result = await this._service.refresh(args);
             return result;

@@ -5,7 +5,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    PrimaryGeneratedColumn,
+    PrimaryGeneratedColumn
 } from "typeorm";
 
 import { UserRoleDto } from "../dtos";
@@ -26,7 +26,7 @@ export class UserRole {
     @ManyToOne(() => Role, role => role.userRoles, {
         eager: true,
         onDelete: "RESTRICT",
-        onUpdate: "RESTRICT",
+        onUpdate: "RESTRICT"
     })
     @JoinColumn([{ name: "role_id", referencedColumnName: "id" }])
     role: Role;
@@ -34,7 +34,7 @@ export class UserRole {
     @ManyToOne(() => User, user => user.userRoles, {
         cascade: true,
         onDelete: "CASCADE",
-        orphanedRowAction: "delete",
+        orphanedRowAction: "delete"
     })
     @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
     user: User;
@@ -42,7 +42,7 @@ export class UserRole {
     @CreateDateColumn({
         type: "timestamp",
         name: "created_at",
-        default: () => "now()",
+        default: () => "now()"
     })
     createdAt: Date;
 

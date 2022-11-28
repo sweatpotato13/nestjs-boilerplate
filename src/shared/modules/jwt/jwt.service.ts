@@ -19,7 +19,7 @@ export class JwtService {
         @Inject(JwtModuleConfig.KEY)
         private readonly _config: ConfigType<typeof JwtModuleConfig>,
         @Inject("RedisService") private readonly _redis: RedisService
-    ) { }
+    ) {}
 
     public async updateAuthMsg(account: string): Promise<string> {
         const authMsg = randomBytes(16).toString("hex");
@@ -37,7 +37,7 @@ export class JwtService {
 
         if (!authMsg) {
             throw new NotFoundException(`Can not found auth message`, {
-                context: `JwtService`,
+                context: `JwtService`
             });
         }
 
@@ -47,7 +47,7 @@ export class JwtService {
     public signJwt(claims: { userId: string }): string {
         return jwt.sign(claims, this._config.privateKey, {
             algorithm: this._config.algorithm as Algorithm,
-            expiresIn: this._config.accessExpiresIn,
+            expiresIn: this._config.accessExpiresIn
         });
     }
 
@@ -57,7 +57,7 @@ export class JwtService {
                 token,
                 this._config.publicKey,
                 {
-                    algorithms: [this._config.algorithm as Algorithm],
+                    algorithms: [this._config.algorithm as Algorithm]
                 },
                 (err, decoded) => {
                     if (err) return resolve(null);
@@ -68,7 +68,9 @@ export class JwtService {
     }
 
     public async getUserRoles(userId: string): Promise<string[]> {
-        const userRole = await getManager().find(UserRole, { userId });
+        const userRole = await getManager().find(UserRole, {
+            where: { userId }
+        });
 
         return userRole.map(cur => {
             return cur.role.name;
@@ -76,15 +78,15 @@ export class JwtService {
     }
 
     public async checkUserId(userId: string): Promise<boolean> {
-        return !!(await getManager().findOne(User, userId));
+        return !!(await getManager().findOne(User, { where: { id: userId } }));
     }
 
     public async checkUserByAccount(account: string): Promise<boolean> {
-        return !!(await getManager().findOne(User, { account }));
+        return !!(await getManager().findOne(User, { where: { account } }));
     }
 
     public async getUserId(account: string): Promise<string> {
-        const { id } = await getManager().findOne(User, { account });
+        const { id } = await getManager().findOne(User, { where: { account } });
 
         return id;
     }

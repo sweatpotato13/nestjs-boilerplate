@@ -1,5 +1,3 @@
-import { IExceptionProps } from "./property.error"
+import { IExceptionProps } from "./property.error";
 
-export {
-    IExceptionProps
-}
+export { IExceptionProps };

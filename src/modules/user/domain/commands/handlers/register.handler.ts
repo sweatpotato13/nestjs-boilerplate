@@ -1,12 +1,12 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Role,User, UserRole } from '@src/shared/entities';
-import { BadRequestException } from '@src/shared/models/error/http.error';
-import { JwtService } from '@src/shared/modules/jwt/jwt.service';
-import { Inject } from 'typedi';
-import { Repository } from 'typeorm';
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Role, User, UserRole } from "@src/shared/entities";
+import { BadRequestException } from "@src/shared/models/error/http.error";
+import { JwtService } from "@src/shared/modules/jwt/jwt.service";
+import { Inject } from "typedi";
+import { Repository } from "typeorm";
 
-import { RegisterCommand } from '../impl';
+import { RegisterCommand } from "../impl";
 
 @CommandHandler(RegisterCommand)
 export class RegisterHandler implements ICommandHandler<RegisterCommand> {
@@ -19,18 +19,22 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
         private readonly _userRoleRepo: Repository<UserRole>,
         @InjectRepository(Role)
         private readonly _roleRepo: Repository<Role>
-    ) { }
+    ) {}
 
     async execute(command: RegisterCommand) {
         const { args } = command;
         const { account, passwordHash } = args;
 
         let user = await this._userRepo.findOne({
-            account: account,
+            where: {
+                account: account
+            }
         });
 
         if (user) {
-            throw new BadRequestException("User already exist", { context: "RegisterHandler" });
+            throw new BadRequestException("User already exist", {
+                context: "RegisterHandler"
+            });
         }
 
         const newUser = await this._userRepo.create({
@@ -39,20 +43,22 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
         });
         user = await this._userRepo.save(newUser);
 
-        let role = await this._roleRepo.findOne({ name: "user" });
+        let role = await this._roleRepo.findOne({ where: { name: "user" } });
         if (!role) {
             role = await this._roleRepo.save(
                 await this._roleRepo.create({
-                    name: "user",
+                    name: "user"
                 })
             );
         }
 
-        const userRole = await this._userRoleRepo.findOne({ userId: user.id });
+        const userRole = await this._userRoleRepo.findOne({
+            where: { userId: user.id }
+        });
         if (!userRole) {
             const newUserRole = await this._userRoleRepo.create({
                 userId: user.id,
-                roleId: role.id,
+                roleId: role.id
             });
             await this._userRoleRepo.save(newUserRole);
         }
@@ -60,7 +66,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
         this._jwtService.clearAllSessions(user.id);
         const accessToken = await this._jwtService.signUp({
             account,
-            userId: user.id,
+            userId: user.id
         });
 
         const refreshToken = this._jwtService.createRefreshToken();
@@ -68,7 +74,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
         this._jwtService.registerToken(user.id, refreshToken, "refresh");
         return {
             accessToken: accessToken,
-            refreshToken: refreshToken,
+            refreshToken: refreshToken
         };
     }
 }

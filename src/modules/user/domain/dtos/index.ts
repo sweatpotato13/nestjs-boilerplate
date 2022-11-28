@@ -1,9 +1,9 @@
-import { AccountDto } from './account.dto';
-import { AuthMessageDto } from './auth-message.dto';
-import { LoginDto } from './login.dto';
-import { RefreshTokenBodyDto } from './refresh-token.body.dto';
+import { AccountDto } from "./account.dto";
+import { AuthMessageDto } from "./auth-message.dto";
+import { LoginDto } from "./login.dto";
+import { RefreshTokenBodyDto } from "./refresh-token.body.dto";
 import { ResultDto } from "./result.dto";
-import { TokensResponseDto } from './tokens.response.dto';
+import { TokensResponseDto } from "./tokens.response.dto";
 
 export {
     AccountDto,
@@ -11,4 +11,5 @@ export {
     LoginDto,
     RefreshTokenBodyDto,
     ResultDto,
-    TokensResponseDto}
+    TokensResponseDto
+};

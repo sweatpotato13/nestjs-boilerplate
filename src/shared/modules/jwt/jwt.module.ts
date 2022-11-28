@@ -14,9 +14,9 @@ import { JwtService } from "./jwt.service";
     imports: [
         ConfigModule.forFeature(JwtModuleConfig),
         RedisModule,
-        TypeOrmModule.forFeature([User, Role, UserRole, App]),
+        TypeOrmModule.forFeature([User, Role, UserRole, App])
     ],
     providers: [JwtService],
-    exports: [JwtService],
+    exports: [JwtService]
 })
-export class JwtModule { }
+export class JwtModule {}
