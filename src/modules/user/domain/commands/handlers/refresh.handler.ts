@@ -5,6 +5,7 @@ import { NotFoundException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
 import { Repository } from "typeorm";
+import { TokensResponseDto } from "../../dtos";
 
 import { RefreshCommand } from "../impl";
 
@@ -15,7 +16,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
         private readonly _jwtService: JwtService,
         @InjectRepository(User)
         private readonly _userRepo: Repository<User>
-    ) {}
+    ) { }
 
     async execute(command: RefreshCommand) {
         const { args } = command;
@@ -52,9 +53,9 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
             "refresh"
         );
 
-        return {
+        return TokensResponseDto.of({
             accessToken: accessToken,
             refreshToken: newRefreshToken
-        };
+        });
     }
 }

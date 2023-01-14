@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Post } from "@nestjs/common";
 import { Roles } from "@src/common/decorator/roles.decorator";
 import { Role } from "@src/shared/models/enum";
 
@@ -16,7 +16,7 @@ import { UserService } from "./user.service";
 export class UserController {
     constructor(
         @Inject("UserService") private readonly _service: UserService
-    ) {}
+    ) { }
 
     @Get()
     async healthCheck(): Promise<any> {
@@ -28,7 +28,7 @@ export class UserController {
         }
     }
 
-    @Post("get-auth")
+    @Get("auth")
     async getAuthMsg(@Body() args: AccountDto): Promise<AuthMessageDto> {
         try {
             const result = await this._service.getAuthMsg(args);
@@ -70,7 +70,7 @@ export class UserController {
         }
     }
 
-    @Post("deregister")
+    @Delete("register")
     @Roles(Role.User)
     async deregister(@Body() args: LoginDto): Promise<ResultDto> {
         try {

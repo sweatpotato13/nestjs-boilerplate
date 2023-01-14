@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
+import { AuthMessageDto } from "../../dtos";
 
 import { GetAuthMessageCommand } from "../impl";
 
@@ -11,12 +12,12 @@ export class GetAuthMessageHandler
     constructor(
         @Inject("JwtService")
         private readonly _jwtService: JwtService
-    ) {}
+    ) { }
 
     async execute(command: GetAuthMessageCommand) {
         const { args } = command;
         const { account } = args;
-        const authMsg = await this._jwtService.updateAuthMsg(account);
-        return { authMsg: authMsg };
+        const authMessage = await this._jwtService.updateAuthMsg(account);
+        return AuthMessageDto.of({ authMessage: authMessage });
     }
 }

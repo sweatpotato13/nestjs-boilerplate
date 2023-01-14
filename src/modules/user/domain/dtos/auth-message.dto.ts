@@ -2,7 +2,7 @@ import { IsString } from "class-validator";
 
 export class AuthMessageDto {
     @IsString()
-    readonly authMsg: string;
+    readonly authMessage: string;
 
     public static of(params: Partial<AuthMessageDto>): AuthMessageDto {
         const authMessageDto = new AuthMessageDto();

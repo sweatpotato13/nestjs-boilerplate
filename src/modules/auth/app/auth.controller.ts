@@ -7,7 +7,7 @@ import { AuthService } from "./auth.service";
 export class AuthController {
     constructor(
         @Inject("AuthService") private readonly _service: AuthService
-    ) {}
+    ) { }
 
     @Get("google")
     @UseGuards(AuthGuard("google"))

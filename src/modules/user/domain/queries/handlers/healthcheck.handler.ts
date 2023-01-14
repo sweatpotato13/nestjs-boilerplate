@@ -4,7 +4,7 @@ import { HealthCheckQuery } from "../impl";
 
 @QueryHandler(HealthCheckQuery)
 export class HealthCheckHandler implements IQueryHandler<HealthCheckQuery> {
-    constructor() {}
+    constructor() { }
 
     async execute(command: HealthCheckQuery) {
         return "HealthCheck :)";

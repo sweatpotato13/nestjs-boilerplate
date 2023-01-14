@@ -5,6 +5,7 @@ import { BadRequestException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
 import { Repository } from "typeorm";
+import { TokensResponseDto } from "../../dtos";
 
 import { RegisterCommand } from "../impl";
 
@@ -19,7 +20,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
         private readonly _userRoleRepo: Repository<UserRole>,
         @InjectRepository(Role)
         private readonly _roleRepo: Repository<Role>
-    ) {}
+    ) { }
 
     async execute(command: RegisterCommand) {
         const { args } = command;
@@ -72,9 +73,9 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand> {
         const refreshToken = this._jwtService.createRefreshToken();
 
         this._jwtService.registerToken(user.id, refreshToken, "refresh");
-        return {
+        return TokensResponseDto.of({
             accessToken: accessToken,
             refreshToken: refreshToken
-        };
+        });
     }
 }

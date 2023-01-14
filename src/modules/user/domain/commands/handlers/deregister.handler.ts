@@ -1,10 +1,11 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "@src/shared/entities";
-import { BadRequestException } from "@src/shared/models/error/http.error";
+import { NotFoundException, ValidationException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Inject } from "typedi";
 import { Repository } from "typeorm";
+import { ResultDto } from "../../dtos";
 
 import { DeregisterCommand } from "../impl";
 
@@ -15,7 +16,7 @@ export class DeregisterHandler implements ICommandHandler<DeregisterCommand> {
         private readonly _jwtService: JwtService,
         @InjectRepository(User)
         private readonly _userRepo: Repository<User>
-    ) {}
+    ) { }
 
     async execute(command: DeregisterCommand) {
         const { args } = command;
@@ -28,16 +29,17 @@ export class DeregisterHandler implements ICommandHandler<DeregisterCommand> {
         });
 
         if (!user) {
-            throw new BadRequestException("User not found", {
+            throw new NotFoundException("User not found", {
                 context: "DeregisterHandler"
             });
         }
         if (passwordHash !== user.passwordHash) {
-            throw new BadRequestException("Wrong password", {
+            throw new ValidationException("Wrong password", {
                 context: "DeregisterHandler"
             });
         }
 
         await this._userRepo.remove(user);
+        return ResultDto.of({ result: "OK" });
     }
 }
