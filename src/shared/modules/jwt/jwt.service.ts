@@ -19,21 +19,21 @@ export class JwtService {
         @Inject(JwtModuleConfig.KEY)
         private readonly _config: ConfigType<typeof JwtModuleConfig>,
         @Inject("RedisService") private readonly _redis: RedisService
-    ) {}
+    ) { }
 
-    public async updateAuthMsg(account: string): Promise<string> {
+    public async updateAuthMsg(email: string): Promise<string> {
         const authMsg = randomBytes(16).toString("hex");
-        await this._redis.set(`authMsg:${account}`, authMsg, "EX", 86400);
+        await this._redis.set(`authMsg:${email}`, authMsg, "EX", 86400);
         return authMsg;
     }
 
     public async signUp(input: {
-        account: string;
+        email: string;
         userId: string;
     }): Promise<string | null> {
-        const { account, userId } = input;
+        const { email, userId } = input;
 
-        const authMsg = await this.updateAuthMsg(account);
+        const authMsg = await this.updateAuthMsg(email);
 
         if (!authMsg) {
             throw new NotFoundException(`Can not found auth message`, {

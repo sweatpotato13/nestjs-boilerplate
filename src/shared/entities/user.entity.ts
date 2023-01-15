@@ -19,14 +19,19 @@ export class User {
     id: string;
 
     @Column("text", {
-        name: "account"
+        name: "email"
     })
-    account: string;
+    email: string;
 
     @Column("text", {
-        name: "password_hash"
+        name: "name"
     })
-    passwordHash: string;
+    name: string;
+
+    @Column("text", {
+        name: "provider"
+    })
+    provider: string;
 
     @CreateDateColumn({
         name: "created_at",
