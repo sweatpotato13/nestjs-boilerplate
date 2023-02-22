@@ -11,8 +11,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import {
     initializeTransactionalContext,
-    patchTypeORMRepositoryWithBaseRepository
-} from "typeorm-transactional-cls-hooked";
+} from "typeorm-transactional";
 
 import { AppModule } from "./app.module";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
@@ -20,7 +19,6 @@ import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
 import { errorStream, logger } from "./config/modules/winston";
 
 initializeTransactionalContext();
-patchTypeORMRepositoryWithBaseRepository();
 
 async function bootstrap() {
     try {

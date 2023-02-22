@@ -81,12 +81,12 @@ export class JwtService {
         return !!(await getManager().findOne(User, { where: { id: userId } }));
     }
 
-    public async checkUserByAccount(account: string): Promise<boolean> {
-        return !!(await getManager().findOne(User, { where: { account } }));
+    public async checkUserByEmail(email: string): Promise<boolean> {
+        return !!(await getManager().findOne(User, { where: { email } }));
     }
 
-    public async getUserId(account: string): Promise<string> {
-        const { id } = await getManager().findOne(User, { where: { account } });
+    public async getUserId(email: string): Promise<string> {
+        const { id } = await getManager().findOne(User, { where: { email } });
 
         return id;
     }

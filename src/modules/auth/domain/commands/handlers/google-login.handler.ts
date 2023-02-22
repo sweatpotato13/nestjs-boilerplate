@@ -3,6 +3,7 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Role, User, UserRole } from "@src/shared/entities";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
+import { assert } from "console";
 import { Repository } from "typeorm";
 
 import { TokensResponseDto } from "../../dtos";

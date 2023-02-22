@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { runOnTransactionCommit, runOnTransactionComplete,runOnTransactionRollback, Transactional } from "typeorm-transactional-cls-hooked";
+import { runOnTransactionCommit, runOnTransactionComplete, runOnTransactionRollback, Transactional } from "typeorm-transactional";
 
 import { GoogleLoginCommand } from "../domain/commands/impl/google-login.command";
 import { TokensResponseDto, UserDto } from "../domain/dtos";

@@ -16,7 +16,12 @@ import { JwtService } from "./jwt.service";
         RedisModule,
         TypeOrmModule.forFeature([User, Role, UserRole, App])
     ],
-    providers: [JwtService],
-    exports: [JwtService]
+    providers: [
+        {
+            provide: "JwtService",
+            useClass: JwtService
+        }
+    ],
+    exports: ["JwtService"]
 })
-export class JwtModule {}
+export class JwtModule { }
