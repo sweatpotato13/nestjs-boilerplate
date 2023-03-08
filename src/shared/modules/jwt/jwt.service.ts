@@ -19,7 +19,7 @@ export class JwtService {
         @Inject(JwtModuleConfig.KEY)
         private readonly _config: ConfigType<typeof JwtModuleConfig>,
         @Inject("RedisService") private readonly _redis: RedisService
-    ) { }
+    ) {}
 
     public async updateAuthMsg(email: string): Promise<string> {
         const authMsg = randomBytes(16).toString("hex");

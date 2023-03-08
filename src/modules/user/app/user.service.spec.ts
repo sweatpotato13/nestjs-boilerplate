@@ -11,14 +11,8 @@ describe("UserService", () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [
-                CqrsModule,
-            ],
-            providers: [
-                UserService,
-                ...CommandHandlers,
-                ...QueryHandlers
-            ],
+            imports: [CqrsModule],
+            providers: [UserService, ...CommandHandlers, ...QueryHandlers]
         }).compile();
         await module.init();
         userService = module.get<UserService>(UserService);

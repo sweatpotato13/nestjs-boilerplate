@@ -7,7 +7,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 
 const mockAuthService: Partial<AuthService> = {
-    googleLogin: jest.fn(),
+    googleLogin: jest.fn()
 };
 
 describe("AuthController", () => {
@@ -15,9 +15,7 @@ describe("AuthController", () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                { provide: "AuthService", useValue: mockAuthService },
-            ],
+            providers: [{ provide: "AuthService", useValue: mockAuthService }],
             controllers: [AuthController]
         }).compile();
 
@@ -26,7 +24,7 @@ describe("AuthController", () => {
 
     describe("GET /auth/google/login", () => {
         it("should return result", async () => {
-            const resp = ResultDto.of({ result: 'Google Authentication' });
+            const resp = ResultDto.of({ result: "Google Authentication" });
 
             expect(await authController.handleLogin()).toStrictEqual(resp);
         });
@@ -35,24 +33,23 @@ describe("AuthController", () => {
     describe("GET /auth/google/callback", () => {
         it("should return healthCheck", async () => {
             const args = httpMocks.createRequest({
-                method: 'GET',
-                url: '/auth/google/callback',
+                method: "GET",
+                url: "/auth/google/callback",
                 user: {
-                    email: 'test@test.com',
+                    email: "test@test.com",
                     name: "test",
-                    provider: 'google',
+                    provider: "google",
                     providerId: "id"
                 }
             });
             const resp = TokensResponseDto.of({
                 accessToken: "accessToken",
-                refreshToken: "refreshToken",
+                refreshToken: "refreshToken"
             });
 
-            jest
-                .spyOn(mockAuthService, "googleLogin")
-                .mockImplementation(() => Promise.resolve(resp)
-                );
+            jest.spyOn(mockAuthService, "googleLogin").mockImplementation(() =>
+                Promise.resolve(resp)
+            );
 
             expect(await authController.handleRedirect(args)).toBe(resp);
         });

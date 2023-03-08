@@ -24,4 +24,4 @@ import { JwtService } from "./jwt.service";
     ],
     exports: ["JwtService"]
 })
-export class JwtModule { }
+export class JwtModule {}

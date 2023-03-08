@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
-(process as any).send = process.send || function () { };
+(process as any).send = process.send || function () {};
 
 import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch";
 import JwtModuleConfig from "./modules/jwt";
 import { loggerConfig } from "./modules/logger/logger";
 import GoogleOauthConfig from "./modules/passport/google";
+import RabbitMqConfig from "./modules/rabbitmq/rabbitmq";
 import RedisModuleConfig from "./modules/redis";
 import TypeOrmModuleConfig from "./modules/typeorm/typeorm";
 
@@ -15,6 +16,7 @@ export {
     GoogleOauthConfig,
     JwtModuleConfig,
     loggerConfig,
+    RabbitMqConfig,
     RedisModuleConfig,
     TypeOrmModuleConfig
 };
@@ -30,5 +32,5 @@ export const config = {
     host: process.env.HOST || "0.0.0.0",
     port: parseInt(process.env.PORT) || 8000,
     rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 10000,
-    appSecret: process.env.APP_SECRET || "secret",
+    appSecret: process.env.APP_SECRET || "secret"
 };

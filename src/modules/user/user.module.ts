@@ -2,12 +2,12 @@ import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { CqrsModule } from "@nestjs/cqrs";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
+import { ClientsModule } from "@nestjs/microservices";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ElasticsearchConfig } from "@src/config";
+import { ElasticsearchConfig, RabbitMqConfig } from "@src/config";
 import { ElasticsearchConfigService } from "@src/config/modules/elasticsearch/elasticsearch.config.service";
+import { RabbitMqConfigService } from "@src/config/modules/rabbitmq/rabbitmq.config.service";
 import { App, Role, User, UserRole } from "@src/shared/entities";
-import { JwtModule } from "@src/shared/modules/jwt/jwt.module";
-import { RedisModule } from "@src/shared/modules/redis/redis.module";
 
 import { UserController } from "./app/user.controller";
 import { UserService } from "./app/user.service";
@@ -22,8 +22,13 @@ import { QueryHandlers } from "./domain/queries/handlers";
             imports: [ConfigModule.forFeature(ElasticsearchConfig)],
             useClass: ElasticsearchConfigService
         }),
-        JwtModule,
-        RedisModule
+        ClientsModule.registerAsync([
+            {
+                imports: [ConfigModule.forFeature(RabbitMqConfig)],
+                name: "RABBITMQ",
+                useClass: RabbitMqConfigService
+            }
+        ])
     ],
     providers: [
         { provide: "UserService", useClass: UserService },
@@ -33,5 +38,5 @@ import { QueryHandlers } from "./domain/queries/handlers";
     controllers: [UserController]
 })
 export class UserModule {
-    configure(consumer: MiddlewareConsumer) { }
+    configure(consumer: MiddlewareConsumer) {}
 }

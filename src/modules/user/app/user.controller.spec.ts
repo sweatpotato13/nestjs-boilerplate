@@ -5,7 +5,7 @@ import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 
 const mockUserService: Partial<UserService> = {
-    healthCheck: jest.fn(),
+    healthCheck: jest.fn()
 };
 
 describe("UserController", () => {
@@ -13,9 +13,7 @@ describe("UserController", () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [
-                { provide: "UserService", useValue: mockUserService },
-            ],
+            providers: [{ provide: "UserService", useValue: mockUserService }],
             controllers: [UserController]
         }).compile();
 
@@ -26,10 +24,9 @@ describe("UserController", () => {
         it("should return healthCheck", async () => {
             const resp = "HealthCheck :)";
 
-            jest
-                .spyOn(mockUserService, "healthCheck")
-                .mockImplementation(() => Promise.resolve(resp)
-                );
+            jest.spyOn(mockUserService, "healthCheck").mockImplementation(() =>
+                Promise.resolve(resp)
+            );
 
             expect(await userController.healthCheck()).toBe(resp);
         });

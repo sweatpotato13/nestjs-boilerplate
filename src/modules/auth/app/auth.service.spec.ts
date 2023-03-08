@@ -16,34 +16,34 @@ const mockUserRepository: Partial<Repository<User>> = {
     findOne: jest.fn(),
     find: jest.fn(),
     remove: jest.fn()
-}
+};
 const mockUserRoleRepository: Partial<Repository<UserRole>> = {
     create: jest.fn(),
     save: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
     remove: jest.fn()
-}
+};
 const mockRoleRepository: Partial<Repository<Role>> = {
     create: jest.fn(),
     save: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
     remove: jest.fn()
-}
+};
 const mockJwtService: Partial<JwtService> = {
     clearAllSessions: jest.fn(),
     signUp: jest.fn(),
     createRefreshToken: jest.fn(),
-    registerToken: jest.fn(),
-}
+    registerToken: jest.fn()
+};
 
-jest.mock('typeorm-transactional-cls-hooked', () => ({
+jest.mock("typeorm-transactional-cls-hooked", () => ({
     Transactional: () => () => ({}),
-    BaseRepository: class { },
+    BaseRepository: class {},
     runOnTransactionCommit: jest.fn(),
     runOnTransactionRollback: jest.fn(),
-    runOnTransactionComplete: jest.fn(),
+    runOnTransactionComplete: jest.fn()
 }));
 
 describe("AuthService", () => {
@@ -51,19 +51,19 @@ describe("AuthService", () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [
-                CqrsModule,
-            ],
+            imports: [CqrsModule],
             providers: [
                 AuthService,
                 { provide: "UserRepository", useValue: mockUserRepository },
-                { provide: "UserRoleRepository", useValue: mockUserRoleRepository },
+                {
+                    provide: "UserRoleRepository",
+                    useValue: mockUserRoleRepository
+                },
                 { provide: "RoleRepository", useValue: mockRoleRepository },
                 { provide: "JwtService", useValue: mockJwtService },
                 ...CommandHandlers,
                 ...QueryHandlers
-            ],
-
+            ]
         }).compile();
         await module.init();
         authService = module.get<AuthService>(AuthService);
@@ -76,31 +76,29 @@ describe("AuthService", () => {
                 name: "test",
                 provider: "google",
                 providerId: "id"
-            })
+            });
             const resp = TokensResponseDto.of({
                 accessToken: "accessToken",
                 refreshToken: "refreshToken"
             });
 
-            jest
-                .spyOn(mockUserRepository, "findOne")
-                .mockImplementation(() => Promise.resolve(User.of({
-                    email: "test@test.com",
-                    name: "test",
-                    provider: "google",
-                }))
-                );
-
-            jest
-                .spyOn(mockJwtService, "signUp")
-                .mockImplementation(() => Promise.resolve(
-                    "accessToken"
+            jest.spyOn(mockUserRepository, "findOne").mockImplementation(() =>
+                Promise.resolve(
+                    User.of({
+                        email: "test@test.com",
+                        name: "test",
+                        provider: "google"
+                    })
                 )
-                );
+            );
 
-            jest
-                .spyOn(mockJwtService, "createRefreshToken")
-                .mockImplementation(() => "refreshToken");
+            jest.spyOn(mockJwtService, "signUp").mockImplementation(() =>
+                Promise.resolve("accessToken")
+            );
+
+            jest.spyOn(mockJwtService, "createRefreshToken").mockImplementation(
+                () => "refreshToken"
+            );
 
             expect(await authService.googleLogin(args)).toStrictEqual(resp);
         });

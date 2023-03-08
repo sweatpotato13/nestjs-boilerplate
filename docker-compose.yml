@@ -13,6 +13,21 @@ services:
             - ./postgres-data:/var/lib/postgresql/data
         ports:
             - ${POSTGRES_PORT}:5432
+    graphql-engine:
+        image: hasura/graphql-engine:v2.0.9
+        container_name: hasura
+        restart: always
+        ports:
+            - ${HASURA_PORT}:8080
+        depends_on:
+            - postgres
+        restart: always
+        environment:
+          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+          HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+          HASURA_GRAPHQL_DEV_MODE: "true"
+          HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
     mongo:
         image: mongo
         container_name: mongo
@@ -34,21 +49,6 @@ services:
             ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
         ports:
             - ${MONGOEXPRESS_PORT}:8081
-    graphql-engine:
-        image: hasura/graphql-engine:v2.0.9
-        container_name: hasura
-        restart: always
-        ports:
-            - ${HASURA_PORT}:8080
-        depends_on:
-            - postgres
-        restart: always
-        environment:
-          HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
-          HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
-          HASURA_GRAPHQL_DEV_MODE: "true"
-          HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
     redis:
         container_name: redis
         image: redis
@@ -96,6 +96,16 @@ services:
       environment:
         ELASTICSEARCH_URL: http://es01:9200
         ELASTICSEARCH_HOSTS: http://es01:9200
+    rabbitmq:
+        image: 'rabbitmq:3-management-alpine'
+        container_name: rabbitmq-stream
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        environment:
+            RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
+            RABBITMQ_DEFAULT_USER: "admin"
+            RABBITMQ_DEFAULT_PASS: "admin"
     nest:
         container_name: nest
         restart: always

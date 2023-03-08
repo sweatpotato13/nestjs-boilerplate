@@ -21,15 +21,19 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
         });
     }
 
-    validate(accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback,
+    validate(
+        accessToken: string,
+        refreshToken: string,
+        profile: Profile,
+        done: VerifyCallback
     ) {
         const { id, emails } = profile;
 
         const user = {
-            provider: 'google',
+            provider: "google",
             providerId: id,
             email: emails[0].value,
-            name: profile._json.name,
+            name: profile._json.name
         };
 
         done(null, user);

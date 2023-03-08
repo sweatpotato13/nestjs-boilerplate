@@ -1,4 +1,5 @@
 import { Controller, Get, Inject } from "@nestjs/common";
+import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { UserService } from "./user.service";
 
@@ -6,7 +7,7 @@ import { UserService } from "./user.service";
 export class UserController {
     constructor(
         @Inject("UserService") private readonly _service: UserService
-    ) { }
+    ) {}
 
     @Get()
     async healthCheck(): Promise<any> {
@@ -16,5 +17,20 @@ export class UserController {
         } catch (error) {
             throw error;
         }
+    }
+
+    @Get("mq")
+    async MqHealthCheck(): Promise<any> {
+        try {
+            const result = await this._service.mqHealthCheck();
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @MessagePattern({ cmd: "hello" })
+    rabbitMqHealthCheck(@Payload() data: string) {
+        console.log(data);
     }
 }
