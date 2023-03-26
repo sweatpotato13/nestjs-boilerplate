@@ -32,15 +32,14 @@ const mockRoleRepository: Partial<Repository<Role>> = {
     remove: jest.fn()
 };
 const mockJwtService: Partial<JwtService> = {
-    clearAllSessions: jest.fn(),
-    signUp: jest.fn(),
-    createRefreshToken: jest.fn(),
-    registerToken: jest.fn()
+    createUserJwt: jest.fn(),
+    signJwt: jest.fn(),
+    decodeJwt: jest.fn(),
 };
 
 jest.mock("typeorm-transactional-cls-hooked", () => ({
     Transactional: () => () => ({}),
-    BaseRepository: class {},
+    BaseRepository: class { },
     runOnTransactionCommit: jest.fn(),
     runOnTransactionRollback: jest.fn(),
     runOnTransactionComplete: jest.fn()
@@ -92,12 +91,8 @@ describe("AuthService", () => {
                 )
             );
 
-            jest.spyOn(mockJwtService, "signUp").mockImplementation(() =>
-                Promise.resolve("accessToken")
-            );
-
-            jest.spyOn(mockJwtService, "createRefreshToken").mockImplementation(
-                () => "refreshToken"
+            jest.spyOn(mockJwtService, "createUserJwt").mockImplementation(() =>
+                Promise.resolve({ accessToken: "", refreshToken: "" })
             );
 
             expect(await authService.googleLogin(args)).toStrictEqual(resp);

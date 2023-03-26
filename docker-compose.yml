@@ -28,74 +28,74 @@ services:
           HASURA_GRAPHQL_DEV_MODE: "true"
           HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
-    mongo:
-        image: mongo
-        container_name: mongo
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
-        ports:
-            - ${MONGODB_PORT}:27017
-    mongo-express:
-        image: mongo-express:latest
-        container_name: mongo-express
-        depends_on:
-            - mongo
-        environment:
-            ME_CONFIG_MONGODB_SERVER: mongo
-            ME_CONFIG_MONGODB_PORT: 27017
-            ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
-            ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
-            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
-        ports:
-            - ${MONGOEXPRESS_PORT}:8081
-    redis:
-        container_name: redis
-        image: redis
-        restart: always
-        ports:
-            - "${REDIS_PORT}:6379"
-        environment:
-            - REDIS_PASSWORD=${REDIS_PASSWORD}
-        command: redis-server --requirepass $REDIS_PASSWORD
-    redis-commander:
-        container_name: redis-commander
-        image: rediscommander/redis-commander
-        restart: always
-        ports:
-            - "${REDIS_COMMANDER_PORT}:8081"
-        depends_on:
-            - redis
-        environment:
-        - REDIS_HOST=${REDIS_HOST}
-        - REDIS_PASSWORD=${REDIS_PASSWORD}
-        - REDIS_PORT=${REDIS_PORT}
-        - HTTP_USER=${REDIS_COMMANDER_USER}
-        - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
-    es01:
-      image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
-      container_name: es01
-      environment:
-        - discovery.type=single-node
-        - bootstrap.memory_lock=true
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        - xpack.security.enabled=false # Set true when you using https
-      ulimits:
-        memlock:
-          soft: -1
-          hard: -1
-      volumes:
-        - ./es-data:/usr/share/elasticsearch/data
-      ports:
-        - 9200:9200
-    kibana:
-      image: docker.elastic.co/kibana/kibana:7.17.6
-      container_name: kibana
-      ports:
-        - 5601:5601
-      environment:
-        ELASTICSEARCH_URL: http://es01:9200
-        ELASTICSEARCH_HOSTS: http://es01:9200
+    # mongo:
+    #     image: mongo
+    #     container_name: mongo
+    #     environment:
+    #         MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+    #         MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
+    #     ports:
+    #         - ${MONGODB_PORT}:27017
+    # mongo-express:
+    #     image: mongo-express:latest
+    #     container_name: mongo-express
+    #     depends_on:
+    #         - mongo
+    #     environment:
+    #         ME_CONFIG_MONGODB_SERVER: mongo
+    #         ME_CONFIG_MONGODB_PORT: 27017
+    #         ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+    #         ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
+    #         ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
+    #     ports:
+    #         - ${MONGOEXPRESS_PORT}:8081
+    # redis:
+    #     container_name: redis
+    #     image: redis
+    #     restart: always
+    #     ports:
+    #         - "${REDIS_PORT}:6379"
+    #     environment:
+    #         - REDIS_PASSWORD=${REDIS_PASSWORD}
+    #     command: redis-server --requirepass $REDIS_PASSWORD
+    # redis-commander:
+    #     container_name: redis-commander
+    #     image: rediscommander/redis-commander
+    #     restart: always
+    #     ports:
+    #         - "${REDIS_COMMANDER_PORT}:8081"
+    #     depends_on:
+    #         - redis
+    #     environment:
+    #     - REDIS_HOST=${REDIS_HOST}
+    #     - REDIS_PASSWORD=${REDIS_PASSWORD}
+    #     - REDIS_PORT=${REDIS_PORT}
+    #     - HTTP_USER=${REDIS_COMMANDER_USER}
+    #     - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
+    # es01:
+    #   image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    #   container_name: es01
+    #   environment:
+    #     - discovery.type=single-node
+    #     - bootstrap.memory_lock=true
+    #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    #     - xpack.security.enabled=false # Set true when you using https
+    #   ulimits:
+    #     memlock:
+    #       soft: -1
+    #       hard: -1
+    #   volumes:
+    #     - ./es-data:/usr/share/elasticsearch/data
+    #   ports:
+    #     - 9200:9200
+    # kibana:
+    #   image: docker.elastic.co/kibana/kibana:7.17.6
+    #   container_name: kibana
+    #   ports:
+    #     - 5601:5601
+    #   environment:
+    #     ELASTICSEARCH_URL: http://es01:9200
+    #     ELASTICSEARCH_HOSTS: http://es01:9200
     rabbitmq:
         image: 'rabbitmq:3-management-alpine'
         container_name: rabbitmq-stream
@@ -106,13 +106,13 @@ services:
             RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
             RABBITMQ_DEFAULT_USER: "admin"
             RABBITMQ_DEFAULT_PASS: "admin"
-    nest:
-        container_name: nest
-        restart: always
-        build:
-            dockerfile: Dockerfile
-            context: ./
-        env_file: 
-            - .env
-        ports:
-            - ${PORT}:8000
+    # nest:
+    #     container_name: nest
+    #     restart: always
+    #     build:
+    #         dockerfile: Dockerfile
+    #         context: ./
+    #     env_file: 
+    #         - .env
+    #     ports:
+    #         - ${PORT}:8000

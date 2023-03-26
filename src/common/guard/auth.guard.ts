@@ -1,14 +1,19 @@
 import { config } from "@config";
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "@src/shared/entities";
 import { UnauthorizedException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
         private _reflector: Reflector,
-        private _jwtService: JwtService
+        private _jwtService: JwtService,
+        @InjectRepository(User)
+        private readonly _userRepo: Repository<User>
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -31,19 +36,25 @@ export class AuthGuard implements CanActivate {
 
         const payload = (await this._jwtService.decodeJwt(
             request.headers.authorization
-        )) as { userId: string };
+        )) as { userId: string, type: string };
 
         if (!payload) {
             throw new UnauthorizedException("Invalid access token");
         }
 
-        if (!(await this._jwtService.checkUserId(payload.userId))) {
+        const user: User = await this._userRepo.findOne({
+            where: {
+                id: payload.userId
+            }
+        });
+
+        if (!user) {
             throw new UnauthorizedException("Invalid user id");
         }
 
-        const userRoles: string[] = await this._jwtService.getUserRoles(
-            payload.userId
-        );
+        const userRoles: string[] = user.userRoles ? user.userRoles.map(cur => {
+            return cur.role.name;
+        }) : [];
 
         return userRoles.some(role => roles.includes(role));
     }

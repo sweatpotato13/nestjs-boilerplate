@@ -26,7 +26,7 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
             const { args } = command;
             const { provider, email, name } = args;
 
-            const user = await this._userRepo.findOne({
+            let user = await this._userRepo.findOne({
                 where: {
                     email: email
                 }
@@ -38,7 +38,7 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
                     name,
                     provider
                 });
-                const user = await this._userRepo.save(newUser);
+                user = await this._userRepo.save(newUser);
 
                 let role = await this._roleRepo.findOne({
                     where: { name: "user" }
@@ -62,20 +62,11 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
                     await this._userRoleRepo.save(newUserRole);
                 }
             }
-
-            this._jwtService.clearAllSessions(user.id);
-            const accessToken = await this._jwtService.signUp({
-                email,
-                userId: user.id
-            });
-
-            const refreshToken = this._jwtService.createRefreshToken();
-
-            this._jwtService.registerToken(user.id, refreshToken, "refresh");
+            const tokens = await this._jwtService.createUserJwt(user.id);
 
             return TokensResponseDto.of({
-                accessToken: accessToken,
-                refreshToken: refreshToken
+                accessToken: tokens.accessToken,
+                refreshToken: tokens.refreshToken
             });
         } catch (error: any) {
             throw error;

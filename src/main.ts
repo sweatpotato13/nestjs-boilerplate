@@ -112,8 +112,8 @@ async function bootstrap() {
                     { context: "BootStrap" }
                 );
         });
-    } catch (error) {
-        logger.error(`❌  Error starting server, ${error}`, {
+    } catch (error: any) {
+        logger.error(`❌  Error starting server, ${error.message}`, {
             context: "BootStrap"
         });
         process.exit();

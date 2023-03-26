@@ -4,7 +4,7 @@ import { CqrsModule } from "@nestjs/cqrs";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { GoogleOauthConfig } from "@src/config";
 import { App, Role, User, UserRole } from "@src/shared/entities";
-import { JwtModule, RedisModule } from "@src/shared/modules";
+import { JwtModule } from "@src/shared/modules";
 
 import { AuthController } from "./app/auth.controller";
 import { AuthService } from "./app/auth.service";
@@ -18,13 +18,12 @@ import { GoogleStrategy } from "./infrastructures/google.strategy";
         TypeOrmModule.forFeature([User, Role, UserRole, App]),
         CqrsModule,
         JwtModule,
-        RedisModule
     ],
     providers: [
         { provide: "AuthService", useClass: AuthService },
         GoogleStrategy,
         ...CommandHandlers,
-        ...QueryHandlers
+        ...QueryHandlers,
     ],
     controllers: [AuthController]
 })
