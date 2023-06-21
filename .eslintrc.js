@@ -28,6 +28,8 @@ module.exports = {
         "@typescript-eslint/no-empty-function": "off",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
+        "indent": ["error", 4],
+        "semi": "error"
     },
     settings: {
         "import/resolver": {
