@@ -29,4 +29,16 @@ export class UserService {
             throw error;
         }
     }
+
+    public async postHealthCheck(args: { str: string, num: number }): Promise<any> { 
+        try {
+            const { } = args;
+            const result = await this._queryBus.execute(
+                new HealthCheckQuery()
+            );
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
