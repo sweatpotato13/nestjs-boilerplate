@@ -2,8 +2,9 @@ import { Controller, Get, Inject, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 
-import { ResultDto, TokensResponseDto, UserDto } from "../domain/dtos";
+import { TokensResponseDto, UserDto } from "../domain/dtos";
 import { AuthService } from "./auth.service";
+import { ResultResponseDto } from "@src/shared/dtos";
 
 @Controller("auth")
 export class AuthController {
@@ -13,8 +14,8 @@ export class AuthController {
 
     @Get("google/login")
     @UseGuards(AuthGuard("google"))
-    handleLogin(): ResultDto {
-        const result = ResultDto.of({ result: "Google Authentication" });
+    handleLogin(): ResultResponseDto {
+        const result = ResultResponseDto.of({ result: "Google Authentication" });
         return result;
     }
 

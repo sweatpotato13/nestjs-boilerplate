@@ -13,6 +13,7 @@ import { UserController } from "./app/user.controller";
 import { UserService } from "./app/user.service";
 import { CommandHandlers } from "./domain/commands/handlers";
 import { QueryHandlers } from "./domain/queries/handlers";
+import { JwtModule } from "@src/shared/modules";
 
 @Module({
     imports: [
@@ -28,7 +29,8 @@ import { QueryHandlers } from "./domain/queries/handlers";
                 name: "RABBITMQ",
                 useClass: RabbitMqConfigService
             }
-        ])
+        ]),
+        JwtModule
     ],
     providers: [
         { provide: "UserService", useClass: UserService },

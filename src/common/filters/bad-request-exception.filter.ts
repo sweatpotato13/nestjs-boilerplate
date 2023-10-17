@@ -4,6 +4,8 @@ import {
     Catch,
     ExceptionFilter
 } from "@nestjs/common";
+import { config } from "@src/config";
+import { logger } from "@src/config/modules/winston";
 
 @Catch(BadRequestException)
 export class BadRequestExceptionFilter
@@ -14,10 +16,15 @@ export class BadRequestExceptionFilter
         const response = ctx.getResponse();
         const statusCode = exception.getStatus();
 
-        response.status(statusCode).json({
-            statusCode,
-            timestamp: new Date().toISOString(),
-            message: "Parameter validation failed"
-        });
+        logger.error(exception.getResponse());
+        response.status(statusCode).json(
+            config.isProduction
+                ? {
+                      statusCode,
+                      timestamp: new Date().toISOString(),
+                      message: "Parameter validation failed"
+                  }
+                : exception.getResponse()
+        );
     }
 }

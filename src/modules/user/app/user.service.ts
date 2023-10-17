@@ -1,14 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 
-import { HealthCheckQuery, MqHealthCheckQuery } from "../domain/queries/impl";
+import { GetUserByEmailQuery, GetUserByIdQuery, HealthCheckQuery, MqHealthCheckQuery } from "../domain/queries/impl";
+import { runOnTransactionCommit, runOnTransactionRollback, runOnTransactionComplete } from "typeorm-transactional";
+import { DeleteUserCommand, UpdateUserProfileCommand } from "../domain/commands/impl";
+import { ProfileBodyDto } from "../domain/dtos";
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly _commandBus: CommandBus,
         private readonly _queryBus: QueryBus
-    ) {}
+    ) { }
 
     public async healthCheck(): Promise<any> {
         try {
@@ -16,6 +19,54 @@ export class UserService {
             return result;
         } catch (error) {
             throw error;
+        }
+    }
+
+    public async getUserById(id: string): Promise<any> {
+        try {
+            const result = await this._queryBus.execute(new GetUserByIdQuery(id));
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async getUserByEmail(email: string): Promise<any> {
+        try {
+            const result = await this._queryBus.execute(new GetUserByEmailQuery(email));
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async updateUserProfile(id: string, profile: ProfileBodyDto): Promise<any> {
+        try {
+            const result = await this._commandBus.execute(
+                new UpdateUserProfileCommand(id, profile)
+            );
+            runOnTransactionCommit(() => { });
+            return result;
+        } catch (error) {
+            runOnTransactionRollback(() => { });
+            throw error;
+        } finally {
+            runOnTransactionComplete(() => { });
+        }
+    }
+
+    public async deleteUser(id: string): Promise<any> {
+        try {
+            const result = await this._commandBus.execute(
+                new DeleteUserCommand(id)
+            );
+            runOnTransactionCommit(() => { });
+            return result;
+        } catch (error) {
+            runOnTransactionRollback(() => { });
+            throw error;
+        } finally {
+            runOnTransactionComplete(() => { });
         }
     }
 
@@ -29,16 +80,5 @@ export class UserService {
             throw error;
         }
     }
-
-    public async postHealthCheck(args: { str: string, num: number }): Promise<any> { 
-        try {
-            const { } = args;
-            const result = await this._queryBus.execute(
-                new HealthCheckQuery()
-            );
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
 }
+

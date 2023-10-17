@@ -1,5 +1,5 @@
 import { config } from "@config";
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Inject, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "@src/shared/entities";
@@ -11,10 +11,11 @@ import { Repository } from "typeorm";
 export class AuthGuard implements CanActivate {
     constructor(
         private _reflector: Reflector,
-        private _jwtService: JwtService,
+        @Inject("JwtService")
+        private readonly _jwtService: JwtService,
         @InjectRepository(User)
         private readonly _userRepo: Repository<User>
-    ) {}
+    ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
@@ -41,6 +42,9 @@ export class AuthGuard implements CanActivate {
         if (!payload) {
             throw new UnauthorizedException("Invalid access token");
         }
+
+        // Attach the payload to the request for later use
+        request.extra = payload;
 
         const user: User = await this._userRepo.findOne({
             where: {

@@ -7,6 +7,7 @@ import { Repository } from "typeorm";
 
 import { TokensResponseDto } from "../../dtos";
 import { GoogleLoginCommand } from "../impl/google-login.command";
+import { logger } from "@src/config/modules/winston";
 
 @CommandHandler(GoogleLoginCommand)
 export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
@@ -69,6 +70,7 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
                 refreshToken: tokens.refreshToken
             });
         } catch (error: any) {
+            logger.error(error.message);
             throw error;
         }
     }
