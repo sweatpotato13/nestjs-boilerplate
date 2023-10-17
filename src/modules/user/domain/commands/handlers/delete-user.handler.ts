@@ -16,7 +16,13 @@ export class DeleteUserHandler implements ICommandHandler<DeleteUserCommand> {
 
     async execute(command: DeleteUserCommand) {
         try {
-            const { id } = command;
+            const { id, userId } = command;
+
+            if (id !== userId) { 
+                throw new BadRequestException("user id not matches", {
+                    context: "DeleteUserCommand"
+                });
+            }
 
             const user = await this.userRepo.findOne({ where: { id } });
             if (!user) { 

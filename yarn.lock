@@ -1625,6 +1625,46 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestia/fetcher@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@nestia/fetcher@npm:2.2.4"
+  dependencies:
+    import2: ^1.0.3
+    node-fetch: ^2.6.7
+  peerDependencies:
+    typescript: ">= 4.8.0"
+  checksum: 947c1c3edb64aea77bc172c5b138393317e8fd3fa4c84ab63f67e635ee731254d0cb95f85bee68f96b8703817eadd88ef0c2c2da56fc3a8a2b120c15726347a2
+  languageName: node
+  linkType: hard
+
+"@nestia/sdk@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@nestia/sdk@npm:2.2.4"
+  dependencies:
+    "@nestia/fetcher": ^2.2.4
+    cli: ^1.0.1
+    glob: ^7.2.0
+    path-to-regexp: ^6.2.1
+    reflect-metadata: ">=0.1.12"
+    tgrid: ^0.8.8
+    tsconfck: ^2.0.1
+    tsconfig-paths: ^4.1.1
+    tstl: ^2.5.13
+    typia: ^5.2.2
+  peerDependencies:
+    "@nestia/fetcher": ">=2.2.4"
+    "@nestjs/common": ">=7.0.1"
+    "@nestjs/core": ">=7.0.1"
+    reflect-metadata: ">=0.1.12"
+    ts-node: ">=10.6.0"
+    typescript: ">=4.8.0"
+    typia: ">=5.2.2 <6.0.0"
+  bin:
+    sdk: lib/executable/sdk.js
+  checksum: 16b514ea6950be4d975379e731ab4b2e95cce20652f0e25e1b35fcb3adee8a0b96efa8b11d0694bd690a7a713a98a6893c5e4f4604a6f816def213a0e06780cb
+  languageName: node
+  linkType: hard
+
 "@nestjs/cli@npm:^10.1.18":
   version: 10.1.18
   resolution: "@nestjs/cli@npm:10.1.18"
@@ -3930,6 +3970,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cli@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "cli@npm:1.0.1"
+  dependencies:
+    exit: 0.1.2
+    glob: ^7.1.1
+  checksum: c47cdbb3b87696e45cc07340e415b5863b20833ae8184ca8a0b1d732fbd908f6e6e13376e4a509685af1bc916afbb3e2a0adf1eec8797575eefe63c7bb516962
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^7.0.2":
   version: 7.0.4
   resolution: "cliui@npm:7.0.4"
@@ -5235,7 +5285,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exit@npm:^0.1.2":
+"exit@npm:0.1.2, exit@npm:^0.1.2":
   version: 0.1.2
   resolution: "exit@npm:0.1.2"
   checksum: abc407f07a875c3961e4781dfcb743b58d6c93de9ab263f4f8c9d23bb6da5f9b7764fc773f86b43dd88030444d5ab8abcb611cb680fba8ca075362b77114bba3
@@ -5881,7 +5931,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.0, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.2.0":
+"glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.2.0":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -6266,7 +6316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import2@npm:^1.0.3":
+"import2@npm:^1.0.0, import2@npm:^1.0.3":
   version: 1.0.3
   resolution: "import2@npm:1.0.3"
   checksum: 59364c0f0acace1993d0f42b8ef0fa7df8e4107f258565c38c2c8a90743d01533df33d2dc78c0f636548ecdcb6ba8866ddfc08edf8fbf1730fafd8cab5721ef1
@@ -8386,6 +8436,7 @@ __metadata:
     "@commitlint/config-conventional": ^17.7.0
     "@elastic/elasticsearch": ^8.10.0
     "@nestia/core": ^2.1.8
+    "@nestia/sdk": ^2.2.4
     "@nestjs/cli": ^10.1.18
     "@nestjs/common": ^10.2.7
     "@nestjs/config": ^3.1.1
@@ -9056,7 +9107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp@npm:^6.1.0":
+"path-to-regexp@npm:^6.1.0, path-to-regexp@npm:^6.2.1":
   version: 6.2.1
   resolution: "path-to-regexp@npm:6.2.1"
   checksum: f0227af8284ea13300f4293ba111e3635142f976d4197f14d5ad1f124aebd9118783dd2e5f1fe16f7273743cc3dbeddfb7493f237bb27c10fdae07020cc9b698
@@ -9628,7 +9679,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:>= 0.1.12, reflect-metadata@npm:^0.1.13":
+"reflect-metadata@npm:>= 0.1.12, reflect-metadata@npm:>=0.1.12, reflect-metadata@npm:^0.1.13":
   version: 0.1.13
   resolution: "reflect-metadata@npm:0.1.13"
   checksum: 798d379a7b6f6455501145419505c97dd11cbc23857a386add2b9ef15963ccf15a48d9d15507afe01d4cd74116df8a213247200bac00320bd7c11ddeaa5e8fb4
@@ -10071,6 +10122,15 @@ __metadata:
     range-parser: ~1.2.1
     statuses: 2.0.1
   checksum: 74fc07ebb58566b87b078ec63e5a3e41ecd987e4272ba67b7467e86c6ad51bc6b0b0154133b6d8b08a2ddda360464f71382f7ef864700f34844a76c8027817a8
+  languageName: node
+  linkType: hard
+
+"serialize-error@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "serialize-error@npm:4.1.0"
+  dependencies:
+    type-fest: ^0.3.0
+  checksum: fe06799de97c0c173a926b2cc269a040541123faa2fcf4286223d4fb52ad034b825dc01e02dbd89dd7e432e72ec994c3d08be58709335054a55b59e7017ce4cd
   languageName: node
   linkType: hard
 
@@ -10743,6 +10803,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tgrid@npm:^0.8.8":
+  version: 0.8.8
+  resolution: "tgrid@npm:0.8.8"
+  dependencies:
+    import2: ^1.0.0
+    serialize-error: ^4.1.0
+    tstl: ^2.5.13
+    uuid: ^9.0.0
+    ws: ^7.5.3
+  checksum: 1f20c586802eaedd7a7b8bb6fd920b7dc68ca2240e7f67711e8ea8f6800bcb330af08c59c9ddfcb7539c7687ab3456e96d9ea40dd9df3be9be43deaf35c6e8e9
+  languageName: node
+  linkType: hard
+
 "thenify-all@npm:^1.0.0":
   version: 1.6.0
   resolution: "thenify-all@npm:1.6.0"
@@ -10957,6 +11030,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tsconfck@npm:^2.0.1":
+  version: 2.1.2
+  resolution: "tsconfck@npm:2.1.2"
+  peerDependencies:
+    typescript: ^4.3.5 || ^5.0.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  bin:
+    tsconfck: bin/tsconfck.js
+  checksum: 6fd2f7de012a724f6b4bf48ae76cc7dae2b59dd5cad2dc50bac58d224d4ed7d5c43c6b26e55d3e00636f426f8b5373c996523d73b7830d05f8479a9b83282192
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths-webpack-plugin@npm:4.1.0":
   version: 4.1.0
   resolution: "tsconfig-paths-webpack-plugin@npm:4.1.0"
@@ -10968,7 +11055,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:4.2.0, tsconfig-paths@npm:^4.2.0":
+"tsconfig-paths@npm:4.2.0, tsconfig-paths@npm:^4.1.1, tsconfig-paths@npm:^4.2.0":
   version: 4.2.0
   resolution: "tsconfig-paths@npm:4.2.0"
   dependencies:
@@ -11013,6 +11100,13 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 329ea56123005922f39642318e3d1f0f8265d1e7fcb92c633e0809521da75eeaca28d2cf96d7248229deb40e5c19adf408259f4b9640afd20d13aecc1430f3ad
+  languageName: node
+  linkType: hard
+
+"tstl@npm:^2.5.13":
+  version: 2.5.13
+  resolution: "tstl@npm:2.5.13"
+  checksum: 6442cf024066c10be8bd21f8578c3edbcba75b6d27a8965bc7f5dcb745a309753dffedbe28019b2cf5b159dd5f10cd9f64a1102fef4ab82917e0cca88a7e0ce2
   languageName: node
   linkType: hard
 
@@ -11065,6 +11159,13 @@ __metadata:
   version: 0.21.3
   resolution: "type-fest@npm:0.21.3"
   checksum: e6b32a3b3877f04339bae01c193b273c62ba7bfc9e325b8703c4ee1b32dc8fe4ef5dfa54bf78265e069f7667d058e360ae0f37be5af9f153b22382cd55a9afe0
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^0.3.0":
+  version: 0.3.1
+  resolution: "type-fest@npm:0.3.1"
+  checksum: 347ff46c2285616635cb59f722e7f396bee81b8988b6fc1f1536b725077f2abf6ccfa22ab7a78e9b6ce7debea0e6614bbf5946cbec6674ec1bde12113af3a65c
   languageName: node
   linkType: hard
 
@@ -11306,6 +11407,22 @@ __metadata:
   bin:
     typia: lib/executable/typia.js
   checksum: 656005ed26b7631de9838c6f30a2bc7c5307fc903243a0561021ab6984998000b03a6c31e698191fade9c982919ad5abe18e7ddcf9f9a90b116505a9809b41ec
+  languageName: node
+  linkType: hard
+
+"typia@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "typia@npm:5.2.2"
+  dependencies:
+    commander: ^10.0.0
+    comment-json: ^4.2.3
+    inquirer: ^8.2.5
+    randexp: ^0.5.3
+  peerDependencies:
+    typescript: ">= 4.8.0"
+  bin:
+    typia: lib/executable/typia.js
+  checksum: 136d33bddcae9060270acd0d0ec80738888c6334e1b669021155a7940b31ada6dc03540de0cb791ac7eabbc36c83bf58f35963870308a381ae0daa0cb0e80af9
   languageName: node
   linkType: hard
 
@@ -11744,6 +11861,21 @@ __metadata:
     imurmurhash: ^0.1.4
     signal-exit: ^3.0.7
   checksum: 5da60bd4eeeb935eec97ead3df6e28e5917a6bd317478e4a85a5285e8480b8ed96032bbcc6ecd07b236142a24f3ca871c924ec4a6575e623ec1b11bf8c1c253c
+  languageName: node
+  linkType: hard
+
+"ws@npm:^7.5.3":
+  version: 7.5.9
+  resolution: "ws@npm:7.5.9"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: c3c100a181b731f40b7f2fddf004aa023f79d64f489706a28bc23ff88e87f6a64b3c6651fbec3a84a53960b75159574d7a7385709847a62ddb7ad6af76f49138
   languageName: node
   linkType: hard
 

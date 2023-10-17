@@ -44,25 +44,31 @@ export class UserController {
             throw error;
         }
     }
-
+    
+    /**
+    * @security bearer
+    */
     @Put("/:id/profile")
     @UseGuards(AuthGuard)
     @HttpCode(201)
-    async updateUserProfile(@GetUserId() id: string, @Body() profile: ProfileBodyDto): Promise<any> {
+    async updateUserProfile(@Param("id") id: string, @GetUserId() userId: string, @Body() profile: ProfileBodyDto): Promise<any> {
         try {
-            const result = await this._service.updateUserProfile(id, profile);
+            const result = await this._service.updateUserProfile(id, userId, profile);
             return result;
         } catch (error) {
             throw error;
         }
     }
 
+    /**
+    * @security bearer
+    */
     @Delete("/:id")
     @UseGuards(AuthGuard)
     @HttpCode(200)
-    async deleteUser(@GetUserId() id: string): Promise<any> {
+    async deleteUser(@Param("id") id: string, @GetUserId() userId: string): Promise<any> {
         try {
-            const result = await this._service.deleteUser(id);
+            const result = await this._service.deleteUser(id, userId);
             return result;
         } catch (error) {
             throw error;

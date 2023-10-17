@@ -2,25 +2,39 @@
   "openapi": "3.0.1",
   "servers": [
     {
-      "url": "http://localhost:8000",
-      "description": ""
+      "url": "http://localhost:3000",
+      "description": "Local Server"
     }
   ],
   "info": {
-    "version": "0.1.0",
-    "title": "Swagger"
+    "version": "0.0.1",
+    "title": "nestjs-boilerplate",
+    "description": "",
+    "license": {
+      "name": "UNLICENSED"
+    }
   },
   "paths": {
-    "/auth/google": {
+    "/auth/google/login": {
       "get": {
         "tags": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultResponseDto"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
           }
         },
-        "description": ""
+        "x-nestia-namespace": "auth.google.login.handleLogin",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
       }
     },
     "/auth/google/callback": {
@@ -29,234 +43,251 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponseDto"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
           }
         },
-        "description": ""
+        "x-nestia-namespace": "auth.google.callback.handleRedirect",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
       }
     },
-    "/user": {
+    "/users": {
       "get": {
         "tags": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "x-nestia-encrypted": false
           }
         },
-        "description": ""
+        "x-nestia-namespace": "users.healthCheck",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
       }
     },
-    "/user/get-auth": {
-      "post": {
+    "/users/{id}": {
+      "get": {
         "tags": [],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "users.getUserById",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      },
+      "delete": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "x-nestia-namespace": "users.deleteUser",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "bearer",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
+      }
+    },
+    "/users/{email}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "users.getUserByEmail",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/users/{id}/profile": {
+      "put": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AccountDto"
+                "$ref": "#/components/schemas/ProfileBodyDto"
               }
             }
           },
-          "required": true
+          "required": true,
+          "x-nestia-encrypted": false
         },
         "responses": {
           "201": {
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthMessageDto"
-                }
+                "schema": {}
               }
-            }
+            },
+            "x-nestia-encrypted": false
           }
         },
-        "description": ""
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "x-nestia-namespace": "users.profile.updateUserProfile",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "bearer",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "PUT"
       }
     },
-    "/user/register": {
-      "post": {
+    "/users/mq": {
+      "get": {
         "tags": [],
         "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokensResponseDto"
-                }
+                "schema": {}
               }
-            }
+            },
+            "x-nestia-encrypted": false
           }
         },
-        "description": ""
-      }
-    },
-    "/user/login": {
-      "post": {
-        "tags": [],
-        "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokensResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "description": ""
-      }
-    },
-    "/user/refresh": {
-      "post": {
-        "tags": [],
-        "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshTokenBodyDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokensResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "description": ""
-      }
-    },
-    "/user/deregister": {
-      "post": {
-        "tags": [],
-        "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultDto"
-                }
-              }
-            }
-          }
-        },
-        "description": ""
+        "x-nestia-namespace": "users.mq.mqHealthCheck",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
       }
     }
   },
   "components": {
     "schemas": {
-      "AccountDto": {
+      "ResultResponseDto": {
         "type": "object",
         "properties": {
-          "account": {
-            "type": "string",
-            "nullable": false
+          "result": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
         "required": [
-          "account"
+          "result"
         ],
-        "x-tson_jsDocTags": []
-      },
-      "AuthMessageDto": {
-        "type": "object",
-        "properties": {
-          "authMsg": {
-            "type": "string",
-            "nullable": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "authMsg"
-        ],
-        "x-tson_jsDocTags": []
-      },
-      "LoginDto": {
-        "type": "object",
-        "properties": {
-          "account": {
-            "type": "string",
-            "nullable": false
-          },
-          "passwordHash": {
-            "type": "string",
-            "nullable": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "account",
-          "passwordHash"
-        ],
-        "x-tson_jsDocTags": []
+        "x-typia-jsDocTags": []
       },
       "TokensResponseDto": {
         "type": "object",
         "properties": {
           "accessToken": {
-            "type": "string",
-            "nullable": false
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
           },
           "refreshToken": {
-            "type": "string",
-            "nullable": false
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -264,40 +295,29 @@
           "accessToken",
           "refreshToken"
         ],
-        "x-tson_jsDocTags": []
+        "x-typia-jsDocTags": []
       },
-      "RefreshTokenBodyDto": {
+      "ProfileBodyDto": {
         "type": "object",
         "properties": {
-          "account": {
-            "type": "string",
-            "nullable": false
-          },
-          "refreshToken": {
-            "type": "string",
-            "nullable": false
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
         "required": [
-          "account",
-          "refreshToken"
+          "name"
         ],
-        "x-tson_jsDocTags": []
-      },
-      "ResultDto": {
-        "type": "object",
-        "properties": {
-          "result": {
-            "type": "string",
-            "nullable": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "result"
-        ],
-        "x-tson_jsDocTags": []
+        "x-typia-jsDocTags": []
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
       }
     }
   }

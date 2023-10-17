@@ -16,9 +16,15 @@ export class UpdateUserProfileHandler implements ICommandHandler<UpdateUserProfi
 
     async execute(command: UpdateUserProfileCommand) {
         try {
-            const { id, profile } = command;
+            const { id, userId, profile } = command;
             const { name } = profile;
 
+            if (id !== userId) { 
+                throw new BadRequestException("user id not matches", {
+                    context: "UpdateUserProfileCommand"
+                });
+            }
+        
             const user = await this.userRepo.findOne({ where: { id } });
             if (!user) {
                 throw new BadRequestException("user not found", {
@@ -28,7 +34,7 @@ export class UpdateUserProfileHandler implements ICommandHandler<UpdateUserProfi
 
             user.name = name;
             await this.userRepo.save(user);
-            
+
             return ResultResponseDto.of({
                 result: "OK"
             });
