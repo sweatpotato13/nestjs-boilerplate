@@ -1,4 +1,4 @@
-import { UpdateUserProfileCommand } from "./update-user-profile.command";
 import { DeleteUserCommand } from "./delete-user.command";
+import { UpdateUserProfileCommand } from "./update-user-profile.command";
 
-export { UpdateUserProfileCommand, DeleteUserCommand };
+export { DeleteUserCommand,UpdateUserProfileCommand };

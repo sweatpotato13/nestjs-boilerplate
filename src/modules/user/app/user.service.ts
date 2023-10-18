@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { runOnTransactionCommit, runOnTransactionComplete,runOnTransactionRollback } from "typeorm-transactional";
 
-import { GetUserByEmailQuery, GetUserByIdQuery, HealthCheckQuery, MqHealthCheckQuery } from "../domain/queries/impl";
-import { runOnTransactionCommit, runOnTransactionRollback, runOnTransactionComplete } from "typeorm-transactional";
 import { DeleteUserCommand, UpdateUserProfileCommand } from "../domain/commands/impl";
 import { ProfileBodyDto } from "../domain/dtos";
+import { GetUserByEmailQuery, GetUserByIdQuery, HealthCheckQuery, MqHealthCheckQuery } from "../domain/queries/impl";
 
 @Injectable()
 export class UserService {

@@ -1,11 +1,12 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
-import { GetUserByIdQuery } from '../impl';
+import { IQueryHandler,QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { logger } from '@src/config/modules/winston';
 import { User } from '@src/shared/entities';
-import { Repository } from 'typeorm';
 import { BadRequestException } from '@src/shared/models/error/http.error';
+import { Repository } from 'typeorm';
+
 import { GetUserResponseDto } from '../../dtos';
+import { GetUserByIdQuery } from '../impl';
 
 @QueryHandler(GetUserByIdQuery)
 export class GetUserByIdHandler implements IQueryHandler<GetUserByIdQuery> {

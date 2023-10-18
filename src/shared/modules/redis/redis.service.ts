@@ -7,7 +7,7 @@ import Redis from "ioredis";
 export class RedisService extends Redis {
     constructor(
         @Inject(RedisModuleConfig.KEY)
-        _config: ConfigType<typeof RedisModuleConfig>
+            _config: ConfigType<typeof RedisModuleConfig>
     ) {
         super(_config);
     }

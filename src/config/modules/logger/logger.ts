@@ -11,30 +11,30 @@ export const loggerConfig: LoggerOptions = {
         }),
         ...(process.env.REMOTE_LOGGING_ENABLED === "true"
             ? [
-                  new MongoDB({
-                      db: dbURL,
-                      collection: process.env.MONGODB_INFO_COLLECTION || "info",
-                      level: "info",
-                      capped: true,
-                      options: {
-                          useUnifiedTopology: true
-                      },
-                      metaKey: "meta",
-                      decolorize: true
-                  }),
-                  new MongoDB({
-                      db: dbURL,
-                      collection:
+                new MongoDB({
+                    db: dbURL,
+                    collection: process.env.MONGODB_INFO_COLLECTION || "info",
+                    level: "info",
+                    capped: true,
+                    options: {
+                        useUnifiedTopology: true
+                    },
+                    metaKey: "meta",
+                    decolorize: true
+                }),
+                new MongoDB({
+                    db: dbURL,
+                    collection:
                           process.env.MONGODB_ERROR_COLLECTION || "errors",
-                      level: "error",
-                      capped: true,
-                      options: {
-                          useUnifiedTopology: true
-                      },
-                      metaKey: "meta",
-                      decolorize: true
-                  })
-              ]
+                    level: "error",
+                    capped: true,
+                    options: {
+                        useUnifiedTopology: true
+                    },
+                    metaKey: "meta",
+                    decolorize: true
+                })
+            ]
             : [])
     ],
     exceptionHandlers: [

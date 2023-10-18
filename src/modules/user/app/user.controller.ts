@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Inject, Param, Put, UseGuards, HttpCode } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode,Inject, Param, Put, UseGuards } from "@nestjs/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
-
-import { UserService } from "./user.service";
-import { AuthGuard } from "@src/common/guard/auth.guard";
 import { GetUserId } from "@src/common/decorator/get-user-did.decorator";
+import { AuthGuard } from "@src/common/guard/auth.guard";
+
 import { ProfileBodyDto } from "../domain/dtos";
+import { UserService } from "./user.service";
 
 @Controller("users")
 export class UserController {

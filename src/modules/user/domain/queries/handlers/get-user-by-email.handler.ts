@@ -1,11 +1,12 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
-import { GetUserByEmailQuery } from '../impl';
-import { BadRequestException } from '@src/shared/models/error/http.error';
+import { IQueryHandler,QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { logger } from '@src/config/modules/winston';
 import { User } from '@src/shared/entities';
+import { BadRequestException } from '@src/shared/models/error/http.error';
 import { Repository } from 'typeorm';
+
 import { GetUserResponseDto } from '../../dtos';
+import { GetUserByEmailQuery } from '../impl';
 
 @QueryHandler(GetUserByEmailQuery)
 export class GetUserByEmailHandler implements IQueryHandler<GetUserByEmailQuery> {

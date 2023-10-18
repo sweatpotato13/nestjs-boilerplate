@@ -8,12 +8,12 @@ import { ElasticsearchConfig, RabbitMqConfig } from "@src/config";
 import { ElasticsearchConfigService } from "@src/config/modules/elasticsearch/elasticsearch.config.service";
 import { RabbitMqConfigService } from "@src/config/modules/rabbitmq/rabbitmq.config.service";
 import { App, Role, User, UserRole } from "@src/shared/entities";
+import { JwtModule } from "@src/shared/modules";
 
 import { UserController } from "./app/user.controller";
 import { UserService } from "./app/user.service";
 import { CommandHandlers } from "./domain/commands/handlers";
 import { QueryHandlers } from "./domain/queries/handlers";
-import { JwtModule } from "@src/shared/modules";
 
 @Module({
     imports: [

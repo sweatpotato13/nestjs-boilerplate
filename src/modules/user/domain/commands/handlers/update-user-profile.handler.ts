@@ -1,11 +1,12 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UpdateUserProfileCommand } from '../impl';
 import { InjectRepository } from '@nestjs/typeorm';
 import { logger } from '@src/config/modules/winston';
 import { ResultResponseDto } from '@src/shared/dtos';
 import { User } from '@src/shared/entities';
-import { Repository } from 'typeorm';
 import { BadRequestException } from '@src/shared/models/error/http.error';
+import { Repository } from 'typeorm';
+
+import { UpdateUserProfileCommand } from '../impl';
 
 @CommandHandler(UpdateUserProfileCommand)
 export class UpdateUserProfileHandler implements ICommandHandler<UpdateUserProfileCommand> {
