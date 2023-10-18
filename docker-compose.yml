@@ -103,13 +103,13 @@ services:
             RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
             RABBITMQ_DEFAULT_USER: "admin"
             RABBITMQ_DEFAULT_PASS: "admin"
-    # nest:
-    #     container_name: nest
-    #     restart: always
-    #     build:
-    #         dockerfile: Dockerfile
-    #         context: ./
-    #     env_file: 
-    #         - .env
-    #     ports:
-    #         - ${PORT}:8000
+    nest:
+        container_name: nest
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ./
+        env_file: 
+            - .env
+        ports:
+            - ${PORT}:8000

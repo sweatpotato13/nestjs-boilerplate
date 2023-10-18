@@ -21,6 +21,7 @@ COPY ./public ./public
 COPY ./tsconfig.json .
 COPY ./package.json .
 COPY ./tsconfig-paths-bootstrap.js .
+COPY ./.swcrc .
 # Copy dependencies
 COPY --from=builder /app/node_modules ./node_modules
 

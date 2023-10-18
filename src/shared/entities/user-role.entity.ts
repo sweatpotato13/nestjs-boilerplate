@@ -5,7 +5,8 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    Relation
 } from "typeorm";
 
 import { UserRoleDto } from "../dtos";
@@ -29,7 +30,7 @@ export class UserRole {
         onUpdate: "RESTRICT"
     })
     @JoinColumn([{ name: "role_id", referencedColumnName: "id" }])
-    role: Role;
+    role: Relation<Role>;
 
     @ManyToOne(() => User, user => user.userRoles, {
         cascade: true,
@@ -37,7 +38,7 @@ export class UserRole {
         orphanedRowAction: "delete"
     })
     @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
-    user: User;
+    user: Relation<User>;
 
     @CreateDateColumn({
         type: "timestamp",

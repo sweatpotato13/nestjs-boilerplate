@@ -10,7 +10,7 @@
         "noImplicitAny": false,
         "strictNullChecks": false,
         "esModuleInterop": true,
-        "target": "es2017",
+        "target": "ES2020",
         "sourceMap": true,
         "outDir": "./dist",
         "baseUrl": "./",

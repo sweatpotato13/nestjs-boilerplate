@@ -1,5 +1,5 @@
 import { plainToClass } from "class-transformer";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
 
 import { RoleDto } from "../dtos";
 import { UserRole } from "./user-role.entity";
@@ -16,7 +16,7 @@ export class Role {
     description?: string;
 
     @OneToMany(() => UserRole, userRole => userRole.role)
-    userRoles: UserRole[];
+    userRoles: Relation<UserRole[]>;
 
     toDto() {
         return plainToClass(RoleDto, this);

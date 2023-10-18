@@ -5,6 +5,7 @@ import {
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
+    Relation,
     UpdateDateColumn
 } from "typeorm";
 
@@ -48,7 +49,7 @@ export class User {
     @OneToMany(() => UserRole, userRole => userRole.user, {
         eager: true
     })
-    userRoles: UserRole[];
+    userRoles: Relation<UserRole[]>;
 
     toDto() {
         return plainToClass(UserDto, this);

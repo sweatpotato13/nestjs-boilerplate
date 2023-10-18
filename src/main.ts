@@ -98,13 +98,13 @@ async function bootstrap() {
         await app.listen(config.port, () => {
             !config.isProduction
                 ? logger.info(
-                      `🚀  Server ready at http://${config.host}:${config.port}`,
-                      { context: "BootStrap" }
-                  )
+                    `🚀  Server ready at http://${config.host}:${config.port}`,
+                    { context: "BootStrap" }
+                )
                 : logger.info(
-                      `🚀  Server is listening on port ${config.port}`,
-                      { context: "BootStrap" }
-                  );
+                    `🚀  Server is listening on port ${config.port}`,
+                    { context: "BootStrap" }
+                );
 
             !config.isProduction &&
                 logger.info(
