@@ -10,11 +10,11 @@ import { Repository } from "typeorm";
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
-        private _reflector: Reflector,
+        private reflector: Reflector,
         @Inject("JwtService")
-        private readonly _jwtService: JwtService,
+        private readonly jwtService: JwtService,
         @InjectRepository(User)
-        private readonly _userRepo: Repository<User>
+        private readonly userRepo: Repository<User>
     ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException("Invalid app secret");
         }
 
-        const roles = this._reflector.getAllAndMerge<string[]>("roles", [
+        const roles = this.reflector.getAllAndMerge<string[]>("roles", [
             context.getHandler(),
             context.getClass()
         ]);
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException("Authorization is required");
         }
 
-        const payload = (await this._jwtService.decodeJwt(
+        const payload = (await this.jwtService.decodeJwt(
             request.headers.authorization
         )) as { userId: string, type: string };
 
@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate {
         // Attach the payload to the request for later use
         request.extra = payload;
 
-        const user: User = await this._userRepo.findOne({
+        const user: User = await this.userRepo.findOne({
             where: {
                 id: payload.userId
             }

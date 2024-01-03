@@ -9,13 +9,13 @@ import { GetUserByEmailQuery, GetUserByIdQuery, HealthCheckQuery, MqHealthCheckQ
 @Injectable()
 export class UserService {
     constructor(
-        private readonly _commandBus: CommandBus,
-        private readonly _queryBus: QueryBus
+        private readonly commandBus: CommandBus,
+        private readonly queryBus: QueryBus
     ) { }
 
     public async healthCheck(): Promise<any> {
         try {
-            const result = await this._queryBus.execute(new HealthCheckQuery());
+            const result = await this.queryBus.execute(new HealthCheckQuery());
             return result;
         } catch (error) {
             throw error;
@@ -24,7 +24,7 @@ export class UserService {
 
     public async getUserById(id: string): Promise<any> {
         try {
-            const result = await this._queryBus.execute(new GetUserByIdQuery(id));
+            const result = await this.queryBus.execute(new GetUserByIdQuery(id));
             return result;
         } catch (error) {
             throw error;
@@ -33,7 +33,7 @@ export class UserService {
 
     public async getUserByEmail(email: string): Promise<any> {
         try {
-            const result = await this._queryBus.execute(new GetUserByEmailQuery(email));
+            const result = await this.queryBus.execute(new GetUserByEmailQuery(email));
             return result;
         } catch (error) {
             throw error;
@@ -42,7 +42,7 @@ export class UserService {
 
     public async updateUserProfile(id: string, userId: string, profile: ProfileBodyDto): Promise<any> {
         try {
-            const result = await this._commandBus.execute(
+            const result = await this.commandBus.execute(
                 new UpdateUserProfileCommand(id, userId, profile)
             );
             runOnTransactionCommit(() => { });
@@ -57,7 +57,7 @@ export class UserService {
 
     public async deleteUser(id: string, userId: string): Promise<any> {
         try {
-            const result = await this._commandBus.execute(
+            const result = await this.commandBus.execute(
                 new DeleteUserCommand(id, userId)
             );
             runOnTransactionCommit(() => { });
@@ -72,7 +72,7 @@ export class UserService {
 
     public async mqHealthCheck(): Promise<any> {
         try {
-            const result = await this._queryBus.execute(
+            const result = await this.queryBus.execute(
                 new MqHealthCheckQuery()
             );
             return result;
