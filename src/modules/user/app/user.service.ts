@@ -55,7 +55,7 @@ export class UserService {
         }
     }
 
-    public async deleteUser(id: string, userId: string,): Promise<any> {
+    public async deleteUser(id: string, userId: string): Promise<any> {
         try {
             const result = await this._commandBus.execute(
                 new DeleteUserCommand(id, userId)
