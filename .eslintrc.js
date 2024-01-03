@@ -7,7 +7,7 @@ module.exports = {
     },
     plugins: ["@typescript-eslint/eslint-plugin", "security", "simple-import-sort"],
     extends: [
-        "plugin:security/recommended",
+        "plugin:security/recommended-legacy",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
     ],
