@@ -1,324 +1,317 @@
 {
-  "openapi": "3.0.1",
-  "servers": [
-    {
-      "url": "http://localhost:3000",
-      "description": "Local Server"
-    }
-  ],
-  "info": {
-    "version": "0.0.1",
-    "title": "nestjs-boilerplate",
-    "description": "",
-    "license": {
-      "name": "UNLICENSED"
-    }
-  },
-  "paths": {
-    "/auth/google/login": {
-      "get": {
-        "tags": [],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultResponseDto"
-                }
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "x-nestia-namespace": "auth.google.login.handleLogin",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "GET"
-      }
+    "openapi": "3.0.1",
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Server"
+        }
+    ],
+    "info": {
+        "version": "0.0.1",
+        "title": "nestjs-boilerplate",
+        "description": "",
+        "license": {
+            "name": "UNLICENSED"
+        }
     },
-    "/auth/google/callback": {
-      "get": {
-        "tags": [],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokensResponseDto"
-                }
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "x-nestia-namespace": "auth.google.callback.handleRedirect",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "GET"
-      }
-    },
-    "/users": {
-      "get": {
-        "tags": [],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "x-nestia-namespace": "users.healthCheck",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "GET"
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "tags": [],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "description": "",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "x-nestia-namespace": "users.getUserById",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "GET"
-      },
-      "delete": {
-        "tags": [],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "description": "",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "x-nestia-namespace": "users.deleteUser",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "security",
-            "text": [
-              {
-                "text": "bearer",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "DELETE"
-      }
-    },
-    "/users/{email}": {
-      "get": {
-        "tags": [],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "description": "",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "x-nestia-namespace": "users.getUserByEmail",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "GET"
-      }
-    },
-    "/users/{id}/profile": {
-      "put": {
-        "tags": [],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "description": "",
-            "required": true
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProfileBodyDto"
-              }
+    "paths": {
+        "/auth/google/login": {
+            "get": {
+                "tags": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultResponseDto"
+                                }
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "x-nestia-namespace": "auth.google.login.handleLogin",
+                "x-nestia-jsDocTags": [],
+                "x-nestia-method": "GET"
             }
-          },
-          "required": true,
-          "x-nestia-encrypted": false
         },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
+        "/auth/google/callback": {
+            "get": {
+                "tags": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokensResponseDto"
+                                }
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "x-nestia-namespace": "auth.google.callback.handleRedirect",
+                "x-nestia-jsDocTags": [],
+                "x-nestia-method": "GET"
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "x-nestia-namespace": "users.healthCheck",
+                "x-nestia-jsDocTags": [],
+                "x-nestia-method": "GET"
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "x-nestia-namespace": "users.getUserById",
+                "x-nestia-jsDocTags": [],
+                "x-nestia-method": "GET"
             },
-            "x-nestia-encrypted": false
-          }
+            "delete": {
+                "tags": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "x-nestia-namespace": "users.deleteUser",
+                "x-nestia-jsDocTags": [
+                    {
+                        "name": "security",
+                        "text": [
+                            {
+                                "text": "bearer",
+                                "kind": "text"
+                            }
+                        ]
+                    }
+                ],
+                "x-nestia-method": "DELETE"
+            }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "x-nestia-namespace": "users.profile.updateUserProfile",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "security",
-            "text": [
-              {
-                "text": "bearer",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "PUT"
-      }
+        "/users/{email}": {
+            "get": {
+                "tags": [],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "x-nestia-namespace": "users.getUserByEmail",
+                "x-nestia-jsDocTags": [],
+                "x-nestia-method": "GET"
+            }
+        },
+        "/users/{id}/profile": {
+            "put": {
+                "tags": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProfileBodyDto"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-nestia-encrypted": false
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "x-nestia-namespace": "users.profile.updateUserProfile",
+                "x-nestia-jsDocTags": [
+                    {
+                        "name": "security",
+                        "text": [
+                            {
+                                "text": "bearer",
+                                "kind": "text"
+                            }
+                        ]
+                    }
+                ],
+                "x-nestia-method": "PUT"
+            }
+        },
+        "/users/mq": {
+            "get": {
+                "tags": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        },
+                        "x-nestia-encrypted": false
+                    }
+                },
+                "x-nestia-namespace": "users.mq.mqHealthCheck",
+                "x-nestia-jsDocTags": [],
+                "x-nestia-method": "GET"
+            }
+        }
     },
-    "/users/mq": {
-      "get": {
-        "tags": [],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
+    "components": {
+        "schemas": {
+            "ResultResponseDto": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "x-typia-required": true,
+                        "x-typia-optional": false,
+                        "type": "string"
+                    }
+                },
+                "nullable": false,
+                "required": ["result"],
+                "x-typia-jsDocTags": []
             },
-            "x-nestia-encrypted": false
-          }
+            "TokensResponseDto": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "x-typia-required": true,
+                        "x-typia-optional": false,
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "x-typia-required": true,
+                        "x-typia-optional": false,
+                        "type": "string"
+                    }
+                },
+                "nullable": false,
+                "required": ["accessToken", "refreshToken"],
+                "x-typia-jsDocTags": []
+            },
+            "ProfileBodyDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "x-typia-required": true,
+                        "x-typia-optional": false,
+                        "type": "string"
+                    }
+                },
+                "nullable": false,
+                "required": ["name"],
+                "x-typia-jsDocTags": []
+            }
         },
-        "x-nestia-namespace": "users.mq.mqHealthCheck",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "GET"
-      }
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
     }
-  },
-  "components": {
-    "schemas": {
-      "ResultResponseDto": {
-        "type": "object",
-        "properties": {
-          "result": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "result"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "TokensResponseDto": {
-        "type": "object",
-        "properties": {
-          "accessToken": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "refreshToken": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "accessToken",
-          "refreshToken"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "ProfileBodyDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      }
-    },
-    "securitySchemes": {
-      "bearer": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
-      }
-    }
-  }
 }
