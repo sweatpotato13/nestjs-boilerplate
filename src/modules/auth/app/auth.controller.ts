@@ -15,7 +15,9 @@ export class AuthController {
     @Get("google/login")
     @UseGuards(AuthGuard("google"))
     handleLogin(): ResultResponseDto {
-        const result = ResultResponseDto.of({ result: "Google Authentication" });
+        const result = ResultResponseDto.of({
+            result: "Google Authentication"
+        });
         return result;
     }
 

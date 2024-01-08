@@ -1,5 +1,11 @@
 import { plainToClass } from "class-transformer";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
+import {
+    Column,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    Relation
+} from "typeorm";
 
 import { RoleDto } from "../dtos";
 import { UserRole } from "./user-role.entity";

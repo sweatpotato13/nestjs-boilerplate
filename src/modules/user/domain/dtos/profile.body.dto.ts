@@ -5,9 +5,7 @@ export class ProfileBodyDto {
     @IsNotEmpty()
     readonly name: string;
 
-    public static of(
-        params: Partial<ProfileBodyDto>
-    ): ProfileBodyDto {
+    public static of(params: Partial<ProfileBodyDto>): ProfileBodyDto {
         const dto = new ProfileBodyDto();
         Object.assign(dto, params);
         return dto;

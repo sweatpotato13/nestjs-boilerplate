@@ -10,13 +10,13 @@ import { AuthService } from "../app/auth.service";
 export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     constructor(
         @Inject(GoogleOauthConfig.KEY)
-        private readonly _config: ConfigType<typeof GoogleOauthConfig>,
-        @Inject("AuthService") private readonly _service: AuthService
+        private readonly config: ConfigType<typeof GoogleOauthConfig>,
+        @Inject("AuthService") private readonly service: AuthService
     ) {
         super({
-            clientID: _config.clientId,
-            clientSecret: _config.clientSecret,
-            callbackURL: _config.redirect,
+            clientID: config.clientId,
+            clientSecret: config.clientSecret,
+            callbackURL: config.redirect,
             scope: ["email", "profile"]
         });
     }

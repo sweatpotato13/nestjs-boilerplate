@@ -9,7 +9,7 @@ export class MqHealthCheckHandler implements IQueryHandler<MqHealthCheckQuery> {
     constructor(@Inject("RABBITMQ") private client: ClientProxy) {}
 
     async execute(command: MqHealthCheckQuery) {
-        const { } = command;
+        const {} = command;
 
         await this.client
             .send({ cmd: "hello" }, "Hello World to rabbitmq!")

@@ -1,5 +1,10 @@
 import { config } from "@config";
-import { CanActivate, ExecutionContext, Inject, Injectable } from "@nestjs/common";
+import {
+    CanActivate,
+    ExecutionContext,
+    Inject,
+    Injectable
+} from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "@src/shared/entities";
@@ -15,7 +20,7 @@ export class AuthGuard implements CanActivate {
         private readonly jwtService: JwtService,
         @InjectRepository(User)
         private readonly userRepo: Repository<User>
-    ) { }
+    ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
@@ -37,7 +42,7 @@ export class AuthGuard implements CanActivate {
 
         const payload = (await this.jwtService.decodeJwt(
             request.headers.authorization
-        )) as { userId: string, type: string };
+        )) as { userId: string; type: string };
 
         if (!payload) {
             throw new UnauthorizedException("Invalid access token");
@@ -56,9 +61,11 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException("Invalid user id");
         }
 
-        const userRoles: string[] = user.userRoles ? user.userRoles.map(cur => {
-            return cur.role.name;
-        }) : [];
+        const userRoles: string[] = user.userRoles
+            ? user.userRoles.map(cur => {
+                  return cur.role.name;
+              })
+            : [];
 
         return userRoles.some(role => roles.includes(role));
     }

@@ -9,12 +9,14 @@ export class JwtService {
 
     constructor(
         @Inject(JwtModuleConfig.KEY)
-        private readonly _config: ConfigType<typeof JwtModuleConfig>,
-    ) { }
+        private readonly config: ConfigType<typeof JwtModuleConfig>
+    ) {}
 
-    public async createUserJwt(userId: string): Promise<{ accessToken: string, refreshToken: string }> {
-        this._config.refreshExpiresIn;
-        this._config.accessExpiresIn;
+    public async createUserJwt(
+        userId: string
+    ): Promise<{ accessToken: string; refreshToken: string }> {
+        this.config.refreshExpiresIn;
+        this.config.accessExpiresIn;
         const accessTokenPayload = {
             userId,
             type: "accessToken"
@@ -29,23 +31,27 @@ export class JwtService {
     }
 
     public signJwt(payload: object, isAccessToken: boolean): string {
-        return jwt.sign(payload, this._config.privateKey, {
-            algorithm: this._config.algorithm as Algorithm,
-            expiresIn: isAccessToken ? this._config.accessExpiresIn : this._config.refreshExpiresIn
+        return jwt.sign(payload, this.config.privateKey, {
+            algorithm: this.config.algorithm as Algorithm,
+            expiresIn: isAccessToken
+                ? this.config.accessExpiresIn
+                : this.config.refreshExpiresIn
         });
     }
 
-    public async decodeJwt(token: string): Promise<{ userId: string, type: string }> {
+    public async decodeJwt(
+        token: string
+    ): Promise<{ userId: string; type: string }> {
         return new Promise(resolve => {
             jwt.verify(
                 token,
-                this._config.publicKey,
+                this.config.publicKey,
                 {
-                    algorithms: [this._config.algorithm as Algorithm]
+                    algorithms: [this.config.algorithm as Algorithm]
                 },
                 (err, decoded) => {
                     if (err) return resolve(null);
-                    return resolve(decoded as { userId: string, type: string });
+                    return resolve(decoded as { userId: string; type: string });
                 }
             );
         });

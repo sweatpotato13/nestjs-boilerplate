@@ -1,6 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import { Test, TestingModule } from "@nestjs/testing";
-import { Role,User, UserRole } from "@src/shared/entities";
+import { Role, User, UserRole } from "@src/shared/entities";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { Repository } from "typeorm";
 
@@ -13,7 +13,7 @@ const mockUserService: Partial<UserService> = {
     getUserByEmail: jest.fn(),
     updateUserProfile: jest.fn(),
     deleteUser: jest.fn(),
-    mqHealthCheck: jest.fn(),
+    mqHealthCheck: jest.fn()
 };
 
 const mockUserRepository: Partial<Repository<User>> = {
@@ -40,12 +40,12 @@ const mockRoleRepository: Partial<Repository<Role>> = {
 const mockJwtService: Partial<JwtService> = {
     createUserJwt: jest.fn(),
     signJwt: jest.fn(),
-    decodeJwt: jest.fn(),
+    decodeJwt: jest.fn()
 };
 
 jest.mock("typeorm-transactional", () => ({
     Transactional: () => () => ({}),
-    BaseRepository: class { },
+    BaseRepository: class {},
     runOnTransactionCommit: jest.fn(),
     runOnTransactionRollback: jest.fn(),
     runOnTransactionComplete: jest.fn()
@@ -64,10 +64,9 @@ describe("UserController", () => {
                     provide: "UserRoleRepository",
                     useValue: mockUserRoleRepository
                 },
-                { provide: "RoleRepository", useValue: mockRoleRepository },
-
+                { provide: "RoleRepository", useValue: mockRoleRepository }
             ],
-            controllers: [UserController],
+            controllers: [UserController]
         }).compile();
 
         userController = module.get<UserController>(UserController);
@@ -103,8 +102,8 @@ describe("UserController", () => {
             const email = "john@example.com";
             const user = { id: "123", email };
 
-            jest.spyOn(mockUserService, "getUserByEmail").mockImplementation(() =>
-                Promise.resolve(user)
+            jest.spyOn(mockUserService, "getUserByEmail").mockImplementation(
+                () => Promise.resolve(user)
             );
 
             expect(await userController.getUserByEmail(email)).toBe(user);
@@ -117,11 +116,13 @@ describe("UserController", () => {
             const userId = "456";
             const profile = { name: "John Doe", age: 30 };
 
-            jest.spyOn(mockUserService, "updateUserProfile").mockImplementation(() =>
-                Promise.resolve(profile)
+            jest.spyOn(mockUserService, "updateUserProfile").mockImplementation(
+                () => Promise.resolve(profile)
             );
 
-            expect(await userController.updateUserProfile(id, userId, profile)).toBe(profile);
+            expect(
+                await userController.updateUserProfile(id, userId, profile)
+            ).toBe(profile);
         });
     });
 
@@ -142,8 +143,8 @@ describe("UserController", () => {
         it("should return mqHealthCheck", async () => {
             const resp = "MQ HealthCheck :)";
 
-            jest.spyOn(mockUserService, "mqHealthCheck").mockImplementation(() =>
-                Promise.resolve(resp)
+            jest.spyOn(mockUserService, "mqHealthCheck").mockImplementation(
+                () => Promise.resolve(resp)
             );
 
             expect(await userController.mqHealthCheck()).toBe(resp);

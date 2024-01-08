@@ -7,9 +7,9 @@ import Redis from "ioredis";
 export class RedisService extends Redis {
     constructor(
         @Inject(RedisModuleConfig.KEY)
-            _config: ConfigType<typeof RedisModuleConfig>
+        config: ConfigType<typeof RedisModuleConfig>
     ) {
-        super(_config);
+        super(config);
     }
 
     public async count(key: string): Promise<number> {

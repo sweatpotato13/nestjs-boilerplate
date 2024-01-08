@@ -34,12 +34,12 @@ const mockRoleRepository: Partial<Repository<Role>> = {
 const mockJwtService: Partial<JwtService> = {
     createUserJwt: jest.fn(),
     signJwt: jest.fn(),
-    decodeJwt: jest.fn(),
+    decodeJwt: jest.fn()
 };
 
 jest.mock("typeorm-transactional", () => ({
     Transactional: () => () => ({}),
-    BaseRepository: class { },
+    BaseRepository: class {},
     runOnTransactionCommit: jest.fn(),
     runOnTransactionRollback: jest.fn(),
     runOnTransactionComplete: jest.fn()
@@ -92,7 +92,10 @@ describe("AuthService", () => {
             );
 
             jest.spyOn(mockJwtService, "createUserJwt").mockImplementation(() =>
-                Promise.resolve({ accessToken: "accessToken", refreshToken: "refreshToken" })
+                Promise.resolve({
+                    accessToken: "accessToken",
+                    refreshToken: "refreshToken"
+                })
             );
 
             expect(await authService.googleLogin(args)).toStrictEqual(resp);

@@ -41,6 +41,6 @@ import { QueryHandlers } from "./domain/queries/handlers";
 })
 export class UserModule {
     configure(consumer: MiddlewareConsumer) {
-        const { } = consumer;
+        const {} = consumer;
     }
 }

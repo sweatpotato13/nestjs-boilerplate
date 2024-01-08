@@ -1,17 +1,29 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { runOnTransactionCommit, runOnTransactionComplete,runOnTransactionRollback } from "typeorm-transactional";
+import {
+    runOnTransactionCommit,
+    runOnTransactionComplete,
+    runOnTransactionRollback
+} from "typeorm-transactional";
 
-import { DeleteUserCommand, UpdateUserProfileCommand } from "../domain/commands/impl";
+import {
+    DeleteUserCommand,
+    UpdateUserProfileCommand
+} from "../domain/commands/impl";
 import { ProfileBodyDto } from "../domain/dtos";
-import { GetUserByEmailQuery, GetUserByIdQuery, HealthCheckQuery, MqHealthCheckQuery } from "../domain/queries/impl";
+import {
+    GetUserByEmailQuery,
+    GetUserByIdQuery,
+    HealthCheckQuery,
+    MqHealthCheckQuery
+} from "../domain/queries/impl";
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus
-    ) { }
+    ) {}
 
     public async healthCheck(): Promise<any> {
         try {
@@ -24,7 +36,9 @@ export class UserService {
 
     public async getUserById(id: string): Promise<any> {
         try {
-            const result = await this.queryBus.execute(new GetUserByIdQuery(id));
+            const result = await this.queryBus.execute(
+                new GetUserByIdQuery(id)
+            );
             return result;
         } catch (error) {
             throw error;
@@ -33,25 +47,31 @@ export class UserService {
 
     public async getUserByEmail(email: string): Promise<any> {
         try {
-            const result = await this.queryBus.execute(new GetUserByEmailQuery(email));
+            const result = await this.queryBus.execute(
+                new GetUserByEmailQuery(email)
+            );
             return result;
         } catch (error) {
             throw error;
         }
     }
 
-    public async updateUserProfile(id: string, userId: string, profile: ProfileBodyDto): Promise<any> {
+    public async updateUserProfile(
+        id: string,
+        userId: string,
+        profile: ProfileBodyDto
+    ): Promise<any> {
         try {
             const result = await this.commandBus.execute(
                 new UpdateUserProfileCommand(id, userId, profile)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
 
@@ -60,13 +80,13 @@ export class UserService {
             const result = await this.commandBus.execute(
                 new DeleteUserCommand(id, userId)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
 
@@ -81,4 +101,3 @@ export class UserService {
         }
     }
 }
-

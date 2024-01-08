@@ -2,22 +2,30 @@
 import { CommandBus, CqrsModule, QueryBus } from "@nestjs/cqrs";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { DeleteUserCommand,UpdateUserProfileCommand } from "../domain/commands/impl";
+import {
+    DeleteUserCommand,
+    UpdateUserProfileCommand
+} from "../domain/commands/impl";
 import { ProfileBodyDto } from "../domain/dtos";
-import { GetUserByEmailQuery, GetUserByIdQuery,HealthCheckQuery, MqHealthCheckQuery } from "../domain/queries/impl";
+import {
+    GetUserByEmailQuery,
+    GetUserByIdQuery,
+    HealthCheckQuery,
+    MqHealthCheckQuery
+} from "../domain/queries/impl";
 import { UserService } from "./user.service";
 
 const mockQueryBus = {
-    execute: jest.fn(),
+    execute: jest.fn()
 };
 
 const mockCommandBus = {
-    execute: jest.fn(),
+    execute: jest.fn()
 };
 
 jest.mock("typeorm-transactional", () => ({
     Transactional: () => () => ({}),
-    BaseRepository: class { },
+    BaseRepository: class {},
     runOnTransactionCommit: jest.fn(),
     runOnTransactionRollback: jest.fn(),
     runOnTransactionComplete: jest.fn()
@@ -36,7 +44,7 @@ describe("UserService", () => {
             providers: [
                 UserService,
                 { provide: QueryBus, useValue: mockQueryBus },
-                { provide: CommandBus, useValue: mockCommandBus },
+                { provide: CommandBus, useValue: mockCommandBus }
             ]
         }).compile();
         await module.init();
@@ -49,24 +57,34 @@ describe("UserService", () => {
         it("should return the result of HealthCheckQuery", async () => {
             // Arrange
             const expectedResult = "mocked result";
-            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(expectedResult);
+            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(
+                expectedResult
+            );
 
             // Act
             const result = await userService.healthCheck();
 
             // Assert
             expect(result).toBe(expectedResult);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new HealthCheckQuery());
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new HealthCheckQuery()
+            );
         });
 
         it("should throw an error if HealthCheckQuery fails", async () => {
             // Arrange
             const expectedError = new Error("mocked error");
-            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(expectedError);
+            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(
+                expectedError
+            );
 
             // Act & Assert
-            await expect(userService.healthCheck()).rejects.toThrow(expectedError);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new HealthCheckQuery());
+            await expect(userService.healthCheck()).rejects.toThrow(
+                expectedError
+            );
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new HealthCheckQuery()
+            );
         });
     });
 
@@ -75,25 +93,35 @@ describe("UserService", () => {
             // Arrange
             const id = "mocked id";
             const expectedResult = "mocked result";
-            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(expectedResult);
+            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(
+                expectedResult
+            );
 
             // Act
             const result = await userService.getUserById(id);
 
             // Assert
             expect(result).toBe(expectedResult);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new GetUserByIdQuery(id));
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new GetUserByIdQuery(id)
+            );
         });
 
         it("should throw an error if GetUserByIdQuery fails", async () => {
             // Arrange
             const id = "mocked id";
             const expectedError = new Error("mocked error");
-            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(expectedError);
+            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(
+                expectedError
+            );
 
             // Act & Assert
-            await expect(userService.getUserById(id)).rejects.toThrow(expectedError);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new GetUserByIdQuery(id));
+            await expect(userService.getUserById(id)).rejects.toThrow(
+                expectedError
+            );
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new GetUserByIdQuery(id)
+            );
         });
     });
 
@@ -102,25 +130,35 @@ describe("UserService", () => {
             // Arrange
             const email = "mocked email";
             const expectedResult = "mocked result";
-            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(expectedResult);
+            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(
+                expectedResult
+            );
 
             // Act
             const result = await userService.getUserByEmail(email);
 
             // Assert
             expect(result).toBe(expectedResult);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new GetUserByEmailQuery(email));
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new GetUserByEmailQuery(email)
+            );
         });
 
         it("should throw an error if GetUserByEmailQuery fails", async () => {
             // Arrange
             const email = "mocked email";
             const expectedError = new Error("mocked error");
-            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(expectedError);
+            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(
+                expectedError
+            );
 
             // Act & Assert
-            await expect(userService.getUserByEmail(email)).rejects.toThrow(expectedError);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new GetUserByEmailQuery(email));
+            await expect(userService.getUserByEmail(email)).rejects.toThrow(
+                expectedError
+            );
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new GetUserByEmailQuery(email)
+            );
         });
     });
 
@@ -131,14 +169,22 @@ describe("UserService", () => {
             const userId = "mocked userId";
             const profile = ProfileBodyDto.of({}); // mocked profile object
             const expectedResult = "mocked result";
-            jest.spyOn(mockCommandBus, "execute").mockResolvedValue(expectedResult);
+            jest.spyOn(mockCommandBus, "execute").mockResolvedValue(
+                expectedResult
+            );
 
             // Act
-            const result = await userService.updateUserProfile(id, userId, profile);
+            const result = await userService.updateUserProfile(
+                id,
+                userId,
+                profile
+            );
 
             // Assert
             expect(result).toBe(expectedResult);
-            expect(mockCommandBus.execute).toHaveBeenCalledWith(new UpdateUserProfileCommand(id, userId, profile));
+            expect(mockCommandBus.execute).toHaveBeenCalledWith(
+                new UpdateUserProfileCommand(id, userId, profile)
+            );
         });
 
         it("should throw an error if UpdateUserProfileCommand fails", async () => {
@@ -147,11 +193,17 @@ describe("UserService", () => {
             const userId = "mocked userId";
             const profile = ProfileBodyDto.of({}); // mocked profile object
             const expectedError = new Error("mocked error");
-            jest.spyOn(mockCommandBus, "execute").mockRejectedValue(expectedError);
+            jest.spyOn(mockCommandBus, "execute").mockRejectedValue(
+                expectedError
+            );
 
             // Act & Assert
-            await expect(userService.updateUserProfile(id, userId, profile)).rejects.toThrow(expectedError);
-            expect(mockCommandBus.execute).toHaveBeenCalledWith(new UpdateUserProfileCommand(id, userId, profile));
+            await expect(
+                userService.updateUserProfile(id, userId, profile)
+            ).rejects.toThrow(expectedError);
+            expect(mockCommandBus.execute).toHaveBeenCalledWith(
+                new UpdateUserProfileCommand(id, userId, profile)
+            );
         });
     });
 
@@ -161,14 +213,18 @@ describe("UserService", () => {
             const id = "mocked id";
             const userId = "mocked userId";
             const expectedResult = "mocked result";
-            jest.spyOn(mockCommandBus, "execute").mockResolvedValue(expectedResult);
+            jest.spyOn(mockCommandBus, "execute").mockResolvedValue(
+                expectedResult
+            );
 
             // Act
             const result = await userService.deleteUser(id, userId);
 
             // Assert
             expect(result).toBe(expectedResult);
-            expect(mockCommandBus.execute).toHaveBeenCalledWith(new DeleteUserCommand(id, userId));
+            expect(mockCommandBus.execute).toHaveBeenCalledWith(
+                new DeleteUserCommand(id, userId)
+            );
         });
 
         it("should throw an error if DeleteUserCommand fails", async () => {
@@ -176,11 +232,17 @@ describe("UserService", () => {
             const id = "mocked id";
             const userId = "mocked userId";
             const expectedError = new Error("mocked error");
-            jest.spyOn(mockCommandBus, "execute").mockRejectedValue(expectedError);
+            jest.spyOn(mockCommandBus, "execute").mockRejectedValue(
+                expectedError
+            );
 
             // Act & Assert
-            await expect(userService.deleteUser(id, userId)).rejects.toThrow(expectedError);
-            expect(mockCommandBus.execute).toHaveBeenCalledWith(new DeleteUserCommand(id, userId));
+            await expect(userService.deleteUser(id, userId)).rejects.toThrow(
+                expectedError
+            );
+            expect(mockCommandBus.execute).toHaveBeenCalledWith(
+                new DeleteUserCommand(id, userId)
+            );
         });
     });
 
@@ -188,24 +250,34 @@ describe("UserService", () => {
         it("should return the result of MqHealthCheckQuery", async () => {
             // Arrange
             const expectedResult = "mocked result";
-            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(expectedResult);
+            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(
+                expectedResult
+            );
 
             // Act
             const result = await userService.mqHealthCheck();
 
             // Assert
             expect(result).toBe(expectedResult);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new MqHealthCheckQuery());
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new MqHealthCheckQuery()
+            );
         });
 
         it("should throw an error if MqHealthCheckQuery fails", async () => {
             // Arrange
             const expectedError = new Error("mocked error");
-            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(expectedError);
+            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(
+                expectedError
+            );
 
             // Act & Assert
-            await expect(userService.mqHealthCheck()).rejects.toThrow(expectedError);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(new MqHealthCheckQuery());
+            await expect(userService.mqHealthCheck()).rejects.toThrow(
+                expectedError
+            );
+            expect(mockQueryBus.execute).toHaveBeenCalledWith(
+                new MqHealthCheckQuery()
+            );
         });
     });
 });

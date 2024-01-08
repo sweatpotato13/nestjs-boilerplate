@@ -10,6 +10,7 @@ module.exports = {
         "plugin:security/recommended-legacy",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
+        "prettier"
     ],
     globals: {
         Atomics: "readonly",
@@ -28,7 +29,6 @@ module.exports = {
         "@typescript-eslint/no-empty-function": "off",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
-        "indent": ["error", 4, { "ignoredNodes": ["PropertyDefinition"] }],
         "semi": "error"
     },
     settings: {

@@ -17,13 +17,13 @@ import { GoogleStrategy } from "./infrastructures/google.strategy";
         ConfigModule.forFeature(GoogleOauthConfig),
         TypeOrmModule.forFeature([User, Role, UserRole, App]),
         CqrsModule,
-        JwtModule,
+        JwtModule
     ],
     providers: [
         { provide: "AuthService", useClass: AuthService },
         GoogleStrategy,
         ...CommandHandlers,
-        ...QueryHandlers,
+        ...QueryHandlers
     ],
     controllers: [AuthController]
 })

@@ -5,9 +5,7 @@ import { ConfigModule } from "@nestjs/config";
 import { JwtService } from "./jwt.service";
 
 @Module({
-    imports: [
-        ConfigModule.forFeature(JwtModuleConfig),
-    ],
+    imports: [ConfigModule.forFeature(JwtModuleConfig)],
     providers: [
         {
             provide: "JwtService",

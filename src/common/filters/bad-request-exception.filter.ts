@@ -9,7 +9,7 @@ import { logger } from "@src/config/modules/winston";
 
 @Catch(BadRequestException)
 export class BadRequestExceptionFilter
-implements ExceptionFilter<BadRequestException>
+    implements ExceptionFilter<BadRequestException>
 {
     catch(exception: BadRequestException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
@@ -20,10 +20,10 @@ implements ExceptionFilter<BadRequestException>
         response.status(statusCode).json(
             config.isProduction
                 ? {
-                    statusCode,
-                    timestamp: new Date().toISOString(),
-                    message: "Parameter validation failed"
-                }
+                      statusCode,
+                      timestamp: new Date().toISOString(),
+                      message: "Parameter validation failed"
+                  }
                 : exception.getResponse()
         );
     }

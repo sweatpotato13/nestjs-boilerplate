@@ -31,7 +31,7 @@ import { UserModule } from "./modules/user/user.module";
         {
             provide: APP_FILTER,
             useClass: BadRequestExceptionFilter
-        },
+        }
     ]
 })
 export class AppModule {

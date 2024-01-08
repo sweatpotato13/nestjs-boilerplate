@@ -25,7 +25,9 @@ describe("AuthController", () => {
 
     describe("GET /auth/google/login", () => {
         it("should return result", async () => {
-            const resp = ResultResponseDto.of({ result: "Google Authentication" });
+            const resp = ResultResponseDto.of({
+                result: "Google Authentication"
+            });
 
             expect(await authController.handleLogin()).toStrictEqual(resp);
         });

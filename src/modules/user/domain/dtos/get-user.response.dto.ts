@@ -9,9 +9,7 @@ export class GetUserResponseDto {
     @IsNotEmpty()
     readonly user: User;
 
-    public static of(
-        params: Partial<GetUserResponseDto>
-    ): GetUserResponseDto {
+    public static of(params: Partial<GetUserResponseDto>): GetUserResponseDto {
         const dto = new GetUserResponseDto();
         Object.assign(dto, params);
         return dto;
