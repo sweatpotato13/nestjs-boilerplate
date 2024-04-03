@@ -1,12 +1,12 @@
 # Step 1
-FROM node:alpine AS builder
+FROM node:20-alpine AS builder
 ENV NODE_ENV build
 WORKDIR /app
 COPY . /app
 RUN yarn && yarn build
 
 ### BASE
-FROM node:alpine AS base
+FROM node:20-alpine AS base
 LABEL maintainer "Cute_Wisp <sweatpotato13@gmail.com>"
 # Set the working directory
 WORKDIR /app
