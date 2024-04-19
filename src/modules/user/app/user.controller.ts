@@ -18,9 +18,7 @@ import { UserService } from "./user.service";
 
 @Controller("users")
 export class UserController {
-    constructor(
-        @Inject("UserService") private readonly service: UserService
-    ) {}
+    constructor(@Inject("UserService") private readonly service: UserService) {}
 
     @Get()
     @HttpCode(200)
