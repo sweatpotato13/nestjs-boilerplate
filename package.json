@@ -117,5 +117,5 @@
         "express": "^4.18.2",
         "webpack": "^5.90.3"
     },
-    "packageManager": "yarn@4.1.1"
+    "packageManager": "yarn@4.2.1"
 }
