@@ -17,6 +17,7 @@ import { BadRequestExceptionFilter } from "./common/filters/bad-request-exceptio
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
 import { RabbitMqConfigService } from "./config/modules/rabbitmq/rabbitmq.config.service";
 import { errorStream, logger } from "./config/modules/winston";
+import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 
 initializeTransactionalContext();
 
@@ -29,6 +30,7 @@ async function bootstrap() {
         app.useGlobalPipes(new ValidationPipe());
         app.useGlobalFilters(new BadRequestExceptionFilter());
         app.useGlobalInterceptors(new TimeoutInterceptor());
+        app.useGlobalFilters(new HttpExceptionFilter());
         app.use(helmet());
 
         app.use(rTracer.expressMiddleware());

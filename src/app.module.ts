@@ -11,6 +11,7 @@ import { BadRequestExceptionFilter } from "./common/filters/bad-request-exceptio
 import { TypeOrmConfigService } from "./config/modules/typeorm/typeorm.config.service";
 import { AuthModule } from "./modules/auth/auth.module";
 import { UserModule } from "./modules/user/user.module";
+import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 
 @Module({
     imports: [
@@ -31,6 +32,10 @@ import { UserModule } from "./modules/user/user.module";
         {
             provide: APP_FILTER,
             useClass: BadRequestExceptionFilter
+        },
+        {
+            provide: APP_FILTER,
+            useClass: HttpExceptionFilter
         }
     ]
 })
