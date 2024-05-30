@@ -14,10 +14,10 @@ import { initializeTransactionalContext } from "typeorm-transactional";
 
 import { AppModule } from "./app.module";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
+import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
 import { RabbitMqConfigService } from "./config/modules/rabbitmq/rabbitmq.config.service";
 import { errorStream, logger } from "./config/modules/winston";
-import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 
 initializeTransactionalContext();
 

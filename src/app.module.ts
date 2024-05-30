@@ -8,10 +8,10 @@ import { DataSource } from "typeorm";
 import { addTransactionalDataSource } from "typeorm-transactional";
 
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
+import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { TypeOrmConfigService } from "./config/modules/typeorm/typeorm.config.service";
 import { AuthModule } from "./modules/auth/auth.module";
 import { UserModule } from "./modules/user/user.module";
-import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 
 @Module({
     imports: [
