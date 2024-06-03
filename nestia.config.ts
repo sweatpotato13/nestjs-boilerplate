@@ -11,6 +11,7 @@ export const NESTIA_CONFIG: INestiaConfig = {
                 description: "Local Server"
             }
         ],
+        decompose: true,
         security: {
             bearer: {
                 type: "apiKey",
