@@ -12,6 +12,13 @@ export class AuthController {
         @Inject("AuthService") private readonly _service: AuthService
     ) {}
 
+    /**
+     * Handles the Google login request.
+     * This route is protected by the Google authentication guard.
+     * @returns {ResultResponseDto} The result of the login request.
+     *
+     * @tag auth
+     */
     @Get("google/login")
     @UseGuards(AuthGuard("google"))
     handleLogin(): ResultResponseDto {
@@ -21,6 +28,15 @@ export class AuthController {
         return result;
     }
 
+    /**
+     * Handles the Google callback after successful authentication.
+     * This route is protected by the Google authentication guard.
+     * @param {Request} req - The request object.
+     * @returns {Promise<TokensResponseDto>} The tokens response DTO.
+     *
+     * @internal
+     * @tag auth
+     */
     @Get("google/callback")
     @UseGuards(AuthGuard("google"))
     handleRedirect(@Req() req: Request): Promise<TokensResponseDto> {

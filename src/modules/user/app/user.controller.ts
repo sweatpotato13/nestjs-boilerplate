@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     HttpCode,
+    HttpStatus,
     Inject,
     Param,
     Put,
@@ -20,8 +21,15 @@ import { UserService } from "./user.service";
 export class UserController {
     constructor(@Inject("UserService") private readonly service: UserService) {}
 
+    /**
+     * Health check endpoint.
+     * @returns A Promise that resolves to the health check result.
+     * @throws Throws an error if an error occurs during the health check.
+     *
+     * @tag user
+     */
     @Get()
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async healthCheck(): Promise<any> {
         try {
             const result = await this.service.healthCheck();
@@ -31,8 +39,16 @@ export class UserController {
         }
     }
 
+    /**
+     * Get user by ID.
+     * @param id - The ID of the user.
+     * @returns A Promise that resolves to the user with the specified ID.
+     * @throws Throws an error if an error occurs while retrieving the user.
+     *
+     * @tag user
+     */
     @Get("/:id")
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async getUserById(@Param("id") id: string): Promise<any> {
         try {
             const result = await this.service.getUserById(id);
@@ -42,8 +58,16 @@ export class UserController {
         }
     }
 
+    /**
+     * Get user by email.
+     * @param email - The email of the user.
+     * @returns A Promise that resolves to the user with the specified email.
+     * @throws Throws an error if an error occurs while retrieving the user.
+     *
+     * @tag user
+     */
     @Get("/:email")
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async getUserByEmail(@Param("email") email: string): Promise<any> {
         try {
             const result = await this.service.getUserByEmail(email);
@@ -54,11 +78,20 @@ export class UserController {
     }
 
     /**
+     * Update user profile.
      * @security bearer
+     * @param id - The ID of the user.
+     * @param userId - The ID of the authenticated user.
+     * @param profile - The updated profile data.
+     * @returns A Promise that resolves to the updated user profile.
+     * @throws Throws an error if an error occurs while updating the user profile.
+     *
+     * @security bearer
+     * @tag user
      */
     @Put("/:id/profile")
     @UseGuards(AuthGuard)
-    @HttpCode(201)
+    @HttpCode(HttpStatus.CREATED)
     async updateUserProfile(
         @Param("id") id: string,
         @GetUserId() userId: string,
@@ -77,11 +110,19 @@ export class UserController {
     }
 
     /**
+     * Delete user.
      * @security bearer
+     * @param id - The ID of the user to delete.
+     * @param userId - The ID of the authenticated user.
+     * @returns A Promise that resolves to the result of the delete operation.
+     * @throws Throws an error if an error occurs while deleting the user.
+     *
+     * @security bearer
+     * @tag user
      */
     @Delete("/:id")
     @UseGuards(AuthGuard)
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async deleteUser(
         @Param("id") id: string,
         @GetUserId() userId: string
@@ -94,8 +135,16 @@ export class UserController {
         }
     }
 
+    /**
+     * Message queue health check endpoint.
+     * @returns A Promise that resolves to the health check result.
+     * @throws Throws an error if an error occurs during the health check.
+     *
+     * @internal
+     * @tag user
+     */
     @Get("mq")
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async mqHealthCheck(): Promise<any> {
         try {
             const result = await this.service.mqHealthCheck();
@@ -105,6 +154,13 @@ export class UserController {
         }
     }
 
+    /**
+     * Message queue receiver.
+     * @param data - The received message data.
+     *
+     * @internal
+     * @tag user
+     */
     @MessagePattern({ cmd: "hello" })
     mqReceiver(@Payload() data: string) {
         console.log(data);

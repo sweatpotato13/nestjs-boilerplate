@@ -1,5 +1,5 @@
 {
-    "openapi": "3.0.1",
+    "openapi": "3.1.0",
     "servers": [
         {
             "url": "http://localhost:8000",
@@ -17,71 +17,51 @@
     "paths": {
         "/auth/google/login": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "auth"
+                ],
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "The result of the login request.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ResultResponseDto"
                                 }
                             }
-                        },
-                        "x-nestia-encrypted": false
+                        }
                     }
                 },
-                "x-nestia-namespace": "auth.google.login.handleLogin",
-                "x-nestia-jsDocTags": [],
-                "x-nestia-method": "GET"
-            }
-        },
-        "/auth/google/callback": {
-            "get": {
-                "tags": [],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TokensResponseDto"
-                                }
-                            }
-                        },
-                        "x-nestia-encrypted": false
-                    }
-                },
-                "x-nestia-namespace": "auth.google.callback.handleRedirect",
-                "x-nestia-jsDocTags": [],
-                "x-nestia-method": "GET"
+                "summary": "Handles the Google login request",
+                "description": "Handles the Google login request.\nThis route is protected by the Google authentication guard."
             }
         },
         "/users": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "user"
+                ],
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "A Promise that resolves to the health check result.",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        },
-                        "x-nestia-encrypted": false
+                        }
                     }
                 },
-                "x-nestia-namespace": "users.healthCheck",
-                "x-nestia-jsDocTags": [],
-                "x-nestia-method": "GET"
+                "summary": "Health check endpoint",
+                "description": "Health check endpoint."
             }
         },
         "/users/{id}": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "user"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -89,27 +69,27 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "",
+                        "description": "- The ID of the user.",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "A Promise that resolves to the user with the specified ID.",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        },
-                        "x-nestia-encrypted": false
+                        }
                     }
                 },
-                "x-nestia-namespace": "users.getUserById",
-                "x-nestia-jsDocTags": [],
-                "x-nestia-method": "GET"
+                "summary": "Get user by ID",
+                "description": "Get user by ID."
             },
             "delete": {
-                "tags": [],
+                "tags": [
+                    "user"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -117,44 +97,34 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "",
+                        "description": "- The ID of the user to delete.",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "A Promise that resolves to the result of the delete operation.",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        },
-                        "x-nestia-encrypted": false
+                        }
                     }
                 },
+                "summary": "Delete user",
+                "description": "Delete user.",
                 "security": [
                     {
                         "bearer": []
                     }
-                ],
-                "x-nestia-namespace": "users.deleteUser",
-                "x-nestia-jsDocTags": [
-                    {
-                        "name": "security",
-                        "text": [
-                            {
-                                "text": "bearer",
-                                "kind": "text"
-                            }
-                        ]
-                    }
-                ],
-                "x-nestia-method": "DELETE"
+                ]
             }
         },
         "/users/{email}": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "user"
+                ],
                 "parameters": [
                     {
                         "name": "email",
@@ -162,29 +132,29 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "",
+                        "description": "- The email of the user.",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "A Promise that resolves to the user with the specified email.",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        },
-                        "x-nestia-encrypted": false
+                        }
                     }
                 },
-                "x-nestia-namespace": "users.getUserByEmail",
-                "x-nestia-jsDocTags": [],
-                "x-nestia-method": "GET"
+                "summary": "Get user by email",
+                "description": "Get user by email."
             }
         },
         "/users/{id}/profile": {
             "put": {
-                "tags": [],
+                "tags": [
+                    "user"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -192,11 +162,12 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "",
+                        "description": "- The ID of the user.",
                         "required": true
                     }
                 ],
                 "requestBody": {
+                    "description": "- The updated profile data.",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -204,58 +175,25 @@
                             }
                         }
                     },
-                    "required": true,
-                    "x-nestia-encrypted": false
+                    "required": true
                 },
                 "responses": {
                     "201": {
-                        "description": "",
+                        "description": "A Promise that resolves to the updated user profile.",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        },
-                        "x-nestia-encrypted": false
+                        }
                     }
                 },
+                "summary": "Update user profile",
+                "description": "Update user profile.",
                 "security": [
                     {
                         "bearer": []
                     }
-                ],
-                "x-nestia-namespace": "users.profile.updateUserProfile",
-                "x-nestia-jsDocTags": [
-                    {
-                        "name": "security",
-                        "text": [
-                            {
-                                "text": "bearer",
-                                "kind": "text"
-                            }
-                        ]
-                    }
-                ],
-                "x-nestia-method": "PUT"
-            }
-        },
-        "/users/mq": {
-            "get": {
-                "tags": [],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        },
-                        "x-nestia-encrypted": false
-                    }
-                },
-                "x-nestia-namespace": "users.mq.mqHealthCheck",
-                "x-nestia-jsDocTags": [],
-                "x-nestia-method": "GET"
+                ]
             }
         }
     },
@@ -265,45 +203,29 @@
                 "type": "object",
                 "properties": {
                     "result": {
-                        "x-typia-required": true,
-                        "x-typia-optional": false,
-                        "type": "string"
+                        "type": "string",
+                        "title": "The result value",
+                        "description": "The result value."
                     }
                 },
-                "nullable": false,
-                "required": ["result"],
-                "x-typia-jsDocTags": []
-            },
-            "TokensResponseDto": {
-                "type": "object",
-                "properties": {
-                    "accessToken": {
-                        "x-typia-required": true,
-                        "x-typia-optional": false,
-                        "type": "string"
-                    },
-                    "refreshToken": {
-                        "x-typia-required": true,
-                        "x-typia-optional": false,
-                        "type": "string"
-                    }
-                },
-                "nullable": false,
-                "required": ["accessToken", "refreshToken"],
-                "x-typia-jsDocTags": []
+                "required": [
+                    "result"
+                ],
+                "description": "Represents the response DTO for a result."
             },
             "ProfileBodyDto": {
                 "type": "object",
                 "properties": {
                     "name": {
-                        "x-typia-required": true,
-                        "x-typia-optional": false,
-                        "type": "string"
+                        "type": "string",
+                        "title": "The name of the profile",
+                        "description": "The name of the profile."
                     }
                 },
-                "nullable": false,
-                "required": ["name"],
-                "x-typia-jsDocTags": []
+                "required": [
+                    "name"
+                ],
+                "description": "Represents the data transfer object for the profile body."
             }
         },
         "securitySchemes": {
@@ -313,5 +235,14 @@
                 "in": "header"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "auth"
+        },
+        {
+            "name": "user"
+        }
+    ],
+    "x-samchon-emended": true
 }
