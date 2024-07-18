@@ -19,8 +19,6 @@ export default eslintTs.config(
     eslintJs.configs.recommended,
     ...eslintTs.configs.recommendedTypeChecked,
     ...compat.extends(
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
         "prettier"
     ),
     {

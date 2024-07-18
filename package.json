@@ -31,7 +31,7 @@
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "sdk": "nestia sdk 'src/**/*.controller.ts' --out 'src/api'",
         "swagger": "nestia swagger 'src/**/*.controller.ts' --out './public/swagger.json'",
-        "prepare": "husky"
+        "prepare": "husky init"
     },
     "dependencies": {
         "@babel/core": "^7.24.6",
