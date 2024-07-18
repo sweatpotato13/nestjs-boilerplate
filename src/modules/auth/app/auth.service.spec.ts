@@ -1,4 +1,4 @@
-/* eslint-disable max-nested-callbacks */
+
 import { CqrsModule } from "@nestjs/cqrs";
 import { Test, TestingModule } from "@nestjs/testing";
 import { Role, User, UserRole } from "@src/shared/entities";
@@ -39,7 +39,7 @@ const mockJwtService: Partial<JwtService> = {
 
 jest.mock("typeorm-transactional", () => ({
     Transactional: () => () => ({}),
-    BaseRepository: class {},
+    BaseRepository: class { },
     runOnTransactionCommit: jest.fn(),
     runOnTransactionRollback: jest.fn(),
     runOnTransactionComplete: jest.fn()
@@ -91,11 +91,12 @@ describe("AuthService", () => {
                 )
             );
 
-            jest.spyOn(mockJwtService, "createUserJwt").mockImplementation(() =>
-                Promise.resolve({
+            jest.spyOn(mockJwtService, "createUserJwt").mockImplementation(() => {
+                return {
                     accessToken: "accessToken",
                     refreshToken: "refreshToken"
-                })
+                };
+            }
             );
 
             expect(await authService.googleLogin(args)).toStrictEqual(resp);

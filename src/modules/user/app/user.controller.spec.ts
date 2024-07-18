@@ -1,4 +1,4 @@
-/* eslint-disable max-nested-callbacks */
+ 
 import { Test, TestingModule } from "@nestjs/testing";
 import { Role, User, UserRole } from "@src/shared/entities";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";

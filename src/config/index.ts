@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
-(process as any).send = process.send || function () {};
+if (typeof process.send !== 'function') {
+    (process as any).send = () => { };
+}
 
 import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch";
 import JwtModuleConfig from "./modules/jwt";

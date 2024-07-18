@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
         }
 
         const payload = (await this.jwtService.decodeJwt(
-            request.headers.authorization
+            request.headers.authorization as string
         )) as { userId: string; type: string };
 
         if (!payload) {

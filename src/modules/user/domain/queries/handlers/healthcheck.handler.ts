@@ -6,7 +6,7 @@ import { HealthCheckQuery } from "../impl";
 export class HealthCheckHandler implements IQueryHandler<HealthCheckQuery> {
     constructor() {}
 
-    async execute(command: HealthCheckQuery) {
+    execute(command: HealthCheckQuery) {
         const {} = command;
         return "HealthCheck :)";
     }

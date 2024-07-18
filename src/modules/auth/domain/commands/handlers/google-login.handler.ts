@@ -34,7 +34,7 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
             });
 
             if (!user) {
-                const newUser = await this._userRepo.create({
+                const newUser = this._userRepo.create({
                     email,
                     name,
                     provider
@@ -46,7 +46,7 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
                 });
                 if (!role) {
                     role = await this._roleRepo.save(
-                        await this._roleRepo.create({
+                        this._roleRepo.create({
                             name: "user"
                         })
                     );
@@ -56,14 +56,14 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
                     where: { userId: user.id }
                 });
                 if (!userRole) {
-                    const newUserRole = await this._userRoleRepo.create({
+                    const newUserRole = this._userRoleRepo.create({
                         userId: user.id,
                         roleId: role.id
                     });
                     await this._userRoleRepo.save(newUserRole);
                 }
             }
-            const tokens = await this._jwtService.createUserJwt(user.id);
+            const tokens = this._jwtService.createUserJwt(user.id);
 
             return TokensResponseDto.of({
                 accessToken: tokens.accessToken,

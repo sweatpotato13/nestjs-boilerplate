@@ -19,7 +19,7 @@ import { UserService } from "./user.service";
 
 @Controller("users")
 export class UserController {
-    constructor(@Inject("UserService") private readonly service: UserService) {}
+    constructor(@Inject("UserService") private readonly service: UserService) { }
 
     /**
      * Health check endpoint.
@@ -30,13 +30,9 @@ export class UserController {
      */
     @Get()
     @HttpCode(HttpStatus.OK)
-    async healthCheck(): Promise<any> {
-        try {
-            const result = await this.service.healthCheck();
-            return result;
-        } catch (error) {
-            throw error;
-        }
+    healthCheck(): any {
+        const result = this.service.healthCheck();
+        return result;
     }
 
     /**
@@ -50,12 +46,8 @@ export class UserController {
     @Get("/:id")
     @HttpCode(HttpStatus.OK)
     async getUserById(@Param("id") id: string): Promise<any> {
-        try {
-            const result = await this.service.getUserById(id);
-            return result;
-        } catch (error) {
-            throw error;
-        }
+        const result = await this.service.getUserById(id);
+        return result;
     }
 
     /**
@@ -69,12 +61,8 @@ export class UserController {
     @Get("/:email")
     @HttpCode(HttpStatus.OK)
     async getUserByEmail(@Param("email") email: string): Promise<any> {
-        try {
-            const result = await this.service.getUserByEmail(email);
-            return result;
-        } catch (error) {
-            throw error;
-        }
+        const result = await this.service.getUserByEmail(email);
+        return result;
     }
 
     /**
@@ -97,16 +85,12 @@ export class UserController {
         @GetUserId() userId: string,
         @Body() profile: ProfileBodyDto
     ): Promise<any> {
-        try {
-            const result = await this.service.updateUserProfile(
-                id,
-                userId,
-                profile
-            );
-            return result;
-        } catch (error) {
-            throw error;
-        }
+        const result = await this.service.updateUserProfile(
+            id,
+            userId,
+            profile
+        );
+        return result;
     }
 
     /**
@@ -127,12 +111,8 @@ export class UserController {
         @Param("id") id: string,
         @GetUserId() userId: string
     ): Promise<any> {
-        try {
-            const result = await this.service.deleteUser(id, userId);
-            return result;
-        } catch (error) {
-            throw error;
-        }
+        const result = await this.service.deleteUser(id, userId);
+        return result;
     }
 
     /**
@@ -146,12 +126,8 @@ export class UserController {
     @Get("mq")
     @HttpCode(HttpStatus.OK)
     async mqHealthCheck(): Promise<any> {
-        try {
-            const result = await this.service.mqHealthCheck();
-            return result;
-        } catch (error) {
-            throw error;
-        }
+        const result = await this.service.mqHealthCheck();
+        return result;
     }
 
     /**

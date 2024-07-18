@@ -1,4 +1,4 @@
-/* eslint-disable max-nested-callbacks */
+ 
 import { Test, TestingModule } from "@nestjs/testing";
 import { ResultResponseDto } from "@src/shared/dtos";
 import httpMocks from "node-mocks-http";
@@ -24,12 +24,12 @@ describe("AuthController", () => {
     });
 
     describe("GET /auth/google/login", () => {
-        it("should return result", async () => {
+        it("should return result", () => {
             const resp = ResultResponseDto.of({
                 result: "Google Authentication"
             });
 
-            expect(await authController.handleLogin()).toStrictEqual(resp);
+            expect(authController.handleLogin()).toStrictEqual(resp);
         });
     });
 

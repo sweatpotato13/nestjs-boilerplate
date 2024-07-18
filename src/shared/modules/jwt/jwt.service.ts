@@ -12,9 +12,9 @@ export class JwtService {
         private readonly config: ConfigType<typeof JwtModuleConfig>
     ) {}
 
-    public async createUserJwt(
+    public createUserJwt(
         userId: string
-    ): Promise<{ accessToken: string; refreshToken: string }> {
+    ): { accessToken: string; refreshToken: string } {
         this.config.refreshExpiresIn;
         this.config.accessExpiresIn;
         const accessTokenPayload = {

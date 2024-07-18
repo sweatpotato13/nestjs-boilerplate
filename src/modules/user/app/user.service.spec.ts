@@ -1,4 +1,4 @@
-/* eslint-disable max-nested-callbacks */
+ 
 import { CommandBus, CqrsModule, QueryBus } from "@nestjs/cqrs";
 import { Test, TestingModule } from "@nestjs/testing";
 
