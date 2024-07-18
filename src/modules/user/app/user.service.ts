@@ -23,7 +23,7 @@ export class UserService {
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus
-    ) { }
+    ) {}
 
     public healthCheck(): any {
         const result = this.queryBus.execute(new HealthCheckQuery());
@@ -31,9 +31,7 @@ export class UserService {
     }
 
     public async getUserById(id: string): Promise<any> {
-        const result = await this.queryBus.execute(
-            new GetUserByIdQuery(id)
-        );
+        const result = await this.queryBus.execute(new GetUserByIdQuery(id));
         return result;
     }
 
@@ -53,13 +51,13 @@ export class UserService {
             const result = await this.commandBus.execute(
                 new UpdateUserProfileCommand(id, userId, profile)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
 
@@ -68,20 +66,18 @@ export class UserService {
             const result = await this.commandBus.execute(
                 new DeleteUserCommand(id, userId)
             );
-            runOnTransactionCommit(() => { });
+            runOnTransactionCommit(() => {});
             return result;
         } catch (error) {
-            runOnTransactionRollback(() => { });
+            runOnTransactionRollback(() => {});
             throw error;
         } finally {
-            runOnTransactionComplete(() => { });
+            runOnTransactionComplete(() => {});
         }
     }
 
     public async mqHealthCheck(): Promise<any> {
-        const result = await this.queryBus.execute(
-            new MqHealthCheckQuery()
-        );
+        const result = await this.queryBus.execute(new MqHealthCheckQuery());
         return result;
     }
 }

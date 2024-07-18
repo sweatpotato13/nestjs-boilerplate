@@ -12,9 +12,10 @@ export class JwtService {
         private readonly config: ConfigType<typeof JwtModuleConfig>
     ) {}
 
-    public createUserJwt(
-        userId: string
-    ): { accessToken: string; refreshToken: string } {
+    public createUserJwt(userId: string): {
+        accessToken: string;
+        refreshToken: string;
+    } {
         this.config.refreshExpiresIn;
         this.config.accessExpiresIn;
         const accessTokenPayload = {

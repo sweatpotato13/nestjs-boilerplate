@@ -1,7 +1,7 @@
 import { config as _config } from "dotenv";
 _config({ path: __dirname + "/../../.env" });
-if (typeof process.send !== 'function') {
-    (process as any).send = () => { };
+if (typeof process.send !== "function") {
+    (process as any).send = () => {};
 }
 
 import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch";

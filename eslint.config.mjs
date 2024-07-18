@@ -49,7 +49,7 @@ export default eslintTs.config(
         plugins: {
             "@typescript-eslint": tseslint.plugin,
             "simple-import-sort": simpleImportSortPlugin,
-            security: pluginSecurity.configs.recommended
+            security: pluginSecurity.configs.recommended,
         },
         rules: {
             "no-empty-pattern": "off",
