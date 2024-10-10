@@ -30,7 +30,8 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "sdk": "nestia sdk 'src/**/*.controller.ts' --out 'src/api'",
-        "swagger": "nestia swagger 'src/**/*.controller.ts' --out './public/swagger.json'"
+        "swagger": "nestia swagger 'src/**/*.controller.ts' --out './public/swagger.json'",
+        "prepare": "husky"
     },
     "dependencies": {
         "@babel/core": "^7.25.7",
