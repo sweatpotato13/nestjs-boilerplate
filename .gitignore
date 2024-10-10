@@ -40,6 +40,7 @@ postgres-data
 .env
 es-data
 
+# Yarn
 .yarn/*
 !.yarn/cache
 !.yarn/patches
@@ -47,3 +48,6 @@ es-data
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Pnpm
+.pnpm-store/**

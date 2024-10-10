@@ -15,11 +15,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g yarn
-    - name: yarn build
+    - run: npm install -g pnpm
+    - name: pnpm build
       working-directory: .
       run: |
-        yarn
+        pnpm install
         yarn build
   test:
     runs-on: ubuntu-latest
@@ -32,12 +32,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g yarn
-    - name: yarn test
+    - run: npm install -g pnpm
+    - name: pnpm test
       working-directory: .
       run: |
-        yarn
-        yarn test
+        pnpm install
+        pnpm test
   lint:
     runs-on: ubuntu-latest
     strategy:
@@ -49,9 +49,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g yarn
+    - run: npm install -g pnpm
     - name: yarn lint
       working-directory: .
       run: |
-        yarn
-        yarn lint
+        pnpm install
+        pnpm lint

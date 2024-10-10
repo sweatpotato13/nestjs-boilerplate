@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { config } from "@config";
 import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
