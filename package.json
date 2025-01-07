@@ -118,7 +118,7 @@
         "ts-patch": "^3.3.0",
         "ttypescript": "^1.5.15",
         "typescript": "^5.7.2",
-        "typescript-eslint": "8.19.0"
+        "typescript-eslint": "8.19.1"
     },
     "peerDependencies": {
         "webpack": "^5.90.3"
