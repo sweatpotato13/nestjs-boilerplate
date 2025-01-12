@@ -1,7 +1,7 @@
-version: "3"
 services:
+# postgres
     postgres:
-        image: postgres:16
+        image: postgres:17
         container_name: postgres
         restart: always
         environment:
@@ -25,6 +25,7 @@ services:
           HASURA_GRAPHQL_DEV_MODE: "true"
           HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+# mongo
     mongo:
         image: mongo
         container_name: mongo
@@ -46,6 +47,7 @@ services:
             ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PW}
         ports:
             - ${MONGOEXPRESS_PORT}:8081
+# redis
     redis:
         container_name: redis
         image: redis
@@ -69,6 +71,7 @@ services:
         - REDIS_PORT=${REDIS_PORT}
         - HTTP_USER=${REDIS_COMMANDER_USER}
         - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
+# elasticsearch
     es01:
       image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
       container_name: es01
@@ -93,6 +96,28 @@ services:
       environment:
         ELASTICSEARCH_URL: http://es01:9200
         ELASTICSEARCH_HOSTS: http://es01:9200
+# kafka
+    zookeeper:
+        image: confluentinc/cp-zookeeper:latest
+        container_name: zookeeper
+        environment:
+            ZOOKEEPER_CLIENT_PORT: 2181
+            ZOOKEEPER_TICK_TIME: 2000
+        ports:
+            - "2181:2181"
+    kafka:
+        image: confluentinc/cp-kafka:latest
+        container_name: kafka
+        ports:
+            - "9092:9092"
+        depends_on:
+            - zookeeper
+        environment:
+            KAFKA_BROKER_ID: 1
+            KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://localhost:19092
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     nest:
         container_name: nest
         restart: always
