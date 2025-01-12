@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigType } from "@nestjs/config";
 import { CqrsModule } from "@nestjs/cqrs";
 import { GoogleOauthConfig } from "@src/config";
 import { JwtModule } from "@src/shared/modules";
@@ -20,7 +20,23 @@ import { GoogleStrategy } from "./infrastructures/google.strategy";
     providers: [
         { provide: "AuthService", useClass: AuthService },
         { provide: "PrismaService", useClass: PrismaService },
-        GoogleStrategy,
+        {
+            provide: GoogleStrategy,
+            useFactory: (
+                config: ConfigType<typeof GoogleOauthConfig>,
+                service: AuthService
+            ) => {
+                if (
+                    !config.clientId ||
+                    !config.clientSecret ||
+                    !config.redirect
+                ) {
+                    return null;
+                }
+                return new GoogleStrategy(config, service);
+            },
+            inject: [GoogleOauthConfig.KEY, "AuthService"]
+        },
         ...CommandHandlers,
         ...QueryHandlers
     ],

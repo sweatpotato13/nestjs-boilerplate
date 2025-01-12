@@ -1,5 +1,14 @@
-import { Controller, Get, Inject, Req, UseGuards } from "@nestjs/common";
+import {
+    Controller,
+    Get,
+    Inject,
+    Optional,
+    Req,
+    UseGuards
+} from "@nestjs/common";
+import { ConfigType } from "@nestjs/config";
 import { AuthGuard } from "@nestjs/passport";
+import { GoogleOauthConfig } from "@src/config";
 import { ResultResponseDto } from "@src/shared/dtos";
 import { Request } from "express";
 
@@ -8,9 +17,20 @@ import { AuthService } from "./auth.service";
 
 @Controller("auth")
 export class AuthController {
+    private googleAuthEnabled: boolean;
+
     constructor(
-        @Inject("AuthService") private readonly _service: AuthService
-    ) {}
+        @Inject("AuthService") private readonly _service: AuthService,
+        @Optional()
+        @Inject(GoogleOauthConfig.KEY)
+        config?: ConfigType<typeof GoogleOauthConfig>
+    ) {
+        this.googleAuthEnabled = !!(
+            config?.clientId &&
+            config?.clientSecret &&
+            config?.redirect
+        );
+    }
 
     /**
      * Handles the Google login request.
@@ -22,10 +42,12 @@ export class AuthController {
     @Get("login/google")
     @UseGuards(AuthGuard("google"))
     handleLogin(): ResultResponseDto {
-        const result = ResultResponseDto.of({
+        if (!this.googleAuthEnabled) {
+            throw new Error("Google authentication is not configured");
+        }
+        return ResultResponseDto.of({
             result: "Google Authentication"
         });
-        return result;
     }
 
     /**
@@ -40,8 +62,10 @@ export class AuthController {
     @Get("login/google/callback")
     @UseGuards(AuthGuard("google"))
     handleRedirect(@Req() req: Request): Promise<TokensResponseDto> {
+        if (!this.googleAuthEnabled) {
+            throw new Error("Google authentication is not configured");
+        }
         const { user } = req;
-        const result = this._service.googleLogin(UserDto.of(user as any));
-        return result;
+        return this._service.googleLogin(UserDto.of(user as any));
     }
 }
