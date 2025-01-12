@@ -20,7 +20,7 @@ export class AuthController {
     private googleAuthEnabled: boolean;
 
     constructor(
-        @Inject("AuthService") private readonly _service: AuthService,
+        @Inject("AuthService") private readonly service: AuthService,
         @Optional()
         @Inject(GoogleOauthConfig.KEY)
         config?: ConfigType<typeof GoogleOauthConfig>
@@ -62,10 +62,7 @@ export class AuthController {
     @Get("login/google/callback")
     @UseGuards(AuthGuard("google"))
     handleRedirect(@Req() req: Request): Promise<TokensResponseDto> {
-        if (!this.googleAuthEnabled) {
-            throw new Error("Google authentication is not configured");
-        }
         const { user } = req;
-        return this._service.googleLogin(UserDto.of(user as any));
+        return this.service.googleLogin(UserDto.of(user as any));
     }
 }

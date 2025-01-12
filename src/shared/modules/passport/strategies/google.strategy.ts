@@ -4,14 +4,11 @@ import { PassportStrategy } from "@nestjs/passport";
 import { GoogleOauthConfig } from "@src/config";
 import { Profile, Strategy, VerifyCallback } from "passport-google-oauth20";
 
-import { AuthService } from "../app/auth.service";
-
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     constructor(
         @Inject(GoogleOauthConfig.KEY)
-        private readonly config: ConfigType<typeof GoogleOauthConfig>,
-        @Inject("AuthService") private readonly service: AuthService
+        private readonly config: ConfigType<typeof GoogleOauthConfig>
     ) {
         super({
             clientID: config.clientId,

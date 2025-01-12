@@ -4,6 +4,8 @@ import { ClientsModule } from "@nestjs/microservices";
 import { KafkaConfg } from "@src/config";
 import { KafkaConfigService } from "@src/config/modules/kafka/kafka.config.service";
 
+import { KafkaService } from "./kafka.service";
+
 @Module({
     imports: [
         ClientsModule.registerAsync([
@@ -14,7 +16,7 @@ import { KafkaConfigService } from "@src/config/modules/kafka/kafka.config.servi
             }
         ])
     ],
-    providers: [],
+    providers: [KafkaService],
     controllers: []
 })
 export class KafkaModule {}

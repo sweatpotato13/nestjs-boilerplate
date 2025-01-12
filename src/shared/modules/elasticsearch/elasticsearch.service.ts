@@ -15,4 +15,13 @@ export class ElasticsearchService {
             node: this.config.node
         });
     }
+
+    public async index(index: string, document: any): Promise<void> {
+        await this.client.index({ index, document });
+    }
+
+    public async search(index: string, query: any): Promise<any> {
+        const result = await this.client.search({ index, body: query });
+        return result;
+    }
 }

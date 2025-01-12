@@ -32,8 +32,8 @@
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "sdk": "nestia sdk 'src/**/*.controller.ts' --out 'src/api'",
         "swagger": "nestia swagger 'src/**/*.controller.ts' --out './public/swagger.json'",
-        "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate dev",
+        "prisma:generate": "prisma generate",
         "prisma:studio": "prisma studio",
         "prisma:format": "prisma format",
         "prepare": "ts-patch install && typia patch && husky"

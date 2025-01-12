@@ -8,7 +8,7 @@ import { TokensResponseDto, UserDto } from "../domain/dtos";
 export class AuthService {
     constructor(
         private readonly commandBus: CommandBus,
-        private readonly queryBus: QueryBus
+        private readonly _queryBus: QueryBus
     ) {}
 
     public async googleLogin(user: UserDto): Promise<TokensResponseDto> {
