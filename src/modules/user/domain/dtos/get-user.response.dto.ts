@@ -7,13 +7,13 @@ export class GetUserResponseDto {
     /**
      * The result of the operation.
      */
-    @IsString({ message: "Invalid result" })
+    @IsString({ message: "result must be a string" })
     readonly result!: string;
 
     /**
      * The user object.
      */
-    @IsObject({ message: "Invalid user" })
+    @IsObject({ message: "user must be an object" })
     @IsNotEmpty()
     readonly user: any;
 

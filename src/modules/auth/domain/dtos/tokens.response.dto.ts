@@ -7,13 +7,13 @@ export class TokensResponseDto {
     /**
      * The access token.
      */
-    @IsString()
+    @IsString({ message: "accessToken must be a string" })
     readonly accessToken!: string;
 
     /**
      * The refresh token.
      */
-    @IsString()
+    @IsString({ message: "refreshToken must be a string" })
     readonly refreshToken!: string;
 
     /**

@@ -8,7 +8,7 @@ export class ProfileBodyDto {
      * The name of the profile.
      * @remarks This field is required and must be a string.
      */
-    @IsString({ message: "Invalid name" })
+    @IsString({ message: "name must be a string" })
     @IsNotEmpty()
     readonly name!: string;
 

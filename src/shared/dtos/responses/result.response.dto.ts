@@ -7,7 +7,7 @@ export class ResultResponseDto {
     /**
      * The result value.
      */
-    @IsString({ message: "Invalid result" })
+    @IsString({ message: "result must be a string" })
     readonly result!: string;
 
     /**

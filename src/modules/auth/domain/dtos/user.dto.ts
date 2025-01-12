@@ -7,25 +7,25 @@ export class UserDto {
     /**
      * The provider of the user.
      */
-    @IsString({ message: "Invalid provider" })
+    @IsString({ message: "provider must be a string" })
     readonly provider!: string;
 
     /**
      * The provider ID of the user.
      */
-    @IsString({ message: "Invalid providerId" })
+    @IsString({ message: "providerId must be a string" })
     readonly providerId!: string;
 
     /**
      * The email of the user.
      */
-    @IsString({ message: "Invalid email" })
+    @IsString({ message: "email must be a string" })
     readonly email!: string;
 
     /**
      * The name of the user.
      */
-    @IsString({ message: "Invalid name" })
+    @IsString({ message: "name must be a string" })
     readonly name!: string;
 
     /**
