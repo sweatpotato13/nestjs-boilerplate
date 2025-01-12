@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { ResultResponseDto } from "@src/shared/dtos";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { PrismaService } from "@src/shared/services/prisma.service";
+import { PrismaService } from "@src/shared/services";
 
 import { GetUserResponseDto } from "../domain/dtos";
 import { UserController } from "./user.controller";

@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { logger } from "@src/config/modules/winston";
 import { ResultResponseDto } from "@src/shared/dtos";
 import { BadRequestException } from "@src/shared/models/error/http.error";
-import { PrismaService } from "@src/shared/services/prisma.service";
+import { PrismaService } from "@src/shared/services";
 
 import { DeleteUserCommand } from "../impl";
 

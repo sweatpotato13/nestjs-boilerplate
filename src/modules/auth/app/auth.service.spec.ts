@@ -1,7 +1,7 @@
 import { CqrsModule } from "@nestjs/cqrs";
 import { Test, TestingModule } from "@nestjs/testing";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { PrismaService } from "@src/shared/services/prisma.service";
+import { PrismaService } from "@src/shared/services";
 
 import { CommandHandlers } from "../domain/commands/handlers";
 import { TokensResponseDto, UserDto } from "../domain/dtos";

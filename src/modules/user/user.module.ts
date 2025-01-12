@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { JwtModule } from "@src/shared/modules";
-import { PrismaService } from "@src/shared/services/prisma.service";
+import { LoggerService, PrismaService } from "@src/shared/services";
 
 import { UserController } from "./app/user.controller";
 import { UserService } from "./app/user.service";
@@ -13,6 +13,7 @@ import { QueryHandlers } from "./domain/queries/handlers";
     providers: [
         { provide: "PrismaService", useClass: PrismaService },
         { provide: "UserService", useClass: UserService },
+        { provide: "LoggerService", useClass: LoggerService },
         ...CommandHandlers,
         ...QueryHandlers
     ],

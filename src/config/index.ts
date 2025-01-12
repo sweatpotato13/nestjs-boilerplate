@@ -7,7 +7,7 @@ if (typeof process.send !== "function") {
 import ElasticsearchConfig from "./modules/elasticsearch/elasticsearch";
 import JwtModuleConfig from "./modules/jwt";
 import KafkaConfg from "./modules/kafka/kafka";
-import { loggerConfig } from "./modules/logger/logger";
+import MongooseConfig from "./modules/mongoose/mongoose";
 import GoogleOauthConfig from "./modules/passport/google";
 import RedisModuleConfig from "./modules/redis";
 
@@ -16,7 +16,7 @@ export {
     GoogleOauthConfig,
     JwtModuleConfig,
     KafkaConfg,
-    loggerConfig,
+    MongooseConfig,
     RedisModuleConfig
 };
 

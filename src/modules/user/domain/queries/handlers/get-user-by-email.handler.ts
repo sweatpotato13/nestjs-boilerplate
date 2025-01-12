@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { logger } from "@src/config/modules/winston";
 import { BadRequestException } from "@src/shared/models/error/http.error";
-import { PrismaService } from "@src/shared/services/prisma.service";
+import { PrismaService } from "@src/shared/services";
 
 import { GetUserResponseDto } from "../../dtos";
 import { GetUserByEmailQuery } from "../impl";

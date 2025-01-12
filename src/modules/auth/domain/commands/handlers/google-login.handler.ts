@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { logger } from "@src/config/modules/winston";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { PrismaService } from "@src/shared/services/prisma.service";
+import { PrismaService } from "@src/shared/services";
 
 import { TokensResponseDto } from "../../dtos";
 import { GoogleLoginCommand } from "../impl/google-login.command";
