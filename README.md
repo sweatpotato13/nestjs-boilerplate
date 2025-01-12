@@ -87,6 +87,8 @@ To get a local copy up and running follow these simple example steps.
 
 3. Migrate Prisma schema
 
+    - If model changed, run `pnpm prisma:migrate` again
+
     ```sh
     pnpm prisma:migrate
     ```
