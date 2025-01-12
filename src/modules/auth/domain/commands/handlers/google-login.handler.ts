@@ -1,10 +1,8 @@
 import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { InjectRepository } from "@nestjs/typeorm";
 import { logger } from "@src/config/modules/winston";
-import { Role, User, UserRole } from "@src/shared/entities";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { Repository } from "typeorm";
+import { PrismaService } from "@src/shared/services/prisma.service";
 
 import { TokensResponseDto } from "../../dtos";
 import { GoogleLoginCommand } from "../impl/google-login.command";
@@ -13,13 +11,9 @@ import { GoogleLoginCommand } from "../impl/google-login.command";
 export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
     constructor(
         @Inject("JwtService")
-        private readonly _jwtService: JwtService,
-        @InjectRepository(User)
-        private readonly _userRepo: Repository<User>,
-        @InjectRepository(UserRole)
-        private readonly _userRoleRepo: Repository<UserRole>,
-        @InjectRepository(Role)
-        private readonly _roleRepo: Repository<Role>
+        private readonly jwtService: JwtService,
+        @Inject("PrismaService")
+        private readonly prismaService: PrismaService
     ) {}
 
     async execute(command: GoogleLoginCommand) {
@@ -27,47 +21,51 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
             const { args } = command;
             const { provider, email, name } = args;
 
-            let user = await this._userRepo.findOne({
-                where: {
-                    email: email
-                }
-            });
-
-            if (!user) {
-                const newUser = this._userRepo.create({
-                    email,
-                    name,
-                    provider
+            return await this.prismaService.$transaction(async tx => {
+                let user = await tx.user.findFirst({
+                    where: {
+                        email: email
+                    }
                 });
-                user = await this._userRepo.save(newUser);
 
-                let role = await this._roleRepo.findOne({
-                    where: { name: "user" }
-                });
-                if (!role) {
-                    role = await this._roleRepo.save(
-                        this._roleRepo.create({
-                            name: "user"
-                        })
-                    );
-                }
-
-                const userRole = await this._userRoleRepo.findOne({
-                    where: { userId: user.id }
-                });
-                if (!userRole) {
-                    const newUserRole = this._userRoleRepo.create({
-                        userId: user.id,
-                        roleId: role.id
+                if (!user) {
+                    user = await tx.user.create({
+                        data: {
+                            email,
+                            name,
+                            provider
+                        }
                     });
-                    await this._userRoleRepo.save(newUserRole);
-                }
-            }
-            const tokens = this._jwtService.createUserJwt(user.id);
 
-            return TokensResponseDto.of({
-                accessToken: tokens.accessToken,
-                refreshToken: tokens.refreshToken
+                    let role = await tx.role.findFirst({
+                        where: { name: "user" }
+                    });
+                    if (!role) {
+                        role = await tx.role.create({
+                            data: {
+                                name: "user"
+                            }
+                        });
+                    }
+
+                    const userRole = await tx.userRole.findFirst({
+                        where: { userId: user.id }
+                    });
+                    if (!userRole) {
+                        await tx.userRole.create({
+                            data: {
+                                userId: user.id,
+                                roleId: role.id
+                            }
+                        });
+                    }
+                }
+                const tokens = this.jwtService.createUserJwt(user.id);
+
+                return TokensResponseDto.of({
+                    accessToken: tokens.accessToken,
+                    refreshToken: tokens.refreshToken
+                });
             });
         } catch (error: any) {
             logger.error(error.message);

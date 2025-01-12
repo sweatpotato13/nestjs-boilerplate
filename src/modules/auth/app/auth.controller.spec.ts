@@ -22,7 +22,7 @@ describe("AuthController", () => {
         authController = module.get<AuthController>(AuthController);
     });
 
-    describe("GET /auth/google/login", () => {
+    describe("GET /auth/login/google", () => {
         it("should return result", () => {
             const resp = ResultResponseDto.of({
                 result: "Google Authentication"
@@ -32,7 +32,7 @@ describe("AuthController", () => {
         });
     });
 
-    describe("GET /auth/google/callback", () => {
+    describe("GET /auth/login/google/callback", () => {
         it("should return healthCheck", async () => {
             const args = httpMocks.createRequest({
                 method: "GET",

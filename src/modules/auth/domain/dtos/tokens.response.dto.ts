@@ -8,13 +8,13 @@ export class TokensResponseDto {
      * The access token.
      */
     @IsString()
-    readonly accessToken: string;
+    readonly accessToken!: string;
 
     /**
      * The refresh token.
      */
     @IsString()
-    readonly refreshToken: string;
+    readonly refreshToken!: string;
 
     /**
      * Creates an instance of TokensResponseDto.

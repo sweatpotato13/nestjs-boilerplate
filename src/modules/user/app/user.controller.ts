@@ -8,13 +8,14 @@ import {
     Inject,
     Param,
     Put,
+    Query,
     UseGuards
 } from "@nestjs/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
 import { GetUserId } from "@src/common/decorator/get-user-id.decorator";
 import { AuthGuard } from "@src/common/guard/auth.guard";
+import { ResultResponseDto } from "@src/shared/dtos";
 
-import { ProfileBodyDto } from "../domain/dtos";
+import { GetUserResponseDto, ProfileBodyDto } from "../domain/dtos";
 import { UserService } from "./user.service";
 
 @Controller("users")
@@ -22,16 +23,19 @@ export class UserController {
     constructor(@Inject("UserService") private readonly service: UserService) {}
 
     /**
-     * Health check endpoint.
-     * @returns A Promise that resolves to the health check result.
-     * @throws Throws an error if an error occurs during the health check.
+     * Get user by email.
+     * @query email - The email of the user.
+     * @returns A Promise that resolves to the user with the specified email.
+     * @throws Throws an error if an error occurs while retrieving the user.
      *
      * @tag user
      */
-    @Get()
+    @Get("")
     @HttpCode(HttpStatus.OK)
-    healthCheck(): any {
-        const result = this.service.healthCheck();
+    async getUserByEmail(
+        @Query("email") email: string
+    ): Promise<GetUserResponseDto> {
+        const result = await this.service.getUserByEmail(email);
         return result;
     }
 
@@ -45,23 +49,8 @@ export class UserController {
      */
     @Get("/:id")
     @HttpCode(HttpStatus.OK)
-    async getUserById(@Param("id") id: string): Promise<any> {
+    async getUserById(@Param("id") id: string): Promise<GetUserResponseDto> {
         const result = await this.service.getUserById(id);
-        return result;
-    }
-
-    /**
-     * Get user by email.
-     * @param email - The email of the user.
-     * @returns A Promise that resolves to the user with the specified email.
-     * @throws Throws an error if an error occurs while retrieving the user.
-     *
-     * @tag user
-     */
-    @Get("/:email")
-    @HttpCode(HttpStatus.OK)
-    async getUserByEmail(@Param("email") email: string): Promise<any> {
-        const result = await this.service.getUserByEmail(email);
         return result;
     }
 
@@ -77,14 +66,14 @@ export class UserController {
      * @security bearer
      * @tag user
      */
-    @Put("/:id/profile")
+    @Put("/:id")
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.CREATED)
     async updateUserProfile(
         @Param("id") id: string,
         @GetUserId() userId: string,
         @Body() profile: ProfileBodyDto
-    ): Promise<any> {
+    ): Promise<ResultResponseDto> {
         const result = await this.service.updateUserProfile(
             id,
             userId,
@@ -110,35 +99,8 @@ export class UserController {
     async deleteUser(
         @Param("id") id: string,
         @GetUserId() userId: string
-    ): Promise<any> {
+    ): Promise<ResultResponseDto> {
         const result = await this.service.deleteUser(id, userId);
         return result;
-    }
-
-    /**
-     * Message queue health check endpoint.
-     * @returns A Promise that resolves to the health check result.
-     * @throws Throws an error if an error occurs during the health check.
-     *
-     * @internal
-     * @tag user
-     */
-    @Get("mq")
-    @HttpCode(HttpStatus.OK)
-    async mqHealthCheck(): Promise<any> {
-        const result = await this.service.mqHealthCheck();
-        return result;
-    }
-
-    /**
-     * Message queue receiver.
-     * @param data - The received message data.
-     *
-     * @internal
-     * @tag user
-     */
-    @MessagePattern({ cmd: "hello" })
-    mqReceiver(@Payload() data: string) {
-        console.log(data);
     }
 }

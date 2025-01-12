@@ -12,6 +12,7 @@ export const NESTIA_CONFIG: INestiaConfig = {
             }
         ],
         decompose: true,
+        beautify: true,
         security: {
             bearer: {
                 type: "apiKey",

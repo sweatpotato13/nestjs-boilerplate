@@ -33,8 +33,6 @@
   </p>
 </div>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -60,16 +58,14 @@
   </ol>
 </details>
 
-
-
 ### Built With
 
-* [docker](https://www.docker.com/)
+- [docker](https://www.docker.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -78,14 +74,32 @@ To get a local copy up and running follow these simple example steps.
 ### Installation
 
 1. Clone the repo
-   ```sh
-   git clone https://github.com/sweatpotato13/nestjs-boilerplate.git
-   ```
+
+    ```sh
+    git clone https://github.com/sweatpotato13/nestjs-boilerplate.git
+    ```
+
+2. Install dependencies
+
+    ```sh
+    pnpm install
+    ```
+
+3. Migrate Prisma schema
+
+    ```sh
+    pnpm prisma:migrate
+    ```
+
+4. Generate Prisma client
+    ```sh
+    pnpm prisma:generate
+    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -101,8 +115,8 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- CONTACT -->
+
 ## Contact
 
 Project Link: [https://github.com/sweatpotato13/nestjs-boilerplate](https://github.com/sweatpotato13/nestjs-boilerplate)

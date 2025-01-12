@@ -8,7 +8,7 @@ export class ResultResponseDto {
      * The result value.
      */
     @IsString({ message: "Invalid result" })
-    readonly result: string;
+    readonly result!: string;
 
     /**
      * Creates an instance of ResultResponseDto.

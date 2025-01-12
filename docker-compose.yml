@@ -93,16 +93,6 @@ services:
       environment:
         ELASTICSEARCH_URL: http://es01:9200
         ELASTICSEARCH_HOSTS: http://es01:9200
-    rabbitmq:
-        image: 'rabbitmq:3-management-alpine'
-        container_name: rabbitmq-stream
-        ports:
-            - "5672:5672"
-            - "15672:15672"
-        environment:
-            RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
-            RABBITMQ_DEFAULT_USER: "admin"
-            RABBITMQ_DEFAULT_PASS: "admin"
     nest:
         container_name: nest
         restart: always

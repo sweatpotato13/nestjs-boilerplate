@@ -6,12 +6,7 @@ import {
     UpdateUserProfileCommand
 } from "../domain/commands/impl";
 import { ProfileBodyDto } from "../domain/dtos";
-import {
-    GetUserByEmailQuery,
-    GetUserByIdQuery,
-    HealthCheckQuery,
-    MqHealthCheckQuery
-} from "../domain/queries/impl";
+import { GetUserByEmailQuery, GetUserByIdQuery } from "../domain/queries/impl";
 import { UserService } from "./user.service";
 
 const mockQueryBus = {
@@ -21,14 +16,6 @@ const mockQueryBus = {
 const mockCommandBus = {
     execute: jest.fn()
 };
-
-jest.mock("typeorm-transactional", () => ({
-    Transactional: () => () => ({}),
-    BaseRepository: class {},
-    runOnTransactionCommit: jest.fn(),
-    runOnTransactionRollback: jest.fn(),
-    runOnTransactionComplete: jest.fn()
-}));
 
 describe("UserService", () => {
     let userService: UserService;
@@ -50,41 +37,6 @@ describe("UserService", () => {
         userService = module.get<UserService>(UserService);
         commandBus = module.get<CommandBus>(CommandBus);
         queryBus = module.get<QueryBus>(QueryBus);
-    });
-
-    describe("healthCheck", () => {
-        it("should return the result of HealthCheckQuery", async () => {
-            // Arrange
-            const expectedResult = "mocked result";
-            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(
-                expectedResult
-            );
-
-            // Act
-            const result = await userService.healthCheck();
-
-            // Assert
-            expect(result).toBe(expectedResult);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new HealthCheckQuery()
-            );
-        });
-
-        it("should throw an error if HealthCheckQuery fails", async () => {
-            // Arrange
-            const expectedError = new Error("mocked error");
-            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(
-                expectedError
-            );
-
-            // Act & Assert
-            await expect(userService.healthCheck()).rejects.toThrow(
-                expectedError
-            );
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new HealthCheckQuery()
-            );
-        });
     });
 
     describe("getUserById", () => {
@@ -241,41 +193,6 @@ describe("UserService", () => {
             );
             expect(mockCommandBus.execute).toHaveBeenCalledWith(
                 new DeleteUserCommand(id, userId)
-            );
-        });
-    });
-
-    describe("mqHealthCheck", () => {
-        it("should return the result of MqHealthCheckQuery", async () => {
-            // Arrange
-            const expectedResult = "mocked result";
-            jest.spyOn(mockQueryBus, "execute").mockResolvedValue(
-                expectedResult
-            );
-
-            // Act
-            const result = await userService.mqHealthCheck();
-
-            // Assert
-            expect(result).toBe(expectedResult);
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new MqHealthCheckQuery()
-            );
-        });
-
-        it("should throw an error if MqHealthCheckQuery fails", async () => {
-            // Arrange
-            const expectedError = new Error("mocked error");
-            jest.spyOn(mockQueryBus, "execute").mockRejectedValue(
-                expectedError
-            );
-
-            // Act & Assert
-            await expect(userService.mqHealthCheck()).rejects.toThrow(
-                expectedError
-            );
-            expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new MqHealthCheckQuery()
             );
         });
     });

@@ -1,48 +1,39 @@
 import { CqrsModule } from "@nestjs/cqrs";
 import { Test, TestingModule } from "@nestjs/testing";
-import { Role, User, UserRole } from "@src/shared/entities";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { Repository } from "typeorm";
+import { PrismaService } from "@src/shared/services/prisma.service";
 
 import { CommandHandlers } from "../domain/commands/handlers";
 import { TokensResponseDto, UserDto } from "../domain/dtos";
 import { QueryHandlers } from "../domain/queries/handlers";
 import { AuthService } from "./auth.service";
 
-const mockUserRepository: Partial<Repository<User>> = {
-    create: jest.fn(),
-    save: jest.fn(),
-    findOne: jest.fn(),
-    find: jest.fn(),
-    remove: jest.fn()
-};
-const mockUserRoleRepository: Partial<Repository<UserRole>> = {
-    create: jest.fn(),
-    save: jest.fn(),
-    findOne: jest.fn(),
-    find: jest.fn(),
-    remove: jest.fn()
-};
-const mockRoleRepository: Partial<Repository<Role>> = {
-    create: jest.fn(),
-    save: jest.fn(),
-    findOne: jest.fn(),
-    find: jest.fn(),
-    remove: jest.fn()
-};
 const mockJwtService: Partial<JwtService> = {
     createUserJwt: jest.fn(),
     signJwt: jest.fn(),
     decodeJwt: jest.fn()
 };
 
-jest.mock("typeorm-transactional", () => ({
-    Transactional: () => () => ({}),
-    BaseRepository: class {},
-    runOnTransactionCommit: jest.fn(),
-    runOnTransactionRollback: jest.fn(),
-    runOnTransactionComplete: jest.fn()
-}));
+const mockPrismaService = {
+    user: {
+        findFirst: jest.fn(),
+        create: jest.fn(),
+        findUnique: jest.fn(),
+        findUniqueOrThrow: jest.fn(),
+        findFirstOrThrow: jest.fn(),
+        findMany: jest.fn(),
+        delete: jest.fn()
+    } as any,
+    role: {
+        findFirst: jest.fn(),
+        create: jest.fn()
+    } as any,
+    userRole: {
+        findFirst: jest.fn(),
+        create: jest.fn()
+    } as any,
+    $transaction: jest.fn(callback => callback(mockPrismaService))
+} as unknown as PrismaService;
 
 describe("AuthService", () => {
     let authService: AuthService;
@@ -52,13 +43,8 @@ describe("AuthService", () => {
             imports: [CqrsModule],
             providers: [
                 AuthService,
-                { provide: "UserRepository", useValue: mockUserRepository },
-                {
-                    provide: "UserRoleRepository",
-                    useValue: mockUserRoleRepository
-                },
-                { provide: "RoleRepository", useValue: mockRoleRepository },
                 { provide: "JwtService", useValue: mockJwtService },
+                { provide: "PrismaService", useValue: mockPrismaService },
                 ...CommandHandlers,
                 ...QueryHandlers
             ]
@@ -68,38 +54,94 @@ describe("AuthService", () => {
     });
 
     describe("googleLogin", () => {
-        it("should return access token", async () => {
+        it("should return access token for new user", async () => {
             const args = UserDto.of({
                 email: "test@test.com",
                 name: "test",
                 provider: "google",
                 providerId: "id"
             });
-            const resp = TokensResponseDto.of({
+
+            const mockUser = {
+                id: "user-123",
+                email: "test@test.com",
+                name: "test",
+                provider: "google",
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+
+            const mockRole = {
+                id: 1,
+                name: "user",
+                description: null
+            };
+
+            (mockPrismaService.user.findFirst as jest.Mock).mockResolvedValue(
+                null
+            );
+            (mockPrismaService.user.create as jest.Mock).mockResolvedValue(
+                mockUser
+            );
+            (mockPrismaService.role.findFirst as jest.Mock).mockResolvedValue(
+                mockRole
+            );
+            (mockPrismaService.$transaction as jest.Mock).mockImplementation(
+                callback => callback(mockPrismaService)
+            );
+
+            (mockJwtService.createUserJwt as jest.Mock).mockReturnValue({
                 accessToken: "accessToken",
                 refreshToken: "refreshToken"
             });
 
-            jest.spyOn(mockUserRepository, "findOne").mockImplementation(() =>
-                Promise.resolve(
-                    User.of({
-                        email: "test@test.com",
-                        name: "test",
-                        provider: "google"
-                    })
-                )
+            const result = await authService.googleLogin(args);
+
+            expect(result).toEqual(
+                TokensResponseDto.of({
+                    accessToken: "accessToken",
+                    refreshToken: "refreshToken"
+                })
+            );
+        });
+
+        it("should return access token for existing user", async () => {
+            const args = UserDto.of({
+                email: "test@test.com",
+                name: "test",
+                provider: "google",
+                providerId: "id"
+            });
+
+            const mockUser = {
+                id: "user-123",
+                email: "test@test.com",
+                name: "test",
+                provider: "google",
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
+
+            (mockPrismaService.user.findFirst as jest.Mock).mockResolvedValue(
+                mockUser
+            );
+            (mockPrismaService.$transaction as jest.Mock).mockImplementation(
+                callback => callback(mockPrismaService)
             );
 
-            jest.spyOn(mockJwtService, "createUserJwt").mockImplementation(
-                () => {
-                    return {
-                        accessToken: "accessToken",
-                        refreshToken: "refreshToken"
-                    };
-                }
-            );
+            (mockJwtService.createUserJwt as jest.Mock).mockReturnValue({
+                accessToken: "accessToken",
+                refreshToken: "refreshToken"
+            });
 
-            expect(await authService.googleLogin(args)).toStrictEqual(resp);
+            const result = await authService.googleLogin(args);
+
+            expect(result).toEqual(
+                TokensResponseDto.of({
+                    accessToken: "accessToken",
+                    refreshToken: "refreshToken"
+                })
+            );
         });
     });
 });

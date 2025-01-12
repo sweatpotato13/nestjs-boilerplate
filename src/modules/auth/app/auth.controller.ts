@@ -19,7 +19,7 @@ export class AuthController {
      *
      * @tag auth
      */
-    @Get("google/login")
+    @Get("login/google")
     @UseGuards(AuthGuard("google"))
     handleLogin(): ResultResponseDto {
         const result = ResultResponseDto.of({
@@ -37,11 +37,11 @@ export class AuthController {
      * @internal
      * @tag auth
      */
-    @Get("google/callback")
+    @Get("login/google/callback")
     @UseGuards(AuthGuard("google"))
     handleRedirect(@Req() req: Request): Promise<TokensResponseDto> {
         const { user } = req;
-        const result = this._service.googleLogin(UserDto.of(user));
+        const result = this._service.googleLogin(UserDto.of(user as any));
         return result;
     }
 }

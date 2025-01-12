@@ -1,9 +1,8 @@
+import { Inject } from "@nestjs/common";
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { InjectRepository } from "@nestjs/typeorm";
 import { logger } from "@src/config/modules/winston";
-import { User } from "@src/shared/entities";
 import { BadRequestException } from "@src/shared/models/error/http.error";
-import { Repository } from "typeorm";
+import { PrismaService } from "@src/shared/services/prisma.service";
 
 import { GetUserResponseDto } from "../../dtos";
 import { GetUserByEmailQuery } from "../impl";
@@ -13,18 +12,20 @@ export class GetUserByEmailHandler
     implements IQueryHandler<GetUserByEmailQuery>
 {
     constructor(
-        @InjectRepository(User)
-        private readonly userRepo: Repository<User>
+        @Inject("PrismaService")
+        private readonly prismaService: PrismaService
     ) {}
 
     async execute(query: GetUserByEmailQuery) {
         try {
             const { email } = query;
 
-            const user = await this.userRepo.findOne({ where: { email } });
+            const user = await this.prismaService.user.findFirst({
+                where: { email: email }
+            });
             if (!user) {
                 throw new BadRequestException("user not found", {
-                    context: "DeleteUserCommand"
+                    context: "GetUserByEmailQuery"
                 });
             }
 

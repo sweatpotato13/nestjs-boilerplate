@@ -1,4 +1,3 @@
-import { User } from "@src/shared/entities";
 import { IsNotEmpty, IsObject, IsString } from "class-validator";
 
 /**
@@ -9,14 +8,14 @@ export class GetUserResponseDto {
      * The result of the operation.
      */
     @IsString({ message: "Invalid result" })
-    readonly result: string;
+    readonly result!: string;
 
     /**
      * The user object.
      */
     @IsObject({ message: "Invalid user" })
     @IsNotEmpty()
-    readonly user: User;
+    readonly user: any;
 
     /**
      * Creates an instance of GetUserResponseDto.

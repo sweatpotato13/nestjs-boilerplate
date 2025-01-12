@@ -1,4 +1,3 @@
-import { config } from "@config";
 import {
     CanActivate,
     ExecutionContext,
@@ -6,11 +5,9 @@ import {
     Injectable
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "@src/shared/entities";
 import { UnauthorizedException } from "@src/shared/models/error/http.error";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { Repository } from "typeorm";
+import { PrismaService } from "@src/shared/services/prisma.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -18,23 +15,12 @@ export class AuthGuard implements CanActivate {
         private reflector: Reflector,
         @Inject("JwtService")
         private readonly jwtService: JwtService,
-        @InjectRepository(User)
-        private readonly userRepo: Repository<User>
+        @Inject("PrismaService")
+        private readonly prismaService: PrismaService
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
-
-        if (request.headers["x-app-secret"] !== config.appSecret) {
-            throw new UnauthorizedException("Invalid app secret");
-        }
-
-        const roles = this.reflector.getAllAndMerge<string[]>("roles", [
-            context.getHandler(),
-            context.getClass()
-        ]);
-
-        if (!roles.length || roles.includes("Any")) return true;
 
         if (!request.headers.authorization) {
             throw new UnauthorizedException("Authorization is required");
@@ -48,12 +34,27 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException("Invalid access token");
         }
 
-        // Attach the payload to the request for later use
+        // 항상 payload를 설정
         request.extra = payload;
 
-        const user: User = await this.userRepo.findOne({
+        const roles = this.reflector.getAllAndMerge<string[]>("roles", [
+            context.getHandler(),
+            context.getClass()
+        ]);
+
+        // role 체크가 필요없으면 여기서 return
+        if (!roles.length || roles.includes("Any")) return true;
+
+        const user = await this.prismaService.user.findUnique({
             where: {
                 id: payload.userId
+            },
+            include: {
+                userRoles: {
+                    include: {
+                        role: true
+                    }
+                }
             }
         });
 

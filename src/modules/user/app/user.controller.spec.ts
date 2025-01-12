@@ -1,54 +1,26 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { Role, User, UserRole } from "@src/shared/entities";
+import { ResultResponseDto } from "@src/shared/dtos";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { Repository } from "typeorm";
+import { PrismaService } from "@src/shared/services/prisma.service";
 
+import { GetUserResponseDto } from "../domain/dtos";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 
 const mockUserService: Partial<UserService> = {
-    healthCheck: jest.fn(),
     getUserById: jest.fn(),
     getUserByEmail: jest.fn(),
     updateUserProfile: jest.fn(),
-    deleteUser: jest.fn(),
-    mqHealthCheck: jest.fn()
+    deleteUser: jest.fn()
 };
 
-const mockUserRepository: Partial<Repository<User>> = {
-    create: jest.fn(),
-    save: jest.fn(),
-    findOne: jest.fn(),
-    find: jest.fn(),
-    remove: jest.fn()
-};
-const mockUserRoleRepository: Partial<Repository<UserRole>> = {
-    create: jest.fn(),
-    save: jest.fn(),
-    findOne: jest.fn(),
-    find: jest.fn(),
-    remove: jest.fn()
-};
-const mockRoleRepository: Partial<Repository<Role>> = {
-    create: jest.fn(),
-    save: jest.fn(),
-    findOne: jest.fn(),
-    find: jest.fn(),
-    remove: jest.fn()
-};
 const mockJwtService: Partial<JwtService> = {
     createUserJwt: jest.fn(),
     signJwt: jest.fn(),
     decodeJwt: jest.fn()
 };
 
-jest.mock("typeorm-transactional", () => ({
-    Transactional: () => () => ({}),
-    BaseRepository: class {},
-    runOnTransactionCommit: jest.fn(),
-    runOnTransactionRollback: jest.fn(),
-    runOnTransactionComplete: jest.fn()
-}));
+const mockPrismaService: Partial<PrismaService> = {};
 
 describe("UserController", () => {
     let userController: UserController;
@@ -58,12 +30,7 @@ describe("UserController", () => {
             providers: [
                 { provide: "UserService", useValue: mockUserService },
                 { provide: "JwtService", useValue: mockJwtService },
-                { provide: "UserRepository", useValue: mockUserRepository },
-                {
-                    provide: "UserRoleRepository",
-                    useValue: mockUserRoleRepository
-                },
-                { provide: "RoleRepository", useValue: mockRoleRepository }
+                { provide: "PrismaService", useValue: mockPrismaService }
             ],
             controllers: [UserController]
         }).compile();
@@ -71,82 +38,66 @@ describe("UserController", () => {
         userController = module.get<UserController>(UserController);
     });
 
-    describe("GET /", () => {
-        it("should return healthCheck", async () => {
-            const resp = "HealthCheck :)";
-
-            jest.spyOn(mockUserService, "healthCheck").mockImplementation(() =>
-                Promise.resolve(resp)
-            );
-
-            expect(await userController.healthCheck()).toBe(resp);
-        });
-    });
-
-    describe("GET /:id", () => {
-        it("should return user by id", async () => {
-            const id = "123";
-            const user = { id, name: "John Doe" };
-
-            jest.spyOn(mockUserService, "getUserById").mockImplementation(() =>
-                Promise.resolve(user)
-            );
-
-            expect(await userController.getUserById(id)).toBe(user);
-        });
-    });
-
-    describe("GET /:email", () => {
+    describe("GET /users", () => {
         it("should return user by email", async () => {
             const email = "john@example.com";
-            const user = { id: "123", email };
+            const mockResponse = GetUserResponseDto.of({
+                user: {
+                    id: "123",
+                    email,
+                    name: "John",
+                    provider: "google"
+                }
+            });
 
-            jest.spyOn(mockUserService, "getUserByEmail").mockImplementation(
-                () => Promise.resolve(user)
+            jest.spyOn(mockUserService, "getUserByEmail").mockResolvedValue(
+                mockResponse
             );
 
-            expect(await userController.getUserByEmail(email)).toBe(user);
+            const result = await userController.getUserByEmail(email);
+            expect(result).toBe(mockResponse);
+            expect(mockUserService.getUserByEmail).toHaveBeenCalledWith(email);
         });
     });
 
-    describe("PUT /:id/profile", () => {
+    describe("PUT /users/:id", () => {
         it("should update user profile", async () => {
             const id = "123";
-            const userId = "456";
-            const profile = { name: "John Doe", age: 30 };
+            const userId = "123";
+            const profile = { name: "John Doe" };
+            const mockResponse = ResultResponseDto.of({ result: "OK" });
 
-            jest.spyOn(mockUserService, "updateUserProfile").mockImplementation(
-                () => Promise.resolve(profile)
+            jest.spyOn(mockUserService, "updateUserProfile").mockResolvedValue(
+                mockResponse
             );
 
-            expect(
-                await userController.updateUserProfile(id, userId, profile)
-            ).toBe(profile);
+            const result = await userController.updateUserProfile(
+                id,
+                userId,
+                profile
+            );
+            expect(result).toBe(mockResponse);
+            expect(mockUserService.updateUserProfile).toHaveBeenCalledWith(
+                id,
+                userId,
+                profile
+            );
         });
     });
 
-    describe("DELETE /:id", () => {
+    describe("DELETE /users/:id", () => {
         it("should delete user", async () => {
             const id = "123";
-            const userId = "456";
+            const userId = "123";
+            const mockResponse = ResultResponseDto.of({ result: "OK" });
 
-            jest.spyOn(mockUserService, "deleteUser").mockImplementation(() =>
-                Promise.resolve()
+            jest.spyOn(mockUserService, "deleteUser").mockResolvedValue(
+                mockResponse
             );
 
-            expect(await userController.deleteUser(id, userId)).toBeUndefined();
-        });
-    });
-
-    describe("GET /mq", () => {
-        it("should return mqHealthCheck", async () => {
-            const resp = "MQ HealthCheck :)";
-
-            jest.spyOn(mockUserService, "mqHealthCheck").mockImplementation(
-                () => Promise.resolve(resp)
-            );
-
-            expect(await userController.mqHealthCheck()).toBe(resp);
+            const result = await userController.deleteUser(id, userId);
+            expect(result).toBe(mockResponse);
+            expect(mockUserService.deleteUser).toHaveBeenCalledWith(id, userId);
         });
     });
 });

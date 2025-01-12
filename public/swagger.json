@@ -15,11 +15,33 @@
         }
     },
     "paths": {
-        "/auth/google/login": {
+        "/": {
             "get": {
-                "tags": [
-                    "auth"
-                ],
+                "summary": "Health check endpoint",
+                "description": "Health check endpoint.",
+                "tags": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "A Promise that resolves to the health check result.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-samchon-accessor": ["healthCheck"],
+                "x-samchon-controller": "AppController"
+            }
+        },
+        "/auth/login/google": {
+            "get": {
+                "summary": "Handles the Google login request",
+                "description": "Handles the Google login request.\nThis route is protected by the Google authentication guard.",
+                "tags": ["auth"],
                 "parameters": [],
                 "responses": {
                     "200": {
@@ -33,106 +55,27 @@
                         }
                     }
                 },
-                "summary": "Handles the Google login request",
-                "description": "Handles the Google login request.\nThis route is protected by the Google authentication guard."
+                "x-samchon-accessor": [
+                    "auth",
+                    "login",
+                    "google",
+                    "handleLogin"
+                ],
+                "x-samchon-controller": "AuthController"
             }
         },
         "/users": {
             "get": {
-                "tags": [
-                    "user"
-                ],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "A Promise that resolves to the health check result.",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                },
-                "summary": "Health check endpoint",
-                "description": "Health check endpoint."
-            }
-        },
-        "/users/{id}": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "- The ID of the user.",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A Promise that resolves to the user with the specified ID.",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                },
-                "summary": "Get user by ID",
-                "description": "Get user by ID."
-            },
-            "delete": {
-                "tags": [
-                    "user"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "- The ID of the user to delete.",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A Promise that resolves to the result of the delete operation.",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                },
-                "summary": "Delete user",
-                "description": "Delete user.",
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/users/{email}": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
+                "summary": "Get user by email",
+                "description": "Get user by email.",
+                "tags": ["user"],
                 "parameters": [
                     {
                         "name": "email",
-                        "in": "path",
+                        "in": "query",
                         "schema": {
                             "type": "string"
                         },
-                        "description": "- The email of the user.",
                         "required": true
                     }
                 ],
@@ -141,20 +84,22 @@
                         "description": "A Promise that resolves to the user with the specified email.",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserResponseDto"
+                                }
                             }
                         }
                     }
                 },
-                "summary": "Get user by email",
-                "description": "Get user by email."
+                "x-samchon-accessor": ["users", "getUserByEmail"],
+                "x-samchon-controller": "UserController"
             }
         },
-        "/users/{id}/profile": {
-            "put": {
-                "tags": [
-                    "user"
-                ],
+        "/users/{id}": {
+            "get": {
+                "summary": "Get user by ID",
+                "description": "Get user by ID.",
+                "tags": ["user"],
                 "parameters": [
                     {
                         "name": "id",
@@ -162,8 +107,40 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "- The ID of the user.",
-                        "required": true
+                        "required": true,
+                        "title": "- The ID of the user",
+                        "description": " - The ID of the user."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A Promise that resolves to the user with the specified ID.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-samchon-accessor": ["users", "getUserById"],
+                "x-samchon-controller": "UserController"
+            },
+            "put": {
+                "summary": "Update user profile",
+                "description": "Update user profile.",
+                "tags": ["user"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "title": "- The ID of the user",
+                        "description": " - The ID of the user."
                     }
                 ],
                 "requestBody": {
@@ -182,18 +159,56 @@
                         "description": "A Promise that resolves to the updated user profile.",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultResponseDto.o1"
+                                }
                             }
                         }
                     }
                 },
-                "summary": "Update user profile",
-                "description": "Update user profile.",
                 "security": [
                     {
                         "bearer": []
                     }
-                ]
+                ],
+                "x-samchon-accessor": ["users", "updateUserProfile"],
+                "x-samchon-controller": "UserController"
+            },
+            "delete": {
+                "summary": "Delete user",
+                "description": "Delete user.",
+                "tags": ["user"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "title": "- The ID of the user to delete",
+                        "description": " - The ID of the user to delete."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A Promise that resolves to the result of the delete operation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultResponseDto.o1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "x-samchon-accessor": ["users", "deleteUser"],
+                "x-samchon-controller": "UserController"
             }
         }
     },
@@ -208,9 +223,35 @@
                         "description": "The result value."
                     }
                 },
-                "required": [
-                    "result"
-                ],
+                "required": ["result"],
+                "description": "Represents the response DTO for a result."
+            },
+            "GetUserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "string",
+                        "title": "The result of the operation",
+                        "description": "The result of the operation."
+                    },
+                    "user": {
+                        "title": "The user object",
+                        "description": "The user object."
+                    }
+                },
+                "required": ["result", "user"],
+                "description": "Represents the response DTO for getting a user."
+            },
+            "ResultResponseDto.o1": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "string",
+                        "title": "The result value",
+                        "description": "The result value."
+                    }
+                },
+                "required": ["result"],
                 "description": "Represents the response DTO for a result."
             },
             "ProfileBodyDto": {
@@ -222,9 +263,7 @@
                         "description": "The name of the profile."
                     }
                 },
-                "required": [
-                    "name"
-                ],
+                "required": ["name"],
                 "description": "Represents the data transfer object for the profile body."
             }
         },

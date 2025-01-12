@@ -10,7 +10,7 @@ export class ProfileBodyDto {
      */
     @IsString({ message: "Invalid name" })
     @IsNotEmpty()
-    readonly name: string;
+    readonly name!: string;
 
     /**
      * Creates an instance of ProfileBodyDto.

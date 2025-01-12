@@ -43,7 +43,7 @@ export class JwtService {
 
     public async decodeJwt(
         token: string
-    ): Promise<{ userId: string; type: string }> {
+    ): Promise<{ userId: string; type: string } | null> {
         return new Promise(resolve => {
             jwt.verify(
                 token,

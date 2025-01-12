@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { config } from "@config";
 import { ValidationPipe } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
@@ -11,16 +10,12 @@ import rateLimit from "express-rate-limit";
 import fs from "fs";
 import helmet from "helmet";
 import morgan from "morgan";
-import { initializeTransactionalContext } from "typeorm-transactional";
 
 import { AppModule } from "./app.module";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
-import { RabbitMqConfigService } from "./config/modules/rabbitmq/rabbitmq.config.service";
 import { errorStream, logger } from "./config/modules/winston";
-
-initializeTransactionalContext();
 
 async function bootstrap() {
     try {
@@ -37,14 +32,6 @@ async function bootstrap() {
         app.use(rTracer.expressMiddleware());
 
         app.use(json({ limit: "50mb" }));
-        const configService = app.get(ConfigService);
-
-        app.connectMicroservice(
-            new RabbitMqConfigService(
-                configService.get("rabbitmq")
-            ).createClientOptions()
-        );
-
         // Swagger
         const swagger = JSON.parse(
             fs.readFileSync(__dirname + "/../public/swagger.json", "utf8")
