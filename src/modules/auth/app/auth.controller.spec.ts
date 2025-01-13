@@ -1,7 +1,7 @@
 import { ConfigType } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GoogleOauthConfig } from "@src/config";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 import httpMocks from "node-mocks-http";
 
 import { TokensResponseDto } from "../domain/dtos";
@@ -38,8 +38,8 @@ describe("AuthController", () => {
 
     describe("GET /auth/login/google", () => {
         it("should return result when Google auth is enabled", () => {
-            const resp = ResultResponseDto.of({
-                result: "Google Authentication"
+            const resp = BaseResponseDto.of({
+                message: "Google Authentication"
             });
 
             expect(authController.handleLogin()).toStrictEqual(resp);

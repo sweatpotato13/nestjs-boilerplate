@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { logger } from "@src/config/modules/winston";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 import { BadRequestException } from "@src/shared/models/error/http.error";
 import { PrismaService } from "@src/shared/services";
 
@@ -43,8 +43,8 @@ export class UpdateUserProfileHandler
                     data: { name }
                 });
 
-                return ResultResponseDto.of({
-                    result: "OK"
+                return BaseResponseDto.of({
+                    message: "OK"
                 });
             });
         } catch (error: any) {

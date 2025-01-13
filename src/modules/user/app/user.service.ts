@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 
 import {
     DeleteUserCommand,
@@ -32,7 +32,7 @@ export class UserService {
         id: string,
         userId: string,
         profile: ProfileBodyDto
-    ): Promise<ResultResponseDto> {
+    ): Promise<BaseResponseDto<undefined>> {
         const result = await this.commandBus.execute(
             new UpdateUserProfileCommand(id, userId, profile)
         );
@@ -42,7 +42,7 @@ export class UserService {
     public async deleteUser(
         id: string,
         userId: string
-    ): Promise<ResultResponseDto> {
+    ): Promise<BaseResponseDto<undefined>> {
         const result = await this.commandBus.execute(
             new DeleteUserCommand(id, userId)
         );

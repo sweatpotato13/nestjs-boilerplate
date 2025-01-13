@@ -1,3 +1,3 @@
-import { ResultResponseDto } from "./responses/result.response.dto";
+import { BaseResponseDto } from "./base.response.dto";
 
-export { ResultResponseDto };
+export { BaseResponseDto };

@@ -9,7 +9,7 @@ import {
 import { ConfigType } from "@nestjs/config";
 import { AuthGuard } from "@nestjs/passport";
 import { GoogleOauthConfig } from "@src/config";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 import { Request } from "express";
 
 import { TokensResponseDto, UserDto } from "../domain/dtos";
@@ -35,18 +35,18 @@ export class AuthController {
     /**
      * Handles the Google login request.
      * This route is protected by the Google authentication guard.
-     * @returns {ResultResponseDto} The result of the login request.
+     * @returns {BaseResponseDto} The result of the login request.
      *
      * @tag auth
      */
     @Get("login/google")
     @UseGuards(AuthGuard("google"))
-    handleLogin(): ResultResponseDto {
+    handleLogin(): BaseResponseDto<undefined> {
         if (!this.googleAuthEnabled) {
             throw new Error("Google authentication is not configured");
         }
-        return ResultResponseDto.of({
-            result: "Google Authentication"
+        return BaseResponseDto.of<undefined>({
+            message: "Google Authentication"
         });
     }
 

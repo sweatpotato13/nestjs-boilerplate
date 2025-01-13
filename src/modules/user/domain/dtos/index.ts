@@ -1,4 +1,4 @@
-import { GetUserResponseDto } from "./get-user.response.dto";
-import { ProfileBodyDto } from "./profile.body.dto";
+import { ProfileBodyDto } from "./bodies/profile.body.dto";
+import { GetUserResponseDto } from "./responses/get-user.response.dto";
 
 export { GetUserResponseDto, ProfileBodyDto };

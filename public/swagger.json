@@ -49,7 +49,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResultResponseDto"
+                                    "$ref": "#/components/schemas/BaseResponseDto"
                                 }
                             }
                         }
@@ -160,7 +160,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResultResponseDto.o1"
+                                    "$ref": "#/components/schemas/BaseResponseDto.o1"
                                 }
                             }
                         }
@@ -196,7 +196,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResultResponseDto.o1"
+                                    "$ref": "#/components/schemas/BaseResponseDto.o1"
                                 }
                             }
                         }
@@ -214,7 +214,7 @@
     },
     "components": {
         "schemas": {
-            "ResultResponseDto": {
+            "BaseResponseDto": {
                 "type": "object",
                 "properties": {
                     "result": {
@@ -242,7 +242,7 @@
                 "required": ["result", "user"],
                 "description": "Represents the response DTO for getting a user."
             },
-            "ResultResponseDto.o1": {
+            "BaseResponseDto.o1": {
                 "type": "object",
                 "properties": {
                     "result": {

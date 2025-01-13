@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { PrismaService } from "@src/shared/services";
 
@@ -65,7 +65,9 @@ describe("UserController", () => {
             const id = "123";
             const userId = "123";
             const profile = { name: "John Doe" };
-            const mockResponse = ResultResponseDto.of({ result: "OK" });
+            const mockResponse = BaseResponseDto.of<undefined>({
+                message: "OK"
+            });
 
             jest.spyOn(mockUserService, "updateUserProfile").mockResolvedValue(
                 mockResponse
@@ -89,7 +91,9 @@ describe("UserController", () => {
         it("should delete user", async () => {
             const id = "123";
             const userId = "123";
-            const mockResponse = ResultResponseDto.of({ result: "OK" });
+            const mockResponse = BaseResponseDto.of<undefined>({
+                message: "OK"
+            });
 
             jest.spyOn(mockUserService, "deleteUser").mockResolvedValue(
                 mockResponse

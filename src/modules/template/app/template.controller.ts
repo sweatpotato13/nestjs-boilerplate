@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus, Inject } from "@nestjs/common";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 
 import { TemplateService } from "./template.service";
 
@@ -11,13 +11,13 @@ export class TemplateController {
 
     /**
      * Hello world example route
-     * @returns {ResultResponseDto} Result of health check
+     * @returns {BaseResponseDto} Result of health check
      *
      * @tag template
      */
     @Get()
     @HttpCode(HttpStatus.OK)
-    async healthCheck(): Promise<ResultResponseDto> {
+    async healthCheck(): Promise<BaseResponseDto<undefined>> {
         const result = await this.service.healthCheck();
         return result;
     }

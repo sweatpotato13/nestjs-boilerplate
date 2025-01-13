@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { GetUserId } from "@src/common/decorator/get-user-id.decorator";
 import { AuthGuard } from "@src/common/guard/auth.guard";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 
 import { GetUserResponseDto, ProfileBodyDto } from "../domain/dtos";
 import { UserService } from "./user.service";
@@ -73,7 +73,7 @@ export class UserController {
         @Param("id") id: string,
         @GetUserId() userId: string,
         @Body() profile: ProfileBodyDto
-    ): Promise<ResultResponseDto> {
+    ): Promise<BaseResponseDto<undefined>> {
         const result = await this.service.updateUserProfile(
             id,
             userId,
@@ -99,7 +99,7 @@ export class UserController {
     async deleteUser(
         @Param("id") id: string,
         @GetUserId() userId: string
-    ): Promise<ResultResponseDto> {
+    ): Promise<BaseResponseDto<undefined>> {
         const result = await this.service.deleteUser(id, userId);
         return result;
     }

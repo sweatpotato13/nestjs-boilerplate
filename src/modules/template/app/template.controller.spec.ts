@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
 import { PrismaService } from "@src/shared/services";
 
@@ -36,8 +36,8 @@ describe("TemplateController", () => {
 
     describe("GET /", () => {
         it("should return health check", async () => {
-            const mockResponse = ResultResponseDto.of({
-                result: "Hello World"
+            const mockResponse = BaseResponseDto.of<undefined>({
+                message: "Hello World"
             });
 
             jest.spyOn(mockTemplateService, "healthCheck").mockResolvedValue(

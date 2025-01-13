@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ResultResponseDto } from "@src/shared/dtos";
+import { BaseResponseDto } from "@src/shared/dtos";
 
 import { HealthCheckQuery } from "../domain/queries/impl";
 
@@ -11,7 +11,7 @@ export class TemplateService {
         private readonly queryBus: QueryBus
     ) {}
 
-    public async healthCheck(): Promise<ResultResponseDto> {
+    public async healthCheck(): Promise<BaseResponseDto<undefined>> {
         const result = await this.queryBus.execute(new HealthCheckQuery());
         return result;
     }
