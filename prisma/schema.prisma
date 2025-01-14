@@ -2,6 +2,19 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator prismaClassGenerator {
+  provider                 = "prisma-class-generator"
+  output                   = "../src/shared/entities"
+  dryRun                   = "false"
+  useNonNullableAssertions = "true"
+}
+
+generator markdown {
+  provider = "prisma-markdown"
+  output   = "./README.md"
+  title    = "nesetjs boilerplate prisma model"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_DATABASE_URL")
@@ -32,7 +45,7 @@ model User {
 model Role {
   id          Int        @id @default(autoincrement())
   name        String
-  description String?
+  description String
   userRoles   UserRole[]
 
   @@map("roles")

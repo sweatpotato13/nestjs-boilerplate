@@ -43,7 +43,8 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
                     if (!role) {
                         role = await tx.role.create({
                             data: {
-                                name: "user"
+                                name: "user",
+                                description: "user role"
                             }
                         });
                     }

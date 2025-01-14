@@ -25,7 +25,7 @@ CREATE TABLE "users" (
 CREATE TABLE "roles" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "description" TEXT,
+    "description" TEXT NOT NULL,
 
     CONSTRAINT "roles_pkey" PRIMARY KEY ("id")
 );
