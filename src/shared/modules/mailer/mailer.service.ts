@@ -1,14 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
-import { MailerService } from "@nestjs-modules/mailer";
+import { MailerService as NestMailerService } from "@nestjs-modules/mailer";
 import { MailerConfig } from "@src/config";
 
 @Injectable()
-export class MailService {
+export class MailerService {
     constructor(
         @Inject(MailerConfig.KEY)
         private readonly config: ConfigType<typeof MailerConfig>,
-        private readonly mailerService: MailerService
+        private readonly mailerService: NestMailerService
     ) {}
 
     public sendVerifyMail(to: string): void {
