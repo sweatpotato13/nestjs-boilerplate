@@ -6,11 +6,10 @@ const {
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
-    globals: {
-        "ts-jest": {
-            tsConfig: "<rootDir>/tsconfig.json",
-            diagnostics: false
-        }
+    transform: {
+        "^.+\\.(t|j)s$": ["ts-jest", {
+            tsconfig: "tsconfig.json"
+        }]
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     roots: ["<rootDir>/src"],
