@@ -37,6 +37,7 @@ jobs:
       working-directory: .
       run: |
         pnpm install
+        npx prisma generate
         pnpm test
   lint:
     runs-on: ubuntu-latest
