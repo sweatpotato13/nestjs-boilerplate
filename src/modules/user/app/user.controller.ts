@@ -30,7 +30,7 @@ export class UserController {
      *
      * @tag user
      */
-    @Get("")
+    @Get()
     @HttpCode(HttpStatus.OK)
     async getUserByEmail(
         @Query("email") email: string
@@ -47,7 +47,7 @@ export class UserController {
      *
      * @tag user
      */
-    @Get("/:id")
+    @Get(":id")
     @HttpCode(HttpStatus.OK)
     async getUserById(@Param("id") id: string): Promise<GetUserResponseDto> {
         const result = await this.service.getUserById(id);
@@ -66,7 +66,7 @@ export class UserController {
      * @security bearer
      * @tag user
      */
-    @Put("/:id")
+    @Put(":id")
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.CREATED)
     async updateUserProfile(
@@ -93,7 +93,7 @@ export class UserController {
      * @security bearer
      * @tag user
      */
-    @Delete("/:id")
+    @Delete(":id")
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     async deleteUser(

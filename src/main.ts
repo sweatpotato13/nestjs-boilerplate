@@ -98,8 +98,8 @@ async function bootstrap() {
             })
         );
 
-        app.use("*", (req, res, next) => {
-            const query = req.query.query || req.body.query || "";
+        app.use("*splat", (req, res, next) => {
+            const query = req.query || req.body || "";
             if (query.length > 2000) {
                 throw new Error("Query too large");
             }
