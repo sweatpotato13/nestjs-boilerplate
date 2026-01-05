@@ -1,0 +1,153 @@
+---
+alwaysApply: true
+---
+
+# Constitution
+
+## Core Principles
+
+### I. Code Quality
+
+All code MUST adhere to established quality standards and conventions:
+
+- All code and comments MUST be written in English
+- ESLint and Prettier configurations MUST be followed without exception
+- All code MUST pass linting checks before commit (enforced via pre-commit hooks)
+- Naming conventions MUST be consistent: camelCase for variables/functions, PascalCase for classes/interfaces
+- Dead code and unused imports MUST be removed
+- DRY (Don't Repeat Yourself) principle MUST be applied; duplicate logic MUST be extracted into shared utilities
+- Single Responsibility Principle MUST be followed for all classes and functions
+
+**Rationale**: Consistent code quality reduces cognitive load, minimizes bugs, and enables faster onboarding of new contributors.
+
+### II. Test-Driven Development (TDD)
+
+TDD is NON-NEGOTIABLE for all feature development:
+
+- Tests MUST be written BEFORE implementation code
+- The Red-Green-Refactor cycle MUST be strictly followed:
+  1. **Red**: Write a failing test that defines expected behavior
+  2. **Green**: Write minimal code to make the test pass
+  3. **Refactor**: Improve code while keeping tests green
+- Unit tests MUST cover all business logic (handlers, services)
+- Integration tests MUST cover API endpoints and database operations
+- Test coverage MUST NOT decrease with new changes
+- Mocking MUST be used appropriately to isolate units under test
+
+**Rationale**: TDD ensures code correctness from the start, reduces debugging time, and serves as living documentation of system behavior.
+
+### III. CQRS Architecture
+
+The Command Query Responsibility Segregation (CQRS) pattern MUST be maintained:
+
+- Commands MUST be used for write operations (create, update, delete)
+- Queries MUST be used for read operations
+- Commands and Queries MUST be implemented in their respective handler classes
+- Command handlers MUST reside in `domain/commands/handlers/`
+- Query handlers MUST reside in `domain/queries/handlers/`
+- Commands and Queries MUST be defined in `domain/commands/impl/` and `domain/queries/impl/` respectively
+- Direct repository access from controllers is FORBIDDEN; all data access MUST go through handlers
+- Each handler MUST have a single responsibility
+
+**Rationale**: CQRS provides clear separation of read and write concerns, improves scalability, and makes the codebase more maintainable and testable.
+
+### IV. API Documentation
+
+All API endpoints MUST be documented for automatic Swagger generation via Nestia:
+
+- Controller methods MUST include JSDoc comments with:
+  - `@summary` - Brief description of the endpoint
+  - `@param` - Parameter descriptions with types
+  - `@returns` - Return type and description
+  - `@tag` - API grouping tag
+- Request/Response DTOs MUST have JSDoc descriptions for all properties
+- Error responses MUST be documented using appropriate decorators
+- Swagger documentation MUST be regenerated when API changes occur (`pnpm swagger`)
+- API versioning MUST be reflected in documentation
+
+**Rationale**: Comprehensive API documentation enables seamless frontend integration, improves developer experience, and serves as a contract between services.
+
+### V. Performance Standards
+
+All implementations MUST meet defined performance requirements:
+
+- API response time MUST be under 200ms for standard operations (p95)
+- Database queries MUST be optimized with proper indexing
+- N+1 query problems MUST be avoided; use eager loading or batching
+- Memory leaks MUST be prevented; proper cleanup of resources is required
+- Pagination MUST be implemented for list endpoints returning potentially large datasets
+- Caching strategies SHOULD be applied for frequently accessed, rarely changing data
+
+**Rationale**: Consistent performance ensures positive user experience and system reliability under load.
+
+## Technology Stack
+
+This project is built on the following technology stack that MUST be maintained:
+
+| Category | Technology | Version Policy |
+|----------|------------|----------------|
+| Runtime | Node.js | LTS versions only |
+| Framework | NestJS | Latest stable |
+| Language | TypeScript | Strict mode enabled |
+| Database | PostgreSQL + Prisma ORM | Schema migrations required |
+| Testing | Jest | Unit + Integration |
+| Documentation | Nestia + Swagger | Auto-generated |
+| Package Manager | pnpm | Lockfile committed |
+| Architecture | CQRS | @nestjs/cqrs |
+
+**Dependency Policy**:
+- Dependencies MUST be updated regularly for security patches
+- Breaking changes MUST be evaluated and tested before adoption
+- All dependencies MUST be added via pnpm with exact versions in lockfile
+
+## Development Workflow
+
+### Code Review Requirements
+
+- All changes MUST go through Pull Request review
+- PRs MUST include:
+  - Clear description of changes
+  - Test coverage for new functionality
+  - Updated documentation if API changes
+- At least one approval required before merge
+- CI checks MUST pass before merge is allowed
+
+### Quality Gates
+
+1. **Pre-commit**: Linting, formatting, Prisma schema validation
+2. **CI Pipeline**: Full test suite execution
+3. **Pre-merge**: Code review approval, all checks passing
+4. **Post-merge**: Swagger documentation regeneration if needed
+
+### Branching Strategy
+
+- `main` - Production-ready code
+- `feature/*` - New feature development
+- `fix/*` - Bug fixes
+- `chore/*` - Maintenance tasks
+
+## Governance
+
+This Constitution is the authoritative source for development standards in this project:
+
+- All PRs and code reviews MUST verify compliance with these principles
+- Violations MUST be addressed before code is merged
+- Complexity beyond these standards MUST be explicitly justified and documented
+
+### Amendment Process
+
+1. Propose changes via PR to this document
+2. Changes require team consensus
+3. Update version according to semantic versioning:
+   - **MAJOR**: Fundamental principle changes or removals
+   - **MINOR**: New principles or significant expansions
+   - **PATCH**: Clarifications, wording improvements
+4. Update `LAST_AMENDED_DATE` on any change
+
+### Compliance Review
+
+- Constitution compliance SHOULD be reviewed quarterly
+- New team members MUST read this document during onboarding
+- Deviations MUST be documented with explicit justification
+
+**Version**: 1.0.0 | **Ratified**: 2025-01-05 | **Last Amended**: 2025-01-05
