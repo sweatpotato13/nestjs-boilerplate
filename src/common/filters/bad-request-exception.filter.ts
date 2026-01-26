@@ -8,9 +8,7 @@ import { config } from "@src/config";
 import { logger } from "@src/config/modules/winston";
 
 @Catch(BadRequestException)
-export class BadRequestExceptionFilter
-    implements ExceptionFilter<BadRequestException>
-{
+export class BadRequestExceptionFilter implements ExceptionFilter<BadRequestException> {
     catch(exception: BadRequestException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
