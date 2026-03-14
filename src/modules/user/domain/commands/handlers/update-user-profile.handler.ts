@@ -8,9 +8,7 @@ import { PrismaService } from "@src/shared/services";
 import { UpdateUserProfileCommand } from "../impl";
 
 @CommandHandler(UpdateUserProfileCommand)
-export class UpdateUserProfileHandler
-    implements ICommandHandler<UpdateUserProfileCommand>
-{
+export class UpdateUserProfileHandler implements ICommandHandler<UpdateUserProfileCommand> {
     constructor(
         @Inject("PrismaService")
         private readonly prismaService: PrismaService

@@ -8,9 +8,7 @@ import { GetUserResponseDto } from "../../dtos";
 import { GetUserByEmailQuery } from "../impl";
 
 @QueryHandler(GetUserByEmailQuery)
-export class GetUserByEmailHandler
-    implements IQueryHandler<GetUserByEmailQuery>
-{
+export class GetUserByEmailHandler implements IQueryHandler<GetUserByEmailQuery> {
     constructor(
         @Inject("PrismaService")
         private readonly prismaService: PrismaService

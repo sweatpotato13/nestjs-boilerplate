@@ -40,7 +40,7 @@ erDiagram
 
 ### `apps`
 
-**Properties**
+Properties as follows:
 
 - `id`:
 - `name`:
@@ -50,7 +50,7 @@ erDiagram
 
 ### `users`
 
-**Properties**
+Properties as follows:
 
 - `id`:
 - `email`:
@@ -61,7 +61,7 @@ erDiagram
 
 ### `roles`
 
-**Properties**
+Properties as follows:
 
 - `id`:
 - `name`:
@@ -69,7 +69,7 @@ erDiagram
 
 ### `user_roles`
 
-**Properties**
+Properties as follows:
 
 - `id`:
 - `user_id`:
