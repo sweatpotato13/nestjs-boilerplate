@@ -24,8 +24,8 @@ importers:
         specifier: ^9.1.1
         version: 9.1.1(@nestia/core@9.1.1(@nestia/fetcher@9.1.1)(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typia@10.1.0(typescript@5.9.3)))(@swc/core@1.15.21)(@types/node@24.12.0)(typescript@5.9.3)
       '@nestjs-modules/mailer':
-        specifier: ^2.3.0
-        version: 2.3.0(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17)(chokidar@4.0.3)(nodemailer@8.0.2)(relateurl@0.2.7)(svgo@4.0.1)(terser@5.34.1)(typescript@5.9.3)
+        specifier: ^2.3.4
+        version: 2.3.4(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17)(chokidar@4.0.3)(nodemailer@8.0.2)(relateurl@0.2.7)(svgo@4.0.1)(terser@5.34.1)(typescript@5.9.3)
       '@nestjs/common':
         specifier: ^11.1.17
         version: 11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -1279,8 +1279,8 @@ packages:
     peerDependencies:
       '@nestia/core': '>=9.1.1'
 
-  '@nestjs-modules/mailer@2.3.0':
-    resolution: {integrity: sha512-C9FQOz+GKSIgJKWfUVJHuOCfbhhcQxitHcH1+Gl/nSVR/w+PhvrC/dk4h+pwB//5KYe4aPeE7Ia1slgIVjeAJQ==}
+  '@nestjs-modules/mailer@2.3.4':
+    resolution: {integrity: sha512-0vPNAuXGFHERFphokC5RVDgRoqwUXvI3OTPNXonw74e4QQyntp25OKzS59EaXmQOCBiIuRglmWQaFPvEpP5tuw==}
     peerDependencies:
       '@nestjs/common': '>=7.0.9'
       '@nestjs/core': '>=7.0.9'
@@ -7579,7 +7579,7 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@nestjs-modules/mailer@2.3.0(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17)(chokidar@4.0.3)(nodemailer@8.0.2)(relateurl@0.2.7)(svgo@4.0.1)(terser@5.34.1)(typescript@5.9.3)':
+  '@nestjs-modules/mailer@2.3.4(@nestjs/common@11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.17)(chokidar@4.0.3)(nodemailer@8.0.2)(relateurl@0.2.7)(svgo@4.0.1)(terser@5.34.1)(typescript@5.9.3)':
     dependencies:
       '@css-inline/css-inline': 0.20.0
       '@nestjs/common': 11.1.17(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
