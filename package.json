@@ -47,7 +47,7 @@
         "@nestjs-modules/mailer": "^2.3.4",
         "@nestjs/common": "^11.1.17",
         "@nestjs/config": "^4.0.3",
-        "@nestjs/core": "^11.1.17",
+        "@nestjs/core": "^11.1.18",
         "@nestjs/cqrs": "^11.0.3",
         "@nestjs/elasticsearch": "^11.1.0",
         "@nestjs/microservices": "^11.1.17",
