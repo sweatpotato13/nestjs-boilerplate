@@ -8,15 +8,12 @@ module.exports = {
     testEnvironment: "node",
     transform: {
         "^.+\\.(t|j)s$": ["ts-jest", {
-            tsconfig: "tsconfig.json"
+            tsconfig: "tsconfig.spec.json"
         }]
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     roots: ["<rootDir>/src"],
     testRegex: "./src/.*\\.(test|spec)?\\.(ts|ts)$",
-    transform: {
-        "^.+\\.(t|j)s$": "ts-jest"
-    },
     coverageDirectory: "./coverage",
     moduleNameMapper: pathsToModuleNameMapper(paths, {
         prefix: "<rootDir>"
