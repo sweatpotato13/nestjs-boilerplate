@@ -55,4 +55,5 @@ jobs:
       working-directory: .
       run: |
         pnpm install
+        npx prisma generate
         pnpm lint
