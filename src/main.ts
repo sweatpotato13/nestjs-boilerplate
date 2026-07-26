@@ -66,7 +66,7 @@ async function bootstrap() {
             origin: (origin, callback) => {
                 if (
                     corsWhiteList.indexOf("*") !== -1 ||
-                    corsWhiteList.indexOf(origin) !== -1
+                    corsWhiteList.indexOf(origin ?? "") !== -1
                 ) {
                     callback(null, true);
                 } else {
