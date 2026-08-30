@@ -28,7 +28,7 @@
 
 ## Libraries And Generated Artifacts
 
-- Core stack: NestJS 11, TypeScript strict mode, `@nestjs/cqrs`, Prisma/PostgreSQL, Jest/ts-jest, Nestia/typia, ESLint flat config, Prettier, Winston, Passport Google OAuth, ioredis, kafkajs, Elasticsearch, Mongoose, and `@nestjs-modules/mailer`.
+- Core stack: NestJS 12, TypeScript strict mode, `@nestjs/cqrs`, Prisma/PostgreSQL, Jest/ts-jest, Nestia/typia, ESLint flat config, Prettier, Winston, Passport Google OAuth, ioredis, kafkajs, Elasticsearch, Mongoose, and `@nestjs-modules/mailer`.
 - `tsconfig.json` defines aliases: `@src/*`, `@common/*`, `@shared/*`, `@config`, and `@modules/*`; use them instead of long relative paths when matching existing code.
 - Nestia/typia TypeScript transformers are configured in `tsconfig.json`; after installing dependencies, `prepare` runs `ts-patch install && typia patch && husky`.
 - `public/swagger.json` is read at runtime by `src/main.ts`; controller/DTO changes that affect API shape should be followed by `pnpm swagger`.
@@ -46,4 +46,4 @@
 
 - `docker-compose.yml` defines Postgres, Hasura, MongoDB, mongo-express, Redis, redis-commander, Elasticsearch, Kibana, Kafka/Zookeeper, and the Nest container.
 - Default app port is `8000`; Swagger UI is mounted at `/api-doc` from the generated `public/swagger.json`.
-- CI runs on Node `20.x` and `22.x` and verifies install/build, Prisma generate plus tests, and lint.
+- CI runs on Node `22.x` and `24.x` and verifies install/build/typecheck, Prisma generate plus tests, and lint.
