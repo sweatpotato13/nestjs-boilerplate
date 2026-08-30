@@ -1,10 +1,10 @@
 import { registerAs } from "@nestjs/config";
-import { RedisOptions } from "ioredis";
 
-export default registerAs("redis", (): RedisOptions => {
+export default registerAs("redis", () => {
     const ret = {
         password: process.env.REDIS_PASSWORD,
         db: parseInt(process.env.REDIS_DB || "0"),
+        protocol: 2 as const,
         lazyConnect: true,
         showFriendlyErrorStack: false,
         retryStrategy(times: number /* n 번째 재연결 */): number {

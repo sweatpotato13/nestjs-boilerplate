@@ -4,11 +4,12 @@ const {
 } = require("./tsconfig.json");
 
 module.exports = {
-    preset: "ts-jest",
     testEnvironment: "node",
+    extensionsToTreatAsEsm: [".ts"],
     transform: {
-        "^.+\\.(t|j)s$": ["ts-jest", {
-            tsconfig: "tsconfig.spec.json"
+        "^.+\\.tsx?$": ["ts-jest", {
+            tsconfig: "tsconfig.spec.json",
+            useESM: true
         }]
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
@@ -18,6 +19,7 @@ module.exports = {
     moduleNameMapper: pathsToModuleNameMapper(paths, {
         prefix: "<rootDir>"
     }),
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
     clearMocks: true,
     maxWorkers: 1
 };
