@@ -15,12 +15,13 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g pnpm
-    - name: pnpm build
+    - run: npm install -g pnpm@latest
+    - name: pnpm build and typecheck
       working-directory: .
       run: |
         pnpm install
         pnpm build
+        pnpm typecheck
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -32,7 +33,7 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g pnpm
+    - run: npm install -g pnpm@latest
     - name: pnpm test
       working-directory: .
       run: |
@@ -50,7 +51,7 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g pnpm
+    - run: npm install -g pnpm@latest
     - name: pnpm lint
       working-directory: .
       run: |
