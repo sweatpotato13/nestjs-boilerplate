@@ -12,7 +12,7 @@
 - Build: `pnpm build`; Nest uses the SWC builder from `nest-cli.json` and `.swcrc`.
 - Lint/format: `pnpm lint` auto-fixes TS files; pre-commit runs `pnpm lint-staged`, which applies Prettier, `pnpm lint`, and `pnpm prisma:format` to TS/JS files.
 - Tests: `pnpm test`; single spec: `pnpm test -- --runTestsByPath src/path/file.spec.ts`; coverage: `pnpm test:cov`.
-- API artifacts: `pnpm swagger` regenerates `public/swagger.json`; `pnpm sdk` writes the Nestia SDK to `src/api` (gitignored, excluded from lint and build). Both read `nestia.config.ts`, which excludes `src/modules/template`.
+- API artifacts: `pnpm swagger` regenerates `public/swagger.json`; `pnpm sdk` writes the Nestia SDK to the root `sdk/` directory (gitignored, excluded from lint and build). Both read `nestia.config.ts`, which excludes `src/modules/template`.
 - Prisma schema changes: edit `prisma/schema.prisma`, run `pnpm prisma:format`, `pnpm prisma:migrate` when the DB schema changes, and `pnpm prisma:generate` to refresh Prisma Client, `src/shared/entities`, and `prisma/README.md`.
 
 ## Architecture

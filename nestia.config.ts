@@ -7,7 +7,7 @@ export const NESTIA_CONFIG: INestiaConfig = {
         // TemplateModule is a scaffold that AppModule does not import
         exclude: ["src/modules/template/**"]
     },
-    output: "src/api",
+    output: "sdk",
     swagger: {
         output: "public/swagger.json",
         openapi: "3.1",
