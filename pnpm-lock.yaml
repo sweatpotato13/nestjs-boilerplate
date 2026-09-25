@@ -121,12 +121,6 @@ importers:
       pg:
         specifier: ^8.23.0
         version: 8.23.0
-      prisma:
-        specifier: ^6.19.3
-        version: 6.19.3(typescript@6.0.3)
-      prisma-class-generator:
-        specifier: ^0.2.11
-        version: 0.2.11(prisma@6.19.3(typescript@6.0.3))
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -242,6 +236,12 @@ importers:
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
+      prisma:
+        specifier: ^6.19.3
+        version: 6.19.3(typescript@6.0.3)
+      prisma-class-generator:
+        specifier: ^0.2.11
+        version: 0.2.11(prisma@6.19.3(typescript@6.0.3))
       prisma-markdown:
         specifier: ^3.0.1
         version: 3.0.1(@prisma/client@6.19.3(prisma@6.19.3(typescript@6.0.3))(typescript@6.0.3))(prisma@6.19.3(typescript@6.0.3))
