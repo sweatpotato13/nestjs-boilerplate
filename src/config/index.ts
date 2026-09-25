@@ -1,9 +1,6 @@
 import { config as _config } from "dotenv";
 _config({
-    path:
-        typeof __dirname === "undefined"
-            ? ".env"
-            : __dirname + "/../../.env"
+    path: typeof __dirname === "undefined" ? ".env" : __dirname + "/../../.env"
 });
 if (typeof process.send !== "function") {
     (process as any).send = () => {};
