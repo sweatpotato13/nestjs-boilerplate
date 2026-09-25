@@ -13,9 +13,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import { AppModule } from "./app.module";
+import { createCorsOptions } from "./common/cors/cors-options";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
+import { queryLengthLimit } from "./common/middleware/query-length.middleware";
 import { KafkaConfigService } from "./config/modules/kafka/kafka.config.service";
 import { errorStream, logger } from "./config/modules/winston";
 
@@ -61,23 +63,7 @@ async function bootstrap() {
         SwaggerModule.setup("api-doc", app, swagger as OpenAPIObject);
 
         // CORS
-        const corsWhiteList = "*";
-        app.enableCors({
-            origin: (origin, callback) => {
-                if (
-                    corsWhiteList.indexOf("*") !== -1 ||
-                    corsWhiteList.indexOf(origin ?? "") !== -1
-                ) {
-                    callback(null, true);
-                } else {
-                    callback(new Error("Not allowed"));
-                }
-            },
-            allowedHeaders:
-                "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, authorization",
-            methods: "GET, PUT, POST, DELETE, UPDATE, OPTIONS",
-            credentials: true
-        });
+        app.enableCors(createCorsOptions(config.corsOrigins));
 
         // rateLimit
         app.use(
@@ -98,13 +84,7 @@ async function bootstrap() {
             })
         );
 
-        app.use("*splat", (req, res, next) => {
-            const query = req.query || req.body || "";
-            if (query.length > 2000) {
-                throw new Error("Query too large");
-            }
-            next();
-        });
+        app.use(queryLengthLimit(2000));
 
         await app.listen(config.port, () => {
             !config.isProduction
@@ -127,7 +107,7 @@ async function bootstrap() {
         logger.error(`❌  Error starting server, ${error.message}`, {
             context: "BootStrap"
         });
-        process.exit();
+        process.exit(1);
     }
 }
 
