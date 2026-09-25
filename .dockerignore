@@ -12,3 +12,14 @@ pids
 
 # 0x directories
 *.0x/
+
+# Build context
+.git
+.github
+.husky
+node_modules
+dist
+coverage
+logs
+sdk
+.env

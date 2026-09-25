@@ -5,6 +5,7 @@
     "author": "Cute_Wisp",
     "private": true,
     "license": "UNLICENSED",
+    "packageManager": "pnpm@11.15.1",
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
             "prettier",
@@ -20,7 +21,6 @@
         "build": "nest build",
         "typecheck": "tsc -p tsconfig.json --noEmit --incremental false",
         "prettier": "prettier --write \"src/**/*.ts\"",
-        "prestart": "yarn run types",
         "start": "nest start",
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
@@ -40,9 +40,6 @@
     },
     "dependencies": {
         "@elastic/elasticsearch": "^9.5.0",
-        "@nestia/e2e": "^11.3.4",
-        "@nestia/fetcher": "^11.3.4",
-        "@nestia/sdk": "^11.3.4",
         "@nestjs-modules/mailer": "^2.3.7",
         "@nestjs/common": "^12.1.0",
         "@nestjs/config": "^12.0.0",
@@ -75,13 +72,10 @@
         "passport": "^0.7.0",
         "passport-google-oauth20": "^2.0.0",
         "pg": "^8.23.0",
-        "prisma": "^6.19.3",
-        "prisma-class-generator": "^0.2.11",
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.2",
         "tsconfig-paths": "^4.2.0",
         "typedi": "^0.10.0",
-        "typia": "^12.1.1",
         "winston": "^3.19.0"
     },
     "devDependencies": {
@@ -92,6 +86,9 @@
         "@jest/globals": "30.5.0",
         "@nestia/benchmark": "^11.3.4",
         "@nestia/core": "^11.3.4",
+        "@nestia/e2e": "^11.3.4",
+        "@nestia/fetcher": "^11.3.4",
+        "@nestia/sdk": "^11.3.4",
         "@nestjs/cli": "^12.0.0",
         "@nestjs/schematics": "^12.0.0",
         "@nestjs/testing": "^12.1.0",
@@ -114,6 +111,8 @@
         "nestia": "^11.3.4",
         "node-mocks-http": "^1.18.1",
         "prettier": "^3.9.6",
+        "prisma": "^6.19.3",
+        "prisma-class-generator": "^0.2.11",
         "prisma-markdown": "^3.0.1",
         "rimraf": "^6.1.3",
         "supertest": "^7.2.2",
@@ -122,7 +121,8 @@
         "ts-node": "^10.9.2",
         "ts-patch": "^4.0.1",
         "typescript": "^6.0.3",
-        "typescript-eslint": "8.68.0"
+        "typescript-eslint": "8.68.0",
+        "typia": "^12.1.1"
     },
     "peerDependencies": {
         "webpack": "^5.90.3"

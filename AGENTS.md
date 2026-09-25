@@ -7,7 +7,7 @@
 
 ## Commands
 
-- Use `pnpm`; `pnpm-lock.yaml`, README, Husky, and CI all use pnpm. `Dockerfile` still references `yarn.lock`, which is not present, so do not assume Docker builds are green without reconciling that.
+- Use `pnpm`; the version is pinned by `packageManager` in `package.json`, which CI (`pnpm/action-setup`) and the `Dockerfile` (Corepack) both follow. `pnpm-lock.yaml`, README, Husky, CI, and Docker all use pnpm.
 - Initial setup from README: `pnpm install`, then `pnpm prisma:migrate`, then `pnpm prisma:generate`.
 - Build: `pnpm build`; Nest uses the SWC builder from `nest-cli.json` and `.swcrc`.
 - Lint/format: `pnpm lint` auto-fixes TS files; pre-commit runs `pnpm lint-staged`, which applies Prettier, `pnpm lint`, and `pnpm prisma:format` to TS/JS files.
