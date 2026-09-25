@@ -14,6 +14,69 @@
             "name": "UNLICENSED"
         }
     },
+    "components": {
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "GetUserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "string",
+                        "description": "The result of the operation.",
+                        "readOnly": true
+                    },
+                    "user": {
+                        "description": "The user object.",
+                        "readOnly": true
+                    }
+                },
+                "required": ["result", "user"],
+                "description": "Represents the response DTO for getting a user."
+            },
+            "BaseResponseDtoundefined": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Message for additional context or error information.",
+                        "readOnly": true
+                    }
+                },
+                "required": [],
+                "description": "Generic Base Response DTO"
+            },
+            "ProfileBodyDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the profile.",
+                        "readOnly": true
+                    }
+                },
+                "required": ["name"],
+                "description": "Represents the data transfer object for the profile body."
+            },
+            "BaseResponseDtoundefined.o1": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Message for additional context or error information.",
+                        "readOnly": true
+                    }
+                },
+                "required": [],
+                "description": "Generic Base Response DTO"
+            }
+        }
+    },
     "paths": {
         "/": {
             "get": {
@@ -35,33 +98,6 @@
                 },
                 "x-samchon-accessor": ["healthCheck"],
                 "x-samchon-controller": "AppController"
-            }
-        },
-        "/auth/login/google": {
-            "get": {
-                "summary": "Handles the Google login request",
-                "description": "Handles the Google login request.\nThis route is protected by the Google authentication guard.",
-                "tags": ["auth"],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "The result of the login request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BaseResponseDto"
-                                }
-                            }
-                        }
-                    }
-                },
-                "x-samchon-accessor": [
-                    "auth",
-                    "login",
-                    "google",
-                    "handleLogin"
-                ],
-                "x-samchon-controller": "AuthController"
             }
         },
         "/users": {
@@ -108,8 +144,7 @@
                             "type": "string"
                         },
                         "required": true,
-                        "title": "- The ID of the user",
-                        "description": " - The ID of the user."
+                        "description": "- The ID of the user."
                     }
                 ],
                 "responses": {
@@ -139,8 +174,7 @@
                             "type": "string"
                         },
                         "required": true,
-                        "title": "- The ID of the user",
-                        "description": " - The ID of the user."
+                        "description": "- The ID of the user."
                     }
                 ],
                 "requestBody": {
@@ -160,7 +194,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseResponseDto.o1"
+                                    "$ref": "#/components/schemas/BaseResponseDtoundefined"
                                 }
                             }
                         }
@@ -186,8 +220,7 @@
                             "type": "string"
                         },
                         "required": true,
-                        "title": "- The ID of the user to delete",
-                        "description": " - The ID of the user to delete."
+                        "description": "- The ID of the user to delete."
                     }
                 ],
                 "responses": {
@@ -196,7 +229,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BaseResponseDto.o1"
+                                    "$ref": "#/components/schemas/BaseResponseDtoundefined"
                                 }
                             }
                         }
@@ -210,78 +243,41 @@
                 "x-samchon-accessor": ["users", "deleteUser"],
                 "x-samchon-controller": "UserController"
             }
-        }
-    },
-    "components": {
-        "schemas": {
-            "BaseResponseDto": {
-                "type": "object",
-                "properties": {
-                    "result": {
-                        "type": "string",
-                        "title": "The result value",
-                        "description": "The result value."
-                    }
-                },
-                "required": ["result"],
-                "description": "Represents the response DTO for a result."
-            },
-            "GetUserResponseDto": {
-                "type": "object",
-                "properties": {
-                    "result": {
-                        "type": "string",
-                        "title": "The result of the operation",
-                        "description": "The result of the operation."
-                    },
-                    "user": {
-                        "title": "The user object",
-                        "description": "The user object."
-                    }
-                },
-                "required": ["result", "user"],
-                "description": "Represents the response DTO for getting a user."
-            },
-            "BaseResponseDto.o1": {
-                "type": "object",
-                "properties": {
-                    "result": {
-                        "type": "string",
-                        "title": "The result value",
-                        "description": "The result value."
-                    }
-                },
-                "required": ["result"],
-                "description": "Represents the response DTO for a result."
-            },
-            "ProfileBodyDto": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "The name of the profile",
-                        "description": "The name of the profile."
-                    }
-                },
-                "required": ["name"],
-                "description": "Represents the data transfer object for the profile body."
-            }
         },
-        "securitySchemes": {
-            "bearer": {
-                "type": "apiKey",
-                "name": "Authorization",
-                "in": "header"
+        "/auth/login/google": {
+            "get": {
+                "summary": "Handles the Google login request",
+                "description": "Handles the Google login request.\nThis route is protected by the Google authentication guard.",
+                "tags": ["auth"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "The result of the login request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseResponseDtoundefined.o1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-samchon-accessor": [
+                    "auth",
+                    "login",
+                    "google",
+                    "handleLogin"
+                ],
+                "x-samchon-controller": "AuthController"
             }
         }
     },
     "tags": [
         {
-            "name": "auth"
+            "name": "user"
         },
         {
-            "name": "user"
+            "name": "auth"
         }
-    ],
-    "x-samchon-emended": true
+    ]
 }
