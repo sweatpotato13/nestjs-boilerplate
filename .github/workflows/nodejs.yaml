@@ -58,3 +58,20 @@ jobs:
         pnpm install
         npx prisma generate
         pnpm lint
+    - name: Check public/swagger.json is up to date
+      working-directory: .
+      run: |
+        cp public/swagger.json "$RUNNER_TEMP/swagger.committed.json"
+        pnpm swagger
+        node -e '
+          const fs = require("fs");
+          const sort = v => Array.isArray(v) ? v.map(sort)
+            : v && typeof v === "object"
+              ? Object.fromEntries(Object.keys(v).sort().map(k => [k, sort(v[k])]))
+              : v;
+          const read = f => JSON.stringify(sort(JSON.parse(fs.readFileSync(f, "utf8"))));
+          if (read(process.argv[1]) !== read("public/swagger.json")) {
+            console.error("public/swagger.json is stale. Run `pnpm swagger` and commit the result.");
+            process.exit(1);
+          }
+        ' "$RUNNER_TEMP/swagger.committed.json"

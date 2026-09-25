@@ -12,7 +12,7 @@
 - Build: `pnpm build`; Nest uses the SWC builder from `nest-cli.json` and `.swcrc`.
 - Lint/format: `pnpm lint` auto-fixes TS files; pre-commit runs `pnpm lint-staged`, which applies Prettier, `pnpm lint`, and `pnpm prisma:format` to TS/JS files.
 - Tests: `pnpm test`; single spec: `pnpm test -- --runTestsByPath src/path/file.spec.ts`; coverage: `pnpm test:cov`.
-- API artifacts: `pnpm swagger` regenerates `public/swagger.json`; `pnpm sdk` writes the Nestia SDK to `src/api`.
+- API artifacts: `pnpm swagger` regenerates `public/swagger.json`; `pnpm sdk` writes the Nestia SDK to `src/api` (gitignored, excluded from lint and build). Both read `nestia.config.ts`, which excludes `src/modules/template`.
 - Prisma schema changes: edit `prisma/schema.prisma`, run `pnpm prisma:format`, `pnpm prisma:migrate` when the DB schema changes, and `pnpm prisma:generate` to refresh Prisma Client, `src/shared/entities`, and `prisma/README.md`.
 
 ## Architecture
@@ -46,4 +46,4 @@
 
 - `docker-compose.yml` defines Postgres, Hasura, MongoDB, mongo-express, Redis, redis-commander, Elasticsearch, Kibana, Kafka/Zookeeper, and the Nest container.
 - Default app port is `8000`; Swagger UI is mounted at `/api-doc` from the generated `public/swagger.json`.
-- CI runs on Node `22.x` and `24.x` and verifies install/build/typecheck, Prisma generate plus tests, and lint.
+- CI runs on Node `22.x` and `24.x` and verifies install/build/typecheck, Prisma generate plus tests, lint, and that `public/swagger.json` matches `pnpm swagger` output.
