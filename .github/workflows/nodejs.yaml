@@ -15,7 +15,7 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g pnpm@latest
+    - uses: pnpm/action-setup@v6 # version from packageManager in package.json
     - name: pnpm build and typecheck
       working-directory: .
       run: |
@@ -33,7 +33,7 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g pnpm@latest
+    - uses: pnpm/action-setup@v6 # version from packageManager in package.json
     - name: pnpm test
       working-directory: .
       run: |
@@ -51,7 +51,7 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g pnpm@latest
+    - uses: pnpm/action-setup@v6 # version from packageManager in package.json
     - name: pnpm lint
       working-directory: .
       run: |

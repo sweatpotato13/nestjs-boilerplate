@@ -5,6 +5,7 @@
     "author": "Cute_Wisp",
     "private": true,
     "license": "UNLICENSED",
+    "packageManager": "pnpm@11.15.1",
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
             "prettier",
@@ -20,7 +21,6 @@
         "build": "nest build",
         "typecheck": "tsc -p tsconfig.json --noEmit --incremental false",
         "prettier": "prettier --write \"src/**/*.ts\"",
-        "prestart": "yarn run types",
         "start": "nest start",
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
