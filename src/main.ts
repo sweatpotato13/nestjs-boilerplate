@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { config } from "@config";
-import { ValidationPipe } from "@nestjs/common";
+import { HttpStatus, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
@@ -61,22 +61,19 @@ async function bootstrap() {
         SwaggerModule.setup("api-doc", app, swagger as OpenAPIObject);
 
         // CORS
-        const corsWhiteList = "*";
+        // "*" allows any origin without credentials; otherwise only listed
+        // origins are allowed, with credentials
+        const corsOrigins = config.corsOrigins
+            .split(",")
+            .map(origin => origin.trim())
+            .filter(Boolean);
+        const allowAnyOrigin = corsOrigins.includes("*");
         app.enableCors({
-            origin: (origin, callback) => {
-                if (
-                    corsWhiteList.indexOf("*") !== -1 ||
-                    corsWhiteList.indexOf(origin ?? "") !== -1
-                ) {
-                    callback(null, true);
-                } else {
-                    callback(new Error("Not allowed"));
-                }
-            },
+            origin: allowAnyOrigin ? "*" : corsOrigins,
             allowedHeaders:
                 "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, authorization",
             methods: "GET, PUT, POST, DELETE, UPDATE, OPTIONS",
-            credentials: true
+            credentials: !allowAnyOrigin
         });
 
         // rateLimit
@@ -99,9 +96,15 @@ async function bootstrap() {
         );
 
         app.use("*splat", (req, res, next) => {
-            const query = req.query || req.body || "";
-            if (query.length > 2000) {
-                throw new Error("Query too large");
+            const queryIndex = req.originalUrl.indexOf("?");
+            const queryLength =
+                queryIndex === -1 ? 0 : req.originalUrl.length - queryIndex - 1;
+            if (queryLength > 2000) {
+                res.status(HttpStatus.URI_TOO_LONG).json({
+                    statusCode: HttpStatus.URI_TOO_LONG,
+                    message: "Query too large"
+                });
+                return;
             }
             next();
         });
@@ -127,7 +130,7 @@ async function bootstrap() {
         logger.error(`❌  Error starting server, ${error.message}`, {
             context: "BootStrap"
         });
-        process.exit();
+        process.exit(1);
     }
 }
 

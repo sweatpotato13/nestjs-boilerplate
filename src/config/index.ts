@@ -38,5 +38,6 @@ export const config = {
     host: process.env.HOST || "0.0.0.0",
     port: parseInt(process.env.PORT || "8000"),
     rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX || "10000"),
+    corsOrigins: process.env.CORS_ORIGINS || "*",
     appSecret: process.env.APP_SECRET || "secret"
 };
