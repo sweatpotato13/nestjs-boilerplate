@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { config } from "@config";
-import { ValidationPipe } from "@nestjs/common";
+import { HttpStatus, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
@@ -13,11 +13,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import { AppModule } from "./app.module";
-import { createCorsOptions } from "./common/cors/cors-options";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
-import { queryLengthLimit } from "./common/middleware/query-length.middleware";
 import { KafkaConfigService } from "./config/modules/kafka/kafka.config.service";
 import { errorStream, logger } from "./config/modules/winston";
 
@@ -63,7 +61,20 @@ async function bootstrap() {
         SwaggerModule.setup("api-doc", app, swagger as OpenAPIObject);
 
         // CORS
-        app.enableCors(createCorsOptions(config.corsOrigins));
+        // "*" allows any origin without credentials; otherwise only listed
+        // origins are allowed, with credentials
+        const corsOrigins = config.corsOrigins
+            .split(",")
+            .map(origin => origin.trim())
+            .filter(Boolean);
+        const allowAnyOrigin = corsOrigins.includes("*");
+        app.enableCors({
+            origin: allowAnyOrigin ? "*" : corsOrigins,
+            allowedHeaders:
+                "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, authorization",
+            methods: "GET, PUT, POST, DELETE, UPDATE, OPTIONS",
+            credentials: !allowAnyOrigin
+        });
 
         // rateLimit
         app.use(
@@ -84,7 +95,19 @@ async function bootstrap() {
             })
         );
 
-        app.use(queryLengthLimit(2000));
+        app.use("*splat", (req, res, next) => {
+            const queryIndex = req.originalUrl.indexOf("?");
+            const queryLength =
+                queryIndex === -1 ? 0 : req.originalUrl.length - queryIndex - 1;
+            if (queryLength > 2000) {
+                res.status(HttpStatus.URI_TOO_LONG).json({
+                    statusCode: HttpStatus.URI_TOO_LONG,
+                    message: "Query too large"
+                });
+                return;
+            }
+            next();
+        });
 
         await app.listen(config.port, () => {
             !config.isProduction
