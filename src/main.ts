@@ -16,6 +16,7 @@ import { AppModule } from "./app.module";
 import { BadRequestExceptionFilter } from "./common/filters/bad-request-exception.filter";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor";
+import { createCorsOptions } from "./config/cors";
 import { KafkaConfigService } from "./config/modules/kafka/kafka.config.service";
 import { errorStream, logger } from "./config/modules/winston";
 
@@ -60,21 +61,7 @@ async function bootstrap() {
         );
         SwaggerModule.setup("api-doc", app, swagger as OpenAPIObject);
 
-        // CORS
-        // "*" allows any origin without credentials; otherwise only listed
-        // origins are allowed, with credentials
-        const corsOrigins = config.corsOrigins
-            .split(",")
-            .map(origin => origin.trim())
-            .filter(Boolean);
-        const allowAnyOrigin = corsOrigins.includes("*");
-        app.enableCors({
-            origin: allowAnyOrigin ? "*" : corsOrigins,
-            allowedHeaders:
-                "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, authorization",
-            methods: "GET, PUT, POST, DELETE, UPDATE, OPTIONS",
-            credentials: !allowAnyOrigin
-        });
+        app.enableCors(createCorsOptions(config.corsOrigins));
 
         // rateLimit
         app.use(

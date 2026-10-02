@@ -49,12 +49,12 @@ describe("UserService", () => {
             );
 
             // Act
-            const result = await userService.getUserById(id);
+            const result = await userService.getUserById(id, "user-123");
 
             // Assert
             expect(result).toBe(expectedResult);
             expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new GetUserByIdQuery(id)
+                new GetUserByIdQuery(id, "user-123")
             );
         });
 
@@ -67,11 +67,11 @@ describe("UserService", () => {
             );
 
             // Act & Assert
-            await expect(userService.getUserById(id)).rejects.toThrow(
-                expectedError
-            );
+            await expect(
+                userService.getUserById(id, "user-123")
+            ).rejects.toThrow(expectedError);
             expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new GetUserByIdQuery(id)
+                new GetUserByIdQuery(id, "user-123")
             );
         });
     });
@@ -86,12 +86,12 @@ describe("UserService", () => {
             );
 
             // Act
-            const result = await userService.getUserByEmail(email);
+            const result = await userService.getUserByEmail(email, "user-123");
 
             // Assert
             expect(result).toBe(expectedResult);
             expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new GetUserByEmailQuery(email)
+                new GetUserByEmailQuery(email, "user-123")
             );
         });
 
@@ -104,11 +104,11 @@ describe("UserService", () => {
             );
 
             // Act & Assert
-            await expect(userService.getUserByEmail(email)).rejects.toThrow(
-                expectedError
-            );
+            await expect(
+                userService.getUserByEmail(email, "user-123")
+            ).rejects.toThrow(expectedError);
             expect(mockQueryBus.execute).toHaveBeenCalledWith(
-                new GetUserByEmailQuery(email)
+                new GetUserByEmailQuery(email, "user-123")
             );
         });
     });

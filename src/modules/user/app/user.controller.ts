@@ -19,6 +19,7 @@ import { GetUserResponseDto, ProfileBodyDto } from "../domain/dtos";
 import { UserService } from "./user.service";
 
 @Controller("users")
+@UseGuards(AuthGuard)
 export class UserController {
     constructor(@Inject("UserService") private readonly service: UserService) {}
 
@@ -28,14 +29,16 @@ export class UserController {
      * @returns A Promise that resolves to the user with the specified email.
      * @throws Throws an error if an error occurs while retrieving the user.
      *
+     * @security bearer
      * @tag user
      */
     @Get()
     @HttpCode(HttpStatus.OK)
     async getUserByEmail(
-        @Query("email") email: string
+        @Query("email") email: string,
+        @GetUserId() userId: string
     ): Promise<GetUserResponseDto> {
-        const result = await this.service.getUserByEmail(email);
+        const result = await this.service.getUserByEmail(email, userId);
         return result;
     }
 
@@ -45,12 +48,16 @@ export class UserController {
      * @returns A Promise that resolves to the user with the specified ID.
      * @throws Throws an error if an error occurs while retrieving the user.
      *
+     * @security bearer
      * @tag user
      */
     @Get(":id")
     @HttpCode(HttpStatus.OK)
-    async getUserById(@Param("id") id: string): Promise<GetUserResponseDto> {
-        const result = await this.service.getUserById(id);
+    async getUserById(
+        @Param("id") id: string,
+        @GetUserId() userId: string
+    ): Promise<GetUserResponseDto> {
+        const result = await this.service.getUserById(id, userId);
         return result;
     }
 
@@ -67,7 +74,6 @@ export class UserController {
      * @tag user
      */
     @Put(":id")
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.CREATED)
     async updateUserProfile(
         @Param("id") id: string,
@@ -94,7 +100,6 @@ export class UserController {
      * @tag user
      */
     @Delete(":id")
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     async deleteUser(
         @Param("id") id: string,

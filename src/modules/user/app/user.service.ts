@@ -16,15 +16,23 @@ export class UserService {
         private readonly queryBus: QueryBus
     ) {}
 
-    public async getUserByEmail(email: string): Promise<GetUserResponseDto> {
+    public async getUserByEmail(
+        email: string,
+        userId: string
+    ): Promise<GetUserResponseDto> {
         const result = await this.queryBus.execute(
-            new GetUserByEmailQuery(email)
+            new GetUserByEmailQuery(email, userId)
         );
         return result;
     }
 
-    public async getUserById(id: string): Promise<GetUserResponseDto> {
-        const result = await this.queryBus.execute(new GetUserByIdQuery(id));
+    public async getUserById(
+        id: string,
+        userId: string
+    ): Promise<GetUserResponseDto> {
+        const result = await this.queryBus.execute(
+            new GetUserByIdQuery(id, userId)
+        );
         return result;
     }
 

@@ -45,8 +45,7 @@ describe("UserController", () => {
                 user: {
                     id: "123",
                     email,
-                    name: "John",
-                    provider: "google"
+                    name: "John"
                 }
             });
 
@@ -54,9 +53,12 @@ describe("UserController", () => {
                 mockResponse
             );
 
-            const result = await userController.getUserByEmail(email);
+            const result = await userController.getUserByEmail(email, "123");
             expect(result).toBe(mockResponse);
-            expect(mockUserService.getUserByEmail).toHaveBeenCalledWith(email);
+            expect(mockUserService.getUserByEmail).toHaveBeenCalledWith(
+                email,
+                "123"
+            );
         });
     });
 

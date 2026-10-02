@@ -21,9 +21,9 @@ export const NESTIA_CONFIG: INestiaConfig = {
         beautify: true,
         security: {
             bearer: {
-                type: "apiKey",
-                name: "Authorization",
-                in: "header"
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "JWT"
             }
         }
     }

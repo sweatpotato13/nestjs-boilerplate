@@ -16,10 +16,20 @@ export class GetUserByIdHandler implements IQueryHandler<GetUserByIdQuery> {
 
     async execute(query: GetUserByIdQuery) {
         try {
-            const { id } = query;
+            const { id, userId } = query;
+            if (typeof id !== "string" || !id.trim()) {
+                throw new BadRequestException("id is required");
+            }
+            if (typeof userId !== "string" || !userId.trim()) {
+                throw new BadRequestException("user id is required");
+            }
+            if (id !== userId) {
+                throw new BadRequestException("user not found");
+            }
 
             const user = await this.prismaService.user.findFirst({
-                where: { id: id }
+                where: { id },
+                select: { id: true, name: true, email: true }
             });
             if (!user) {
                 throw new BadRequestException("user not found", {

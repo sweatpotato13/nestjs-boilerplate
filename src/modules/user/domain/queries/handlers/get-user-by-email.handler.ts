@@ -16,10 +16,17 @@ export class GetUserByEmailHandler implements IQueryHandler<GetUserByEmailQuery>
 
     async execute(query: GetUserByEmailQuery) {
         try {
-            const { email } = query;
+            const { email, userId } = query;
+            if (typeof email !== "string" || !email.trim()) {
+                throw new BadRequestException("email is required");
+            }
+            if (typeof userId !== "string" || !userId.trim()) {
+                throw new BadRequestException("user id is required");
+            }
 
             const user = await this.prismaService.user.findFirst({
-                where: { email: email }
+                where: { email, id: userId },
+                select: { id: true, name: true, email: true }
             });
             if (!user) {
                 throw new BadRequestException("user not found", {

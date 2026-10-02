@@ -22,19 +22,26 @@ export class AuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
 
-        if (!request.headers.authorization) {
-            throw new UnauthorizedException("Authorization is required");
+        const authorization = request.headers.authorization;
+        const token =
+            typeof authorization === "string"
+                ? /^Bearer +([^\s]+)$/i.exec(authorization)?.[1]
+                : undefined;
+        if (!token) {
+            throw new UnauthorizedException("Bearer access token is required");
         }
 
-        const payload = (await this.jwtService.decodeJwt(
-            request.headers.authorization as string
-        )) as { userId: string; type: string };
+        const payload = await this.jwtService.decodeJwt(token);
 
-        if (!payload) {
+        if (
+            !payload ||
+            payload.type !== "accessToken" ||
+            typeof payload.userId !== "string" ||
+            !payload.userId.trim()
+        ) {
             throw new UnauthorizedException("Invalid access token");
         }
 
-        // 항상 payload를 설정
         request.extra = payload;
 
         const roles = this.reflector.getAllAndMerge<string[]>("roles", [
@@ -42,7 +49,6 @@ export class AuthGuard implements CanActivate {
             context.getClass()
         ]);
 
-        // role 체크가 필요없으면 여기서 return
         if (!roles.length || roles.includes("Any")) return true;
 
         const user = await this.prismaService.user.findUnique({

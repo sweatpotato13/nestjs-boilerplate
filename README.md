@@ -108,6 +108,26 @@ CI checks both the minimum supported version and the latest Node.js 24 release.
 
 <!-- CONTRIBUTING -->
 
+## API authentication and compatibility
+
+All `/users` routes require `Authorization: Bearer <accessToken>`.
+Refresh tokens and headers containing only a raw token are rejected with 401.
+User lookups by ID or email return only the authenticated user's own record;
+another user's record is treated as not found. Responses contain only `id`,
+`name`, and `email` inside `user`, alongside `result`.
+
+`CORS_ORIGINS=*` allows any origin without credentials. For browser requests
+that include cookies, set explicit comma-separated origins, for example
+`CORS_ORIGINS=https://app.example.com,https://admin.example.com`.
+Do not include `*` in that list: a wildcard disables credentials.
+
+Clients using the previous public user lookups must now send a Bearer access
+token and query their own user. Regenerate clients from `public/swagger.json`:
+it documents HTTP Bearer authentication and the restricted user response.
+The earlier Swagger refresh also corrected base responses from `result` to
+`message`; clients generated from the old schema need to use `message` for
+profile updates and deletions. Run `pnpm swagger` and `pnpm sdk` after API changes.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.

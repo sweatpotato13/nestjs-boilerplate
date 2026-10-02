@@ -17,9 +17,9 @@
     "components": {
         "securitySchemes": {
             "bearer": {
-                "type": "apiKey",
-                "name": "Authorization",
-                "in": "header"
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         },
         "schemas": {
@@ -32,6 +32,19 @@
                         "readOnly": true
                     },
                     "user": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["id", "name", "email"],
                         "description": "The user object.",
                         "readOnly": true
                     }
@@ -127,6 +140,11 @@
                         }
                     }
                 },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
                 "x-samchon-accessor": ["users", "getUserByEmail"],
                 "x-samchon-controller": "UserController"
             }
@@ -159,6 +177,11 @@
                         }
                     }
                 },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
                 "x-samchon-accessor": ["users", "getUserById"],
                 "x-samchon-controller": "UserController"
             },

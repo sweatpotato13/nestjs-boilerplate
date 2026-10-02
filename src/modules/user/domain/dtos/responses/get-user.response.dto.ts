@@ -15,16 +15,23 @@ export class GetUserResponseDto {
      */
     @IsObject({ message: "user must be an object" })
     @IsNotEmpty()
-    readonly user: any;
+    readonly user!: { id: string; name: string; email: string };
 
     /**
      * Creates an instance of GetUserResponseDto.
      * @param params - The partial parameters to initialize the DTO.
      * @returns A new instance of GetUserResponseDto.
      */
-    public static of(params: Partial<GetUserResponseDto>): GetUserResponseDto {
+    public static of(params: {
+        result?: string;
+        user: GetUserResponseDto["user"];
+    }): GetUserResponseDto {
         const dto = new GetUserResponseDto();
-        Object.assign(dto, params);
+        const { id, name, email } = params.user;
+        Object.assign(dto, {
+            result: params.result ?? "OK",
+            user: { id, name, email }
+        });
         return dto;
     }
 }
