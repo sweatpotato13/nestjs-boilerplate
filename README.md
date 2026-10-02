@@ -71,6 +71,12 @@
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
+### Prerequisites
+
+Use Node.js 24 (24.14.1 or later) and the pnpm version pinned in `package.json`.
+Run `nvm install && nvm use` to use the version in `.nvmrc`, then `corepack enable`.
+CI checks both the minimum supported version and the latest Node.js 24 release.
+
 ### Installation
 
 1. Clone the repo

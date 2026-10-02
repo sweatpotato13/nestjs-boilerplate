@@ -6,6 +6,9 @@
     "private": true,
     "license": "UNLICENSED",
     "packageManager": "pnpm@11.15.1",
+    "engines": {
+        "node": ">=24.14.1 <25"
+    },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
             "prettier",

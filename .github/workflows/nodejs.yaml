@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 22.x]
+        node-version: [24.x, 24.14.1]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
@@ -19,14 +19,14 @@ jobs:
     - name: pnpm build and typecheck
       working-directory: .
       run: |
-        pnpm install
+        pnpm install --frozen-lockfile
         pnpm build
         pnpm typecheck
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 22.x]
+        node-version: [24.x, 24.14.1]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
@@ -37,14 +37,14 @@ jobs:
     - name: pnpm test
       working-directory: .
       run: |
-        pnpm install
-        npx prisma generate
+        pnpm install --frozen-lockfile
+        pnpm prisma:generate
         pnpm test
   lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 22.x]
+        node-version: [24.x, 24.14.1]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
@@ -55,9 +55,9 @@ jobs:
     - name: pnpm lint
       working-directory: .
       run: |
-        pnpm install
-        npx prisma generate
-        pnpm lint
+        pnpm install --frozen-lockfile
+        pnpm prisma:generate
+        pnpm exec eslint "{src,apps,libs,test}/**/*.ts"
     - name: Check public/swagger.json is up to date
       working-directory: .
       run: |
