@@ -7,7 +7,7 @@
     "license": "UNLICENSED",
     "packageManager": "pnpm@11.15.1",
     "engines": {
-        "node": ">=24.14.1 <25"
+        "node": ">=24.14.1 <25 || >=26.0.0 <27"
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
@@ -99,7 +99,7 @@
         "@swc/core": "^1.16.1",
         "@types/express": "^5.0.6",
         "@types/jest": "30.0.0",
-        "@types/node": "^22.20.1",
+        "@types/node": "^24.13.2",
         "@types/passport": "^1.0.17",
         "@types/passport-google-oauth20": "^2.0.17",
         "@types/xml2js": "^0.4.14",

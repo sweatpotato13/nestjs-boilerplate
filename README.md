@@ -73,9 +73,14 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Use Node.js 24 (24.14.1 or later) and the pnpm version pinned in `package.json`.
-Run `nvm install && nvm use` to use the version in `.nvmrc`, then `corepack enable`.
-CI checks both the minimum supported version and the latest Node.js 24 release.
+Use Node.js 24 (24.14.1 or later) or 26 and the pnpm version pinned in `package.json`.
+Run `nvm install && nvm use` to use the default Node.js 24 version in `.nvmrc`,
+or `nvm install 26 && nvm use 26` for Node.js 26.
+On Node.js 26, install Corepack first with `npm install -g corepack`.
+Node.js 24 includes Corepack. Run `corepack enable` on either version.
+CI checks Node.js 24.14.1 and the latest Node.js 24 and 26 releases.
+Docker defaults to Node.js 24; use `docker build --build-arg NODE_VERSION=26 .`
+to build with Node.js 26.
 
 ### Installation
 

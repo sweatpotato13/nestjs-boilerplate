@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 
 ### BASE
-FROM node:24-alpine AS base
+ARG NODE_VERSION=24
+FROM node:${NODE_VERSION}-alpine AS base
 LABEL maintainer="Cute_Wisp <sweatpotato13@gmail.com>"
 # Prisma query engine needs OpenSSL on Alpine
 RUN apk add --no-cache openssl
@@ -10,7 +11,7 @@ WORKDIR /app
 ### BUILD
 FROM base AS builder
 # Use the pnpm version pinned by `packageManager` in package.json
-RUN corepack enable
+RUN npm install --global corepack@0.36.0 && corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .

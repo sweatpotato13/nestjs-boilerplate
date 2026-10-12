@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 24.14.1]
+        node-version: [24.14.1, 24.x, 26.x]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
@@ -20,13 +20,14 @@ jobs:
       working-directory: .
       run: |
         pnpm install --frozen-lockfile
+        pnpm prisma:generate
         pnpm build
         pnpm typecheck
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 24.14.1]
+        node-version: [24.14.1, 24.x, 26.x]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
@@ -44,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 24.14.1]
+        node-version: [24.14.1, 24.x, 26.x]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
