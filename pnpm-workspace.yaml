@@ -25,6 +25,7 @@ overrides:
   handlebars@<4.7.10: ^4.7.10
   http-cache-semantics@<4.2.1: ^4.2.1
   proxy-addr@<2.0.8: ^2.0.8
+  ip-address@<10.7.4: ^10.7.4
 packageExtensions:
   # mailer requires lodash at runtime without declaring it
   '@nestjs-modules/mailer@2':
