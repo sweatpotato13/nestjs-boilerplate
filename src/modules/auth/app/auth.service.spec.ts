@@ -1,7 +1,6 @@
 import { CqrsModule } from "@nestjs/cqrs";
 import { Test, TestingModule } from "@nestjs/testing";
 import { JwtService } from "@src/shared/modules/jwt/jwt.service";
-import { PrismaService } from "@src/shared/services";
 
 import { CommandHandlers } from "../domain/commands/handlers";
 import { TokensResponseDto, UserDto } from "../domain/dtos";
@@ -16,24 +15,17 @@ const mockJwtService: Partial<JwtService> = {
 
 const mockPrismaService = {
     user: {
-        findFirst: jest.fn(),
-        create: jest.fn(),
         findUnique: jest.fn(),
-        findUniqueOrThrow: jest.fn(),
-        findFirstOrThrow: jest.fn(),
-        findMany: jest.fn(),
-        delete: jest.fn()
-    } as any,
+        upsert: jest.fn()
+    },
     role: {
-        findFirst: jest.fn(),
-        create: jest.fn()
-    } as any,
+        upsert: jest.fn()
+    },
     userRole: {
-        findFirst: jest.fn(),
-        create: jest.fn()
-    } as any,
+        createMany: jest.fn()
+    },
     $transaction: jest.fn(callback => callback(mockPrismaService))
-} as unknown as PrismaService;
+};
 
 describe("AuthService", () => {
     let authService: AuthService;
@@ -77,13 +69,13 @@ describe("AuthService", () => {
                 description: null
             };
 
-            (mockPrismaService.user.findFirst as jest.Mock).mockResolvedValue(
+            (mockPrismaService.user.findUnique as jest.Mock).mockResolvedValue(
                 null
             );
-            (mockPrismaService.user.create as jest.Mock).mockResolvedValue(
+            (mockPrismaService.user.upsert as jest.Mock).mockResolvedValue(
                 mockUser
             );
-            (mockPrismaService.role.findFirst as jest.Mock).mockResolvedValue(
+            (mockPrismaService.role.upsert as jest.Mock).mockResolvedValue(
                 mockRole
             );
             (mockPrismaService.$transaction as jest.Mock).mockImplementation(
@@ -122,7 +114,7 @@ describe("AuthService", () => {
                 updatedAt: new Date()
             };
 
-            (mockPrismaService.user.findFirst as jest.Mock).mockResolvedValue(
+            (mockPrismaService.user.findUnique as jest.Mock).mockResolvedValue(
                 mockUser
             );
             (mockPrismaService.$transaction as jest.Mock).mockImplementation(
@@ -136,6 +128,11 @@ describe("AuthService", () => {
 
             const result = await authService.googleLogin(args);
 
+            expect(mockPrismaService.user.upsert).not.toHaveBeenCalled();
+            expect(mockPrismaService.role.upsert).not.toHaveBeenCalled();
+            expect(
+                mockPrismaService.userRole.createMany
+            ).not.toHaveBeenCalled();
             expect(result).toEqual(
                 TokensResponseDto.of({
                     accessToken: "accessToken",

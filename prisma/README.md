@@ -17,7 +17,7 @@ erDiagram
 }
 "users" {
   String id PK
-  String email
+  String email UK
   String name
   String provider
   DateTime created_at
@@ -25,7 +25,7 @@ erDiagram
 }
 "roles" {
   Int id PK
-  String name
+  String name UK
   String description
 }
 "user_roles" {

@@ -25,6 +25,20 @@ jobs:
         pnpm typecheck
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: boilerplate_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      POSTGRES_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/boilerplate_test
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/boilerplate_test
     strategy:
       matrix:
         node-version: [24.14.1, 24.x, 26.x]
@@ -40,6 +54,7 @@ jobs:
       run: |
         pnpm install --frozen-lockfile
         pnpm prisma:generate
+        pnpm exec prisma migrate deploy
         pnpm test
   lint:
     runs-on: ubuntu-latest

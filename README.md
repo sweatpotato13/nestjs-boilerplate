@@ -133,6 +133,29 @@ The earlier Swagger refresh also corrected base responses from `result` to
 `message`; clients generated from the old schema need to use `message` for
 profile updates and deletions. Run `pnpm swagger` and `pnpm sdk` after API changes.
 
+## Login uniqueness migration
+
+User emails, role names, and user/role pairs must be unique. The migration
+adds unique indexes and never deletes or merges existing records. Before
+deploying to an existing database, check for duplicates:
+
+```sql
+SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1;
+SELECT name, COUNT(*) FROM roles GROUP BY name HAVING COUNT(*) > 1;
+SELECT user_id, role_id, COUNT(*) FROM user_roles
+GROUP BY user_id, role_id HAVING COUNT(*) > 1;
+```
+
+If any query returns rows, reconcile those records and their references before
+running `pnpm exec prisma migrate deploy`. Apply migrations before starting the
+updated application. Email matching remains case-sensitive, as before.
+
+PostgreSQL regression tests run in CI. To run them locally, migrate a separate
+test database with `POSTGRES_DATABASE_URL=<test-url> pnpm exec prisma migrate deploy`,
+then run `TEST_DATABASE_URL=<test-url> pnpm test`. These tests create temporary
+users and may create the default `user` role; do not point them at production.
+Without `TEST_DATABASE_URL`, the database tests are skipped.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.

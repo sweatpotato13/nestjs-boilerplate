@@ -22,44 +22,37 @@ export class GoogleLoginHandler implements ICommandHandler<GoogleLoginCommand> {
             const { provider, email, name } = args;
 
             return await this.prismaService.$transaction(async tx => {
-                let user = await tx.user.findFirst({
+                let user = await tx.user.findUnique({
                     where: {
                         email: email
                     }
                 });
 
                 if (!user) {
-                    user = await tx.user.create({
-                        data: {
+                    // A non-empty update lets Prisma use PostgreSQL's atomic upsert.
+                    user = await tx.user.upsert({
+                        where: { email },
+                        update: { email },
+                        create: {
                             email,
                             name,
                             provider
                         }
                     });
 
-                    let role = await tx.role.findFirst({
-                        where: { name: "user" }
+                    const role = await tx.role.upsert({
+                        where: { name: "user" },
+                        update: { name: "user" },
+                        create: {
+                            name: "user",
+                            description: "user role"
+                        }
                     });
-                    if (!role) {
-                        role = await tx.role.create({
-                            data: {
-                                name: "user",
-                                description: "user role"
-                            }
-                        });
-                    }
 
-                    const userRole = await tx.userRole.findFirst({
-                        where: { userId: user.id }
+                    await tx.userRole.createMany({
+                        data: { userId: user.id, roleId: role.id },
+                        skipDuplicates: true
                     });
-                    if (!userRole) {
-                        await tx.userRole.create({
-                            data: {
-                                userId: user.id,
-                                roleId: role.id
-                            }
-                        });
-                    }
                 }
                 const tokens = this.jwtService.createUserJwt(user.id);
 
