@@ -70,7 +70,7 @@
         "moment": "^2.31.0",
         "mongoose": "^9.9.4",
         "morgan": "^1.12.1",
-        "nodemailer": "^10.0.13",
+        "nodemailer": "^10.1.4",
         "object-assign": "^4.1.1",
         "passport": "^0.7.0",
         "passport-google-oauth20": "^2.0.0",
