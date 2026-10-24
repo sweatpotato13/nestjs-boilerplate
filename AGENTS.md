@@ -46,4 +46,4 @@
 
 - `docker-compose.yml` defines Postgres, Hasura, MongoDB, mongo-express, Redis, redis-commander, Elasticsearch, Kibana, Kafka/Zookeeper, and the Nest container.
 - Default app port is `8000`; Swagger UI is mounted at `/api-doc` from the generated `public/swagger.json`.
-- CI runs on Node `24.14.1`, `24.x`, and `26.x` and verifies install/build/typecheck, Prisma generate plus tests, lint, and that `public/swagger.json` matches `pnpm swagger` output.
+- CI builds, typechecks, and tests the latest Node releases matching `^22.23.4`, `^24.22.1`, and `^26.12.1`. Lint and Swagger checks run once on Node 26. CI runs on pull requests, pushes to `master`, and manual dispatches, with older runs for the same pull request or branch canceled.

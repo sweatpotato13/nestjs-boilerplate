@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ### BASE
-ARG NODE_VERSION=24
+ARG NODE_VERSION=26.12.1
 FROM node:${NODE_VERSION}-alpine AS base
 LABEL maintainer="Cute_Wisp <sweatpotato13@gmail.com>"
 # Prisma query engine needs OpenSSL on Alpine
