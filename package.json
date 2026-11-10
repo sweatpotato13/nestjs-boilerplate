@@ -68,7 +68,7 @@
         "jsonwebtoken": "^9.0.3",
         "kafkajs": "^2.2.4",
         "moment": "^2.31.0",
-        "mongoose": "^9.9.4",
+        "mongoose": "^9.11.4",
         "morgan": "^1.12.1",
         "nodemailer": "^10.0.13",
         "object-assign": "^4.1.1",
